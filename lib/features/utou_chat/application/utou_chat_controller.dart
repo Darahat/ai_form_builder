@@ -1,6 +1,6 @@
-import 'package:ai_chat/core/services/sound_service.dart';
-import 'package:ai_chat/features/utou_chat/domain/utou_chat_model.dart';
-import 'package:ai_chat/features/utou_chat/infrastructure/utou_chat_repository.dart';
+import 'package:ai_form_builder/core/services/sound_service.dart';
+import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
+import 'package:ai_form_builder/features/utou_chat/infrastructure/utou_chat_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Used to indicate loading status in the UI

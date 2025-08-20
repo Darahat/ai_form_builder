@@ -1,7 +1,7 @@
+import 'package:ai_form_builder/features/tasks/provider/task_providers.dart';
+import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ai_chat/features/tasks/provider/task_providers.dart';
-import 'package:ai_chat/l10n/app_localizations.dart';
 
 /// AISummaryWidget is for showing AI provided summary
 class AISummaryWidget extends ConsumerWidget {

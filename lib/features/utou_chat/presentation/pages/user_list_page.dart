@@ -1,6 +1,6 @@
-import 'package:ai_chat/core/utils/logger.dart';
-import 'package:ai_chat/features/auth/provider/auth_providers.dart';
-import 'package:ai_chat/features/utou_chat/provider/utou_chat_providers.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/auth/provider/auth_providers.dart';
+import 'package:ai_form_builder/features/utou_chat/provider/utou_chat_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

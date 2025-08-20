@@ -7,7 +7,7 @@ import '../domain/ai_chat_model.dart';
 class AiChatRepository {
   /// The hive box containing [AiChatModel] instances.
 
-  Box<AiChatModel> get _box => HiveService.aiChatBoxInit;
+  Box<AiChatModel> get _box => HiveService.formBuilderChatBox;
 
   /// Retrives all aiChat from the local Hive storages.
   ///

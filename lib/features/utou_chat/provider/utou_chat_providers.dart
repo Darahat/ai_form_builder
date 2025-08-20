@@ -1,11 +1,11 @@
-import 'package:ai_chat/core/services/voice_to_text_service.dart';
-import 'package:ai_chat/features/auth/application/auth_state.dart';
-import 'package:ai_chat/features/auth/domain/user_model.dart';
-import 'package:ai_chat/features/auth/infrastructure/auth_repository.dart';
-import 'package:ai_chat/features/auth/provider/auth_providers.dart';
-import 'package:ai_chat/features/utou_chat/application/utou_chat_controller.dart';
-import 'package:ai_chat/features/utou_chat/domain/utou_chat_model.dart';
-import 'package:ai_chat/features/utou_chat/infrastructure/utou_chat_repository.dart';
+import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
+import 'package:ai_form_builder/features/auth/application/auth_state.dart';
+import 'package:ai_form_builder/features/auth/domain/user_model.dart';
+import 'package:ai_form_builder/features/auth/infrastructure/auth_repository.dart';
+import 'package:ai_form_builder/features/auth/provider/auth_providers.dart';
+import 'package:ai_form_builder/features/utou_chat/application/utou_chat_controller.dart';
+import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
+import 'package:ai_form_builder/features/utou_chat/infrastructure/utou_chat_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// UToUChat repository that interacts with Hive

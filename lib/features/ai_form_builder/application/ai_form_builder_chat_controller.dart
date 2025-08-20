@@ -2,14 +2,15 @@ import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/features/ai_chat/provider/ai_chat_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../domain/ai_chat_model.dart';
-import '../infrastructure/ai_chat_repository.dart';
+import '../domain/ai_form_builder_chat_model.dart';
+import '../infrastructure/ai_form_builder_chat_repository.dart';
 
 /// Used to indicate loading status in the UI
 final aiChatLoadingProvider = StateProvider<bool>((ref) => false);
 
 /// Main Ai Chat Controller connected to Hive-backed AiChatRepository
-class AiChatController extends StateNotifier<AsyncValue<List<AiChatModel>>> {
+class AiChatController
+    extends StateNotifier<AsyncValue<List<FormBuilderChatModel>>> {
   final AiChatRepository _repo;
 
   /// ref is a riverpod object which used by providers to interact with other providers and life cycle

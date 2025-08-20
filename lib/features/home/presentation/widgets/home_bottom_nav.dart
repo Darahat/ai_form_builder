@@ -1,5 +1,5 @@
-import 'package:ai_chat/features/home/provider/home_provider.dart';
-import 'package:ai_chat/l10n/app_localizations.dart';
+import 'package:ai_form_builder/features/home/provider/home_provider.dart';
+import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

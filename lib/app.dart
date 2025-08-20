@@ -1,7 +1,7 @@
-import 'package:ai_chat/app/router.dart';
-import 'package:ai_chat/app/theme/app_theme.dart';
-import 'package:ai_chat/features/app_settings/provider/settings_provider.dart';
-import 'package:ai_chat/l10n/app_localizations.dart';
+import 'package:ai_form_builder/app/router.dart';
+import 'package:ai_form_builder/app/theme/app_theme.dart';
+import 'package:ai_form_builder/features/app_settings/provider/settings_provider.dart';
+import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -13,7 +13,7 @@
 /// and set the `theme` and `darkTheme` properties.
 ///
 /// `dart
-/// import 'package:ai_chat/app/theme/app_theme.dart';
+/// import 'package:ai_form_builder/app/theme/app_theme.dart';
 ///
 /// MaterialApp(
 ///   title: 'My App',

@@ -1,7 +1,7 @@
-import 'package:ai_chat/features/auth/provider/auth_providers.dart';
-import 'package:ai_chat/features/utou_chat/presentation/widgets/ChatBubble.dart'; // Import the new widget
-import 'package:ai_chat/features/utou_chat/provider/utou_chat_providers.dart';
-import 'package:ai_chat/l10n/app_localizations.dart';
+import 'package:ai_form_builder/features/auth/provider/auth_providers.dart';
+import 'package:ai_form_builder/features/utou_chat/presentation/widgets/ChatBubble.dart'; // Import the new widget
+import 'package:ai_form_builder/features/utou_chat/provider/utou_chat_providers.dart';
+import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

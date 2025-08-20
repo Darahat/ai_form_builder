@@ -1,9 +1,9 @@
-import 'package:ai_chat/core/errors/exceptions.dart';
-import 'package:ai_chat/core/services/hive_service.dart'; // Import HiveService
-import 'package:ai_chat/core/utils/logger.dart';
-import 'package:ai_chat/features/ai_chat/provider/ai_chat_providers.dart'; // Import aiChatControllerProvider
-import 'package:ai_chat/features/auth/domain/user_role.dart';
-import 'package:ai_chat/features/utou_chat/provider/utou_chat_providers.dart'; // Import uToUChatControllerProvider
+import 'package:ai_form_builder/core/errors/exceptions.dart';
+import 'package:ai_form_builder/core/services/hive_service.dart'; // Import HiveService
+import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/ai_chat/provider/ai_chat_providers.dart'; // Import aiChatControllerProvider
+import 'package:ai_form_builder/features/auth/domain/user_role.dart';
+import 'package:ai_form_builder/features/utou_chat/provider/utou_chat_providers.dart'; // Import uToUChatControllerProvider
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

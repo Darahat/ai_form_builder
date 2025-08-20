@@ -22,4 +22,7 @@ class HiveConstants {
 
   /// hive box for user to user chat
   static const String uTouChatBox = "uTou_chat_box";
+
+  /// hive box for AI form Builder
+  static const String formBuilderChatBox = "form_builder_chat_Box";
 }

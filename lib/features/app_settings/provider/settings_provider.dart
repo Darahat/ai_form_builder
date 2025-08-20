@@ -1,6 +1,6 @@
-import 'package:ai_chat/features/app_settings/application/settings_controller.dart';
-import 'package:ai_chat/features/app_settings/application/settings_state.dart';
-import 'package:ai_chat/features/app_settings/infrastructure/settings_repository.dart';
+import 'package:ai_form_builder/features/app_settings/application/settings_controller.dart';
+import 'package:ai_form_builder/features/app_settings/application/settings_state.dart';
+import 'package:ai_form_builder/features/app_settings/infrastructure/settings_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// its carry all functionality of AuthRepository functions

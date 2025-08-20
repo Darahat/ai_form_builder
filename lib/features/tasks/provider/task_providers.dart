@@ -1,5 +1,5 @@
-import 'package:ai_chat/core/services/mistral_service.dart';
-import 'package:ai_chat/core/services/voice_to_text_service.dart';
+import 'package:ai_form_builder/core/services/mistral_service.dart';
+import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/task_controller.dart';

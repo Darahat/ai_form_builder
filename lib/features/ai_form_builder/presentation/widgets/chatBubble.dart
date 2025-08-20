@@ -1,20 +1,10 @@
-import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
 import 'package:flutter/material.dart';
 
-/// Chat Bubble
+import '../../domain/ai_form_builder_chat_model.dart';
+
 class ChatBubble extends StatelessWidget {
-  /// get the chat object
-  final UToUChatModel chat;
-
-  /// check is currentUser or not
-  final bool isCurrentUser;
-
-  /// ChatBubble Constructor
-  const ChatBubble({
-    super.key,
-    required this.chat,
-    required this.isCurrentUser,
-  });
+  final FormBuilderChatModel chat;
+  const ChatBubble({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +13,27 @@ class ChatBubble extends StatelessWidget {
       children: [
         // User's message
         Container(
-          alignment:
-              isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+          alignment: Alignment.centerRight,
           child: Card(
-            color: isCurrentUser ? Colors.blue[100] : Colors.grey[200],
+            color: Colors.blue[100],
             margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
-                crossAxisAlignment:
-                    isCurrentUser
-                        ? CrossAxisAlignment.end
-                        : CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(chat.chatTextBody ?? ''),
                   const SizedBox(height: 4),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (isCurrentUser && (chat.isDelivered ?? false))
+                      if (chat.isReplied ?? false)
                         const Icon(
                           Icons.done_all,
                           size: 16,
                           color: Colors.blue,
                         ),
-                      if (isCurrentUser && (chat.isRead ?? false))
+                      if (chat.isSeen ?? false)
                         const Icon(
                           Icons.remove_red_eye,
                           size: 16,
@@ -60,6 +46,19 @@ class ChatBubble extends StatelessWidget {
             ),
           ),
         ),
+        // AI's reply
+        if (chat.isReplied == true && chat.replyText?.isNotEmpty == true)
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Card(
+              color: Colors.grey[200],
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(chat.replyText!),
+              ),
+            ),
+          ),
       ],
     );
   }

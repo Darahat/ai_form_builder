@@ -2,9 +2,9 @@ import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../application/ai_chat_controller.dart';
-import '../domain/ai_chat_model.dart';
-import '../infrastructure/ai_chat_repository.dart';
+import '../application/ai_form_builder_chat_controller.dart';
+import '../domain/ai_form_builder_chat_model.dart';
+import '../infrastructure/ai_form_builder_chat_repository.dart';
 
 /// AiChat repository that interacts with Hive
 final aiChatRepositoryProvider = Provider<AiChatRepository>(
@@ -26,13 +26,13 @@ final isExpandedSummaryProvider = StateProvider<bool>((ref) => false);
 final isExpandedFabProvider = StateProvider<bool>((ref) => false);
 
 /// Controller for aiChat logic and Hive access
-final aiChatControllerProvider =
-    StateNotifierProvider<AiChatController, AsyncValue<List<AiChatModel>>>((
-      ref,
-    ) {
-      final repo = ref.watch(aiChatRepositoryProvider);
-      return AiChatController(repo, ref);
-    });
+final aiChatControllerProvider = StateNotifierProvider<
+  AiChatController,
+  AsyncValue<List<FormBuilderChatModel>>
+>((ref) {
+  final repo = ref.watch(aiChatRepositoryProvider);
+  return AiChatController(repo, ref);
+});
 
 /// taking only those aiChats which are incomplete
 // final incompleteTasksProvider = Provider<AsyncValue<List<AiChatModel>>>((ref) {

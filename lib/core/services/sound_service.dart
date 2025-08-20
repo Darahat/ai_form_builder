@@ -1,4 +1,4 @@
-import 'package:ai_chat/core/utils/logger.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 /// Perform Notification sound

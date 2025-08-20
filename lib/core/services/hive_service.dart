@@ -1,11 +1,12 @@
-import 'package:ai_chat/core/errors/exceptions.dart';
-import 'package:ai_chat/core/utils/logger.dart';
-import 'package:ai_chat/features/ai_chat/domain/ai_chat_model.dart';
-import 'package:ai_chat/features/app_settings/domain/settings_model.dart';
-import 'package:ai_chat/features/auth/domain/user_model.dart';
-import 'package:ai_chat/features/auth/domain/user_role.dart';
-import 'package:ai_chat/features/tasks/domain/task_model.dart';
-import 'package:ai_chat/features/utou_chat/domain/utou_chat_model.dart';
+import 'package:ai_form_builder/core/errors/exceptions.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/ai_chat/domain/ai_chat_model.dart';
+import 'package:ai_form_builder/features/ai_form_builder/domain/ai_form_builder_chat_model.dart';
+import 'package:ai_form_builder/features/app_settings/domain/settings_model.dart';
+import 'package:ai_form_builder/features/auth/domain/user_model.dart';
+import 'package:ai_form_builder/features/auth/domain/user_role.dart';
+import 'package:ai_form_builder/features/tasks/domain/task_model.dart';
+import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../constants/hive_constants.dart';
@@ -31,6 +32,8 @@ class HiveService {
   /// Assigned HiveConstants settingsBox table name to settingsBoxName variable
   static const String settingsBoxName = HiveConstants.settingsBoxName;
 
+  /// Assigned HiveConstants formBuilderBox table name to formBuilderName variable
+  static const String formBuilderChatBoxName = HiveConstants.formBuilderChatBox;
   static bool _initialized = false;
 
   /// Initializing function of Hive flutter
@@ -67,7 +70,7 @@ class HiveService {
       await Hive.openBox<AiChatModel>(aiChatBoxName);
       await Hive.openBox<SettingDefinitionModel>(settingsBoxName);
       await Hive.openBox<UToUChatModel>(uTouChatBoxName);
-
+      await Hive.openBox<FormBuilderChatModel>(formBuilderChatBoxName);
       _initialized = true;
       AppLogger.info(
         '🚀 ~This is an info message from my HiveService init so that Hive service is called',
@@ -112,6 +115,12 @@ class HiveService {
   static Box<SettingDefinitionModel> get settingsBox {
     _checkInitialized();
     return Hive.box<SettingDefinitionModel>(settingsBoxName);
+  }
+
+  ///settingsBox initialized
+  static Box<FormBuilderChatModel> get formBuilderChatBox {
+    _checkInitialized();
+    return Hive.box<FormBuilderChatModel>(formBuilderChatBoxName);
   }
 
   /// check are they initialized or not
