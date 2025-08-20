@@ -50,22 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBWPF6fjoi6ZD7wnwRIjyWLXMMZXyS7s8Q',
-    appId: '1:25940150454:android:c30a65898d4a0e0c9ebe17',
-    messagingSenderId: '25940150454',
-    projectId: 'flutter-starter-kit-3bd18',
-    storageBucket: 'flutter-starter-kit-3bd18.firebasestorage.app',
+    apiKey: 'AIzaSyB79amW9fIcIACa5xhaMnpO_GXbvk4-SKc',
+    appId: '1:475113061000:android:13e823a59b62ac81f77d3d',
+    messagingSenderId: '475113061000',
+    projectId: 'ai-form-builder-f1d83',
+    storageBucket: 'ai-form-builder-f1d83.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBbpMRIGhOr4jVywCjd7Njba_bSg_18yhU',
-    appId: '1:25940150454:ios:69704a7232cbae3e9ebe17',
-    messagingSenderId: '25940150454',
-    projectId: 'flutter-starter-kit-3bd18',
-    storageBucket: 'flutter-starter-kit-3bd18.firebasestorage.app',
-    androidClientId: '25940150454-4qklgv283cfevtpjpk39u68dqibjl4nm.apps.googleusercontent.com',
-    iosClientId: '25940150454-cbgj1laemo9bjv6t4irmje9sad4vcb3n.apps.googleusercontent.com',
-    iosBundleId: 'com.example.aiChat',
+    apiKey: 'AIzaSyC2PPPtVaEXGjBfoH1O7uhRN200ptfZbLk',
+    appId: '1:475113061000:ios:3973d156f02be6a7f77d3d',
+    messagingSenderId: '475113061000',
+    projectId: 'ai-form-builder-f1d83',
+    storageBucket: 'ai-form-builder-f1d83.firebasestorage.app',
+    androidClientId: '475113061000-bat9069b1bsmb2cm71gtlm77aglgckft.apps.googleusercontent.com',
+    iosClientId: '475113061000-kjhje4ur64h0ejllmp63v7akntul2f00.apps.googleusercontent.com',
+    iosBundleId: 'com.example.aiformbuilder',
   );
 
 }

@@ -23,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.flutter_starter_kit"
+        applicationId = "com.example.aiformbuilder"
         minSdk = 24
         targetSdk = 35
 
