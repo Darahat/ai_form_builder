@@ -1,6 +1,6 @@
-import 'package:ai_chat/core/errors/exceptions.dart';
-import 'package:ai_chat/core/services/hive_service.dart';
-import 'package:ai_chat/core/utils/logger.dart';
+import 'package:ai_form_builder/core/errors/exceptions.dart';
+import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

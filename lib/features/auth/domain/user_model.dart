@@ -1,4 +1,4 @@
-import 'package:ai_chat/features/auth/domain/user_role.dart';
+import 'package:ai_form_builder/features/auth/domain/user_role.dart';
 import 'package:hive/hive.dart';
 
 part 'user_model.g.dart';
@@ -27,8 +27,13 @@ class UserModel {
   final String? photoURL;
 
   /// its construct of UserModel class . its for call UserModel to other dart file.  this.name is not required
-  UserModel({required this.uid, required this.email, this.name, this.photoURL, UserRole? role})
-    : role = role ?? UserRole.guest;
+  UserModel({
+    required this.uid,
+    required this.email,
+    this.name,
+    this.photoURL,
+    UserRole? role,
+  }) : role = role ?? UserRole.guest;
 
   /// its construct of UserModel class . its for call UserModel to other dart file.  this.name is not required
   //  │        UserModel({required this.uid, required this.email, this.name, UserRole? role})

@@ -1,4 +1,4 @@
-import 'package:ai_chat/app/theme/app_colors.dart';
+import 'package:ai_form_builder/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// The light theme configuration used throughout the application.

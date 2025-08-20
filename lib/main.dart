@@ -1,8 +1,8 @@
-import 'package:ai_chat/app.dart';
-import 'package:ai_chat/core/services/firebase_messaging_service.dart';
-import 'package:ai_chat/core/services/initialization_service.dart';
-import 'package:ai_chat/core/utils/logger.dart';
-import 'package:ai_chat/features/auth/provider/auth_providers.dart';
+import 'package:ai_form_builder/app.dart';
+import 'package:ai_form_builder/core/services/firebase_messaging_service.dart';
+import 'package:ai_form_builder/core/services/initialization_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/auth/provider/auth_providers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

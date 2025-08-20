@@ -1,6 +1,6 @@
-import 'package:ai_chat/core/utils/logger.dart';
-import 'package:ai_chat/features/app_settings/provider/settings_provider.dart';
-import 'package:ai_chat/l10n/app_localizations.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/app_settings/provider/settings_provider.dart';
+import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

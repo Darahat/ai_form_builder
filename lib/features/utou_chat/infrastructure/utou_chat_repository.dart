@@ -1,6 +1,6 @@
-import 'package:ai_chat/core/services/hive_service.dart';
-import 'package:ai_chat/core/utils/logger.dart';
-import 'package:ai_chat/features/utou_chat/domain/utou_chat_model.dart';
+import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:path/path.dart';
@@ -99,7 +99,11 @@ class UToUChatRepository {
   /// Toggles the completion status of a isSeen identified by [id]
   ///
   /// if the uToUChat exists, it will be updated with the opposite 'isCompleted' value.
-  Future<void> toggleIsReadChat(String id, String receiverId, String senderId) async {
+  Future<void> toggleIsReadChat(
+    String id,
+    String receiverId,
+    String senderId,
+  ) async {
     final uToUChat = _box.get(id);
     if (uToUChat != null) {
       final updated = uToUChat.copyWith(isRead: !(uToUChat.isRead ?? false));
@@ -109,7 +113,11 @@ class UToUChatRepository {
   }
 
   /// Update message read status in Firestore
-  Future<void> updateMessageReadStatus(String messageId, String receiverId, String senderId) async {
+  Future<void> updateMessageReadStatus(
+    String messageId,
+    String receiverId,
+    String senderId,
+  ) async {
     final chatRoomId = getChatRoomId(receiverId, senderId);
     final messageRef = _firestore
         .collection('chats')

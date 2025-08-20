@@ -1,4 +1,4 @@
-import 'package:ai_chat/features/auth/domain/user_role.dart';
+import 'package:ai_form_builder/features/auth/domain/user_role.dart';
 import 'package:go_router/go_router.dart';
 
 /// A custom GoRoute that includes a list of allowed roles for route-based access control.
