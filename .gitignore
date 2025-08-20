@@ -1,0 +1,62 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Optional: VS Code settings (if you prefer to ignore)
+/.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+
+# Symbolication and obfuscation
+app.*.symbols
+app.*.map.json
+
+# FVM Version Cache
+.fvm/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# Generated files
+**/*.g.dart
+**/*.freezed.dart
+**/*.mocks.dart
+
+# API Keys or secret config
+lib/core/config/api_keys.dart
+
+# Platform folders (ignore only if not targeting them)
+linux/
+macos/
+windows/
+web/
+
+# Code coverage
+/coverage/

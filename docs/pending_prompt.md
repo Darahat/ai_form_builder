@@ -1,0 +1,4 @@
+I want to integrate a smart API system. which functionality is highly reusable, strictly use riverpod architecture, scalable, clean code, good documentation, which will offline priority │
+│ online sync. show me full structure of this feature and one by one i will integrate this. show my code and documentation with proper commenting. make 2 way data flow , When a user creates, updates, or deletes a task, the change will be saved immediately to the local Hive database. The UI will update instantly from this
+local data, making the app feel fast and responsive, even with no internet connection.
+When the app is online, a synchronization mechanism will push any local changes (like new or updated tasks) to the remote server via the API. \* It will also fetch any updates from the server and save them to the local Hive database.
