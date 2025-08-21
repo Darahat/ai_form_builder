@@ -2,9 +2,9 @@ import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../application/ai_form_builder_chat_controller.dart';
+import '../application/ai_form_builder_controller.dart';
 import '../domain/ai_form_builder_chat_model.dart';
-import '../infrastructure/ai_form_builder_chat_repository.dart';
+import '../infrastructure/ai_form_builder_repository.dart';
 
 /// AiFormBuilderChat repository that interacts with Hive
 final aiFormBuilderChatRepositoryProvider =

@@ -1,7 +1,7 @@
 /// Configuration settings for the local database and Hive boxes.
 class DatabaseConfig {
   /// The file name for the local database.
-  static const String databaseName = 'ai_chat.db';
+  static const String databaseName = 'ai_form_builder.db';
 
   /// The version of the local database schema.
   static const int databaseVersion = 1;

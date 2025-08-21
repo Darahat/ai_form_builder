@@ -1,5 +1,5 @@
 import 'package:ai_form_builder/core/errors/exceptions.dart';
-import 'package:ai_form_builder/features/ai_chat/provider/ai_chat_providers.dart';
+import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/ai_form_builder_chat_model.dart';
@@ -93,7 +93,7 @@ class AiFormBuilderChatController
       );
     } catch (e, s) {
       throw ServerException(
-        '🚀 ~Save on hive of mistral reply from (ai_chat_controller.dart) $e and this is $s',
+        '🚀 ~Save on hive of mistral reply from (ai_form_builder_controller.dart) $e and this is $s',
       );
     }
   }

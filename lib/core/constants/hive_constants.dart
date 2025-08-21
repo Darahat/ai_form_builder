@@ -3,7 +3,7 @@ class HiveConstants {
   // Box for TextEntry model (typeId: 0)
 
   /// The file name for the local database.
-  static const String databaseName = 'ai_chat.db';
+  static const String databaseName = 'ai_form_builder.db';
 
   /// The version of the local database schema.
   static const int databaseVersion = 1;
@@ -18,7 +18,7 @@ class HiveConstants {
   static const String taskBox = "task_box";
 
   /// hive box for tasks
-  static const String aiChatBox = "ai_chat_box";
+  static const String aiChatBox = "ai_form_builder_box";
 
   /// hive box for user to user chat
   static const String uTouChatBox = "uTou_chat_box";
