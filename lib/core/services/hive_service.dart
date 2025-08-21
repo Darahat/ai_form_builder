@@ -2,6 +2,7 @@ import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_chat/domain/ai_chat_model.dart';
 import 'package:ai_form_builder/features/ai_form_builder/domain/ai_form_builder_chat_model.dart';
+import 'package:ai_form_builder/features/ai_form_builder/domain/form_field_model.dart';
 import 'package:ai_form_builder/features/app_settings/domain/settings_model.dart';
 import 'package:ai_form_builder/features/auth/domain/user_model.dart';
 import 'package:ai_form_builder/features/tasks/domain/task_model.dart';
@@ -33,6 +34,13 @@ class HiveService {
 
   /// Assigned HiveConstants formBuilderBox table name to formBuilderName variable
   static const String formBuilderChatBoxName = HiveConstants.formBuilderChatBox;
+
+  /// Assigned HiveConstants formFieldBox table name to formFieldName variable(What are the questions will in the generated form)
+  static const String formFieldBoxName = HiveConstants.formFieldQuestionsBox;
+
+  /// Assigned HiveConstants formBuilderBox table name to formBuilderName variable(Generated Form Fields ID, Title/Description)
+  static const String aiGeneratedFormBoxName = HiveConstants.aiGeneratedFormBox;
+
   static bool _initialized = false;
 
   /// Initializing function of Hive flutter
@@ -68,12 +76,22 @@ class HiveService {
         // Assuming typeId 6 for UToUChatModelAdapter
         Hive.registerAdapter(AiFormBuilderChatModelAdapter());
       }
+      if (!Hive.isAdapterRegistered(8)) {
+        // Assuming typeId 6 for UToUChatModelAdapter
+        Hive.registerAdapter(FormFieldModelAdapter());
+      }
+      if (!Hive.isAdapterRegistered(9)) {
+        // Assuming typeId 6 for UToUChatModelAdapter
+        Hive.registerAdapter(AiGeneratedFormModelAdapter());
+      }
       await Hive.openBox<UserModel>(authBoxName);
       await Hive.openBox<TaskModel>(taskBoxName);
       await Hive.openBox<AiChatModel>(aiChatBoxName);
       await Hive.openBox<SettingDefinitionModel>(settingsBoxName);
       await Hive.openBox<UToUChatModel>(uTouChatBoxName);
       await Hive.openBox<AiFormBuilderChatModel>(formBuilderChatBoxName);
+      await Hive.openBox<FormFieldModel>(formFieldBoxName);
+      await Hive.openBox<AiGeneratedFormModel>(formBuilderChatBoxName);
       _initialized = true;
       AppLogger.info(
         '🚀 ~This is an info message from my HiveService init so that Hive service is called',
@@ -124,6 +142,18 @@ class HiveService {
   static Box<AiFormBuilderChatModel> get formBuilderChatBox {
     _checkInitialized();
     return Hive.box<AiFormBuilderChatModel>(formBuilderChatBoxName);
+  }
+
+  ///Initialized generated Form Fields/Qestions box initialized
+  static Box<FormFieldModel> get formFieldQuestionBox {
+    _checkInitialized();
+    return Hive.box<FormFieldModel>(formBuilderChatBoxName);
+  }
+
+  /// Initialized generated forms detail(title,description) box initialized
+  static Box<AiGeneratedFormModel> get aiGeneratedFormInfoBox {
+    _checkInitialized();
+    return Hive.box<AiGeneratedFormModel>(formBuilderChatBoxName);
   }
 
   /// check are they initialized or not

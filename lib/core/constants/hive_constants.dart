@@ -25,4 +25,10 @@ class HiveConstants {
 
   /// hive box for AI form Builder
   static const String formBuilderChatBox = "form_builder_chat_Box";
+
+  /// hive box for what kind of question will exist in form
+  static const String formFieldQuestionsBox = "generated_form_questions";
+
+  /// hive box for generated forms title,ID, Description etc
+  static const String aiGeneratedFormBox = "generated_form_info";
 }
