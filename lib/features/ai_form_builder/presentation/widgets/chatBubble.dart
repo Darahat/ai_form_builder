@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../domain/ai_form_builder_chat_model.dart';
 
 class ChatBubble extends StatelessWidget {
-  final FormBuilderChatModel chat;
+  final AiFormBuilderChatModel chat;
   const ChatBubble({super.key, required this.chat});
 
   @override

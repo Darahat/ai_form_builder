@@ -1,20 +1,21 @@
-import 'package:ai_form_builder/features/ai_chat/provider/ai_chat_providers.dart';
+import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_chat_providers.dart';
 import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/ChatBubble.dart'; // Import the new widget
 
-/// Forget Password Page presentation
-class AiChatView extends ConsumerStatefulWidget {
-  /// Forget Password page class constructor
-  const AiChatView({super.key});
+/// AI Form Builder Chat View
+class AiFormBuilderChatView extends ConsumerStatefulWidget {
+  const AiFormBuilderChatView({super.key});
 
   @override
-  ConsumerState<AiChatView> createState() => _AiChatViewConsumerState();
+  ConsumerState<AiFormBuilderChatView> createState() =>
+      _AiFormBuilderChatViewConsumerState();
 }
 
-class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
+class _AiFormBuilderChatViewConsumerState
+    extends ConsumerState<AiFormBuilderChatView> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textController = TextEditingController();
 
@@ -26,8 +27,6 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
   }
 
   void _scrollToBottom() {
-    /// Using a post-frame callback ensures that the list has been built/updated
-    /// before we try to scroll
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -41,12 +40,10 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
 
   @override
   Widget build(BuildContext context) {
-    final chatsAsync = ref.watch(aiChatControllerProvider);
+    final chatsAsync = ref.watch(aiFormBuilderChatControllerProvider);
 
-    /// Listen to changes in the chat list when new data arrives scroll to the bottom
-    ref.listen(aiChatControllerProvider, (previous, next) {
+    ref.listen(aiFormBuilderChatControllerProvider, (previous, next) {
       if (next is AsyncData) {
-        /// Check if a message was added
         final prevLength = previous?.asData?.value.length ?? 0;
         final currentLength = next.value?.length ?? 0;
         if (currentLength > prevLength) {
@@ -54,34 +51,40 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
         }
       }
     });
-    return Column(
-      children: [
-        Expanded(
-          child: chatsAsync.when(
-            data: (chats) {
-              /// Initial scroll when data first loads
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (_scrollController.hasClients) {
-                  _scrollController.jumpTo(
-                    _scrollController.position.maxScrollExtent,
-                  );
-                }
-              });
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: chats.length,
-                itemBuilder: (context, index) {
-                  final chat = chats[index];
-                  return ChatBubble(chat: chat);
-                },
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => Center(child: Text('Error: $err')),
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.home),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: chatsAsync.when(
+              data: (chats) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (_scrollController.hasClients) {
+                    _scrollController.jumpTo(
+                      _scrollController.position.maxScrollExtent,
+                    );
+                  }
+                });
+                return ListView.builder(
+                  controller: _scrollController,
+                  itemCount: chats.length,
+                  itemBuilder: (context, index) {
+                    final chat = chats[index];
+                    return ChatBubble(chat: chat);
+                  },
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(child: Text('Error: $err')),
+            ),
           ),
-        ),
-        _buildMessageInput(ref, _textController, context),
-      ],
+          _buildMessageInput(ref, _textController, context),
+        ],
+      ),
     );
   }
 
@@ -97,6 +100,7 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
     final errorMistralRequest =
         AppLocalizations.of(context)!.errorMistralRequest;
     final typeMessage = AppLocalizations.of(context)!.typeMessage;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -106,14 +110,13 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
               controller: textController,
               decoration: InputDecoration(
                 hintText: typeMessage,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               onSubmitted: (text) {
-                /// Allow submitting with keyboard
                 if (text.isNotEmpty) {
                   ref
-                      .read(aiChatControllerProvider.notifier)
-                      .addAiChat(
+                      .read(aiFormBuilderChatControllerProvider.notifier)
+                      .addAiFormBuilderChat(
                         text,
                         systemPrompt,
                         userPromptPrefix,
@@ -131,8 +134,8 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
               final text = textController.text;
               if (text.isNotEmpty) {
                 ref
-                    .read(aiChatControllerProvider.notifier)
-                    .addAiChat(
+                    .read(aiFormBuilderChatControllerProvider.notifier)
+                    .addAiFormBuilderChat(
                       text,
                       systemPrompt,
                       userPromptPrefix,

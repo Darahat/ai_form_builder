@@ -1,5 +1,5 @@
+import 'package:ai_form_builder/features/auth/application/auth_state.dart';
 import 'package:ai_form_builder/features/auth/provider/auth_providers.dart';
-import 'package:ai_form_builder/features/home/presentation/widgets/user_profile_header.dart';
 import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,10 +29,47 @@ class HomeDrawer extends ConsumerWidget {
                 bottom: BorderSide(color: theme.dividerColor, width: 1),
               ),
             ),
-            child: const SafeArea(
+            child: SafeArea(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: UserProfileHeader(),
+                padding: const EdgeInsets.all(16.0),
+                child: Consumer(
+                  builder: (context, ref, _) {
+                    final authState = ref.watch(authControllerProvider);
+                    if (authState is Authenticated) {
+                      final user = authState.user;
+                      return Row(
+                        children: [
+                          // User avatar
+                          CircleAvatar(
+                            radius: 36,
+                            backgroundImage:
+                                user.photoURL != null
+                                    ? NetworkImage(user.photoURL!)
+                                    : null,
+                            backgroundColor: Colors.grey[300],
+                            child:
+                                user.photoURL == null
+                                    ? const Icon(Icons.person, size: 36)
+                                    : null,
+                          ),
+                          const SizedBox(width: 16),
+
+                          // User name
+                          Expanded(
+                            child: Text(
+                              user.name ?? 'No Name',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
               ),
             ),
           ),
@@ -44,6 +81,21 @@ class HomeDrawer extends ConsumerWidget {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
+                  ListTile(
+                    leading: Icon(
+                      Icons.settings,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                    title: Text(
+                      'Form Builder Chat',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    onTap: () {
+                      context.push('/ai_form_builder_chat');
+                    },
+                  ),
                   ListTile(
                     leading: Icon(
                       Icons.settings,
