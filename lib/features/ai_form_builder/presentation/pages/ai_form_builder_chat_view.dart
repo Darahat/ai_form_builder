@@ -1,4 +1,4 @@
-import 'package:ai_form_builder/features/ai_chat/provider/ai_chat_providers.dart';
+import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_chat_providers.dart';
 import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,15 +6,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/ChatBubble.dart'; // Import the new widget
 
 /// Forget Password Page presentation
-class AiChatView extends ConsumerStatefulWidget {
+class AiFormBuilderChatView extends ConsumerStatefulWidget {
   /// Forget Password page class constructor
-  const AiChatView({super.key});
+  const AiFormBuilderChatView({super.key});
 
   @override
-  ConsumerState<AiChatView> createState() => _AiChatViewConsumerState();
+  ConsumerState<AiFormBuilderChatView> createState() =>
+      _AiFormBuilderChatViewConsumerState();
 }
 
-class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
+class _AiFormBuilderChatViewConsumerState
+    extends ConsumerState<AiFormBuilderChatView> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textController = TextEditingController();
 
@@ -41,10 +43,10 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
 
   @override
   Widget build(BuildContext context) {
-    final chatsAsync = ref.watch(aiChatControllerProvider);
+    final chatsAsync = ref.watch(aiFormBuilderChatControllerProvider);
 
     /// Listen to changes in the chat list when new data arrives scroll to the bottom
-    ref.listen(aiChatControllerProvider, (previous, next) {
+    ref.listen(aiFormBuilderChatControllerProvider, (previous, next) {
       if (next is AsyncData) {
         /// Check if a message was added
         final prevLength = previous?.asData?.value.length ?? 0;
@@ -112,8 +114,8 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
                 /// Allow submitting with keyboard
                 if (text.isNotEmpty) {
                   ref
-                      .read(aiChatControllerProvider.notifier)
-                      .addAiChat(
+                      .read(aiFormBuilderChatControllerProvider.notifier)
+                      .addAiFormBuilderChat(
                         text,
                         systemPrompt,
                         userPromptPrefix,
@@ -131,8 +133,8 @@ class _AiChatViewConsumerState extends ConsumerState<AiChatView> {
               final text = textController.text;
               if (text.isNotEmpty) {
                 ref
-                    .read(aiChatControllerProvider.notifier)
-                    .addAiChat(
+                    .read(aiFormBuilderChatControllerProvider.notifier)
+                    .addAiFormBuilderChat(
                       text,
                       systemPrompt,
                       userPromptPrefix,

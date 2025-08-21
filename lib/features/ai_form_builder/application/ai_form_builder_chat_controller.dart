@@ -6,33 +6,34 @@ import '../domain/ai_form_builder_chat_model.dart';
 import '../infrastructure/ai_form_builder_chat_repository.dart';
 
 /// Used to indicate loading status in the UI
-final aiChatLoadingProvider = StateProvider<bool>((ref) => false);
+final formBuilderChatLoadingProvider = StateProvider<bool>((ref) => false);
 
-/// Main Ai Chat Controller connected to Hive-backed AiChatRepository
-class AiChatController
-    extends StateNotifier<AsyncValue<List<FormBuilderChatModel>>> {
-  final AiChatRepository _repo;
+/// Main Ai Chat Controller connected to Hive-backed AiFormBuilderChatRepository
+class AiFormBuilderChatController
+    extends StateNotifier<AsyncValue<List<AiFormBuilderChatModel>>> {
+  final AiFormBuilderChatRepository _repo;
 
   /// ref is a riverpod object which used by providers to interact with other providers and life cycle
   /// of the application
   /// example ref.read, ref.write etc
   final Ref ref;
 
-  /// AiChatController Constructor to call it from outside
-  AiChatController(this._repo, this.ref) : super(const AsyncValue.loading()) {
-    loadAiChat();
+  /// AiFormBuilderChatController Constructor to call it from outside
+  AiFormBuilderChatController(this._repo, this.ref)
+    : super(const AsyncValue.loading()) {
+    loadAiFormBuilderChat();
   }
 
-  /// Load all aiChats from repository and update the state
-  Future<void> loadAiChat() async {
+  /// Load all aiFormBuilderChats from repository and update the state
+  Future<void> loadAiFormBuilderChat() async {
     if (!mounted) return;
     state = const AsyncValue.loading();
     try {
-      final aiChats = await _repo.getAiChat();
+      final aiFormBuilderChats = await _repo.getAiFormBuilderChat();
       if (!mounted) return;
 
-      /// Filter for incomplete aiChats and set the data state
-      state = AsyncValue.data(aiChats);
+      /// Filter for incomplete aiFormBuilderChats and set the data state
+      state = AsyncValue.data(aiFormBuilderChats);
     } catch (e, s) {
       if (!mounted) return;
 
@@ -41,31 +42,31 @@ class AiChatController
     }
   }
 
-  /// Load all aiChats from repository
-  // Future<void> getAiChats() async {
-  //   ref.read(aiChatLoadingProvider.notifier).state = true;
+  /// Load all aiFormBuilderChats from repository
+  // Future<void> getAiFormBuilderChats() async {
+  //   ref.read(aiFormBuilderChatLoadingProvider.notifier).state = true;
 
-  //   final aiChats = await _repo.aiChats();
-  //   state = aiChats.where((aiChat) => aiChat.isCompleted == false).toList();
+  //   final aiFormBuilderChats = await _repo.aiFormBuilderChats();
+  //   state = aiFormBuilderChats.where((aiFormBuilderChat) => aiFormBuilderChat.isCompleted == false).toList();
 
-  //   ref.read(aiChatLoadingProvider.notifier).state = false;
+  //   ref.read(aiFormBuilderChatLoadingProvider.notifier).state = false;
   // }
 
-  /// Add a new aiChat and reload list
-  Future<void> addAiChat(
+  /// Add a new aiFormBuilderChat and reload list
+  Future<void> addAiFormBuilderChat(
     String usersText,
     String systemPrompt,
     String userPromptPrefix,
     String systemQuickReplyPrompt,
     String errorMistralRequest,
   ) async {
-    /// Get The current list of aiChats from the state's value
-    final currentAiChats = state.value ?? [];
-    final usersMessage = await _repo.addAiChat(usersText);
+    /// Get The current list of aiFormBuilderChats from the state's value
+    final currentAiFormBuilderChats = state.value ?? [];
+    final usersMessage = await _repo.addAiFormBuilderChat(usersText);
     if (usersMessage == null) return;
 
     if (!mounted) return;
-    state = AsyncValue.data([...currentAiChats, usersMessage]);
+    state = AsyncValue.data([...currentAiFormBuilderChats, usersMessage]);
     try {
       /// Get AI Reply
       final mistralService = ref.read(mistralServiceProvider);
@@ -85,7 +86,7 @@ class AiChatController
 
         /// mark as Seen by AI
       );
-      await _repo.updateAiChat(usersMessage.id!, updatedMessage);
+      await _repo.updateAiFormBuilderChat(usersMessage.id!, updatedMessage);
       if (!mounted) return;
       state = AsyncValue.data(
         state.value!.updated(usersMessage.id!, updatedMessage),
@@ -95,19 +96,9 @@ class AiChatController
         '🚀 ~Save on hive of mistral reply from (ai_chat_controller.dart) $e and this is $s',
       );
     }
-    // finally {
-    //   final updatedMessage = usersMessage.copyWith(
-    //     replyText: "Sorry, I couldn't get a response",
-    //     isReplied: true,
-    //   );
-    //   await _repo.updateAiChat(usersMessage.id!, updatedMessage);
-    //   state = AsyncValue.data(
-    //     state.value!.updated(usersMessage.id!, updatedMessage),
-    //   );
-    // }
   }
 
-  /// Toggle a aiChat and reload list
+  /// Toggle a aiFormBuilderChat and reload list
   Future<void> toggleIsSeenChat(String id) async {
     final currentChats = state.value ?? [];
     if (currentChats.isEmpty) return;
@@ -115,7 +106,7 @@ class AiChatController
 
     // final chatToUpdate = currentChats.firstWhere((t) => t.id == id);
 
-    /// changing aiChat according to which tid is toggled check and updated using copy with
+    /// changing aiFormBuilderChat according to which tid is toggled check and updated using copy with
     /// which generates copy of that exact object which is toggled
     ///
     final updatedList =
@@ -146,29 +137,31 @@ class AiChatController
     state = AsyncValue.data(updatedList);
   }
 
-  /// Remove a aiChat and reload list
-  Future<void> removeAiChat(String id) async {
-    final currentAiChats = state.value ?? [];
+  /// Remove a aiFormBuilderChat and reload list
+  Future<void> removeAiFormBuilderChat(String id) async {
+    final currentAiFormBuilderChats = state.value ?? [];
 
     await _repo.removeChat(id);
     if (!mounted) return;
     state = AsyncValue.data(
-      currentAiChats.where((chat) => chat.id != id).toList(),
+      currentAiFormBuilderChats.where((chat) => chat.id != id).toList(),
     );
   }
 
-  /// Edit a aiChat and reload list
-  Future<void> editAiChat(String id, String newText) async {
-    final currentAiChats = state.value ?? [];
-    if (currentAiChats.isEmpty) return;
+  /// Edit a aiFormBuilderChat and reload list
+  Future<void> editAiFormBuilderChat(String id, String newText) async {
+    final currentAiFormBuilderChats = state.value ?? [];
+    if (currentAiFormBuilderChats.isEmpty) return;
     await _repo.editUserChat(id, newText);
-    final aiChatToUpdate = currentAiChats.firstWhere((t) => t.id == id);
+    final aiFormBuilderChatToUpdate = currentAiFormBuilderChats.firstWhere(
+      (t) => t.id == id,
+    );
 
-    /// changing aiChat according to which tid is toggled check and updated using copy with
+    /// changing aiFormBuilderChat according to which tid is toggled check and updated using copy with
     /// which generates copy of that exact object which is toggled
-    final updatedList = currentAiChats.updated(
+    final updatedList = currentAiFormBuilderChats.updated(
       id,
-      aiChatToUpdate.copyWith(chatTextBody: newText),
+      aiFormBuilderChatToUpdate.copyWith(chatTextBody: newText),
     );
 
     /// Update the state with the new list

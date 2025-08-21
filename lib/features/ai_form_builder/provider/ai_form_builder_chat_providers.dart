@@ -6,12 +6,13 @@ import '../application/ai_form_builder_chat_controller.dart';
 import '../domain/ai_form_builder_chat_model.dart';
 import '../infrastructure/ai_form_builder_chat_repository.dart';
 
-/// AiChat repository that interacts with Hive
-final aiChatRepositoryProvider = Provider<AiChatRepository>(
-  (ref) => AiChatRepository(),
-);
+/// AiFormBuilderChat repository that interacts with Hive
+final aiFormBuilderChatRepositoryProvider =
+    Provider<AiFormBuilderChatRepository>(
+      (ref) => AiFormBuilderChatRepository(),
+    );
 
-/// Voice input for adding aiChat
+/// Voice input for adding aiFormBuilderChat
 final voiceToTextProvider = Provider<VoiceToTextService>((ref) {
   return VoiceToTextService(ref);
 });
@@ -25,33 +26,33 @@ final isExpandedSummaryProvider = StateProvider<bool>((ref) => false);
 /// to check The Floating button is expanded or not
 final isExpandedFabProvider = StateProvider<bool>((ref) => false);
 
-/// Controller for aiChat logic and Hive access
-final aiChatControllerProvider = StateNotifierProvider<
-  AiChatController,
-  AsyncValue<List<FormBuilderChatModel>>
+/// Controller for aiFormBuilderChat logic and Hive access
+final aiFormBuilderChatControllerProvider = StateNotifierProvider<
+  AiFormBuilderChatController,
+  AsyncValue<List<AiFormBuilderChatModel>>
 >((ref) {
-  final repo = ref.watch(aiChatRepositoryProvider);
-  return AiChatController(repo, ref);
+  final repo = ref.watch(aiFormBuilderChatRepositoryProvider);
+  return AiFormBuilderChatController(repo, ref);
 });
 
-/// taking only those aiChats which are incomplete
-// final incompleteTasksProvider = Provider<AsyncValue<List<AiChatModel>>>((ref) {
-//   return ref.watch(aiChatControllerProvider);
+/// taking only those aiFormBuilderChats which are incomplete
+// final incompleteTasksProvider = Provider<AsyncValue<List<AiFormBuilderChatModel>>>((ref) {
+//   return ref.watch(aiFormBuilderChatControllerProvider);
 // });
 
 /// Mistral AI summary service
 final mistralServiceProvider = Provider((ref) => MistralService());
 
-/// Async summary from Mistral for aiChat list
-/// Async summary from Mistral for incomplete aiChats
+/// Async summary from Mistral for aiFormBuilderChat list
+/// Async summary from Mistral for incomplete aiFormBuilderChats
 final aiSummaryProvider = FutureProvider<String>((ref) async {
-  final aiChatAsync = ref.watch(aiChatControllerProvider);
-  return aiChatAsync.when(
-    data: (aiChats) {
-      if (aiChats.isEmpty) {
+  final aiFormBuilderChatAsync = ref.watch(aiFormBuilderChatControllerProvider);
+  return aiFormBuilderChatAsync.when(
+    data: (aiFormBuilderChats) {
+      if (aiFormBuilderChats.isEmpty) {
         return "No Chat to answer";
       }
-      final aiFeed = aiChats
+      final aiFeed = aiFormBuilderChats
           .map(
             (t) =>
                 'just give answer very shortly.Like as human chat. the text is- ${t.chatTextBody}',

@@ -1,6 +1,7 @@
 // import 'package:ai_form_builder/app/app_route.dart';
 // import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_chat/presentation/pages/ai_chat_view.dart';
+import 'package:ai_form_builder/features/ai_form_builder/presentation/pages/ai_form_builder_chat_view.dart';
 import 'package:ai_form_builder/features/app_settings/presentation/pages/setting_page.dart';
 import 'package:ai_form_builder/features/auth/application/auth_state.dart';
 import 'package:ai_form_builder/features/auth/domain/user_role.dart';
@@ -40,6 +41,7 @@ final initializationFutureProvider = FutureProvider<void>((ref) async {
 final Map<String, List<UserRole>> routeAllowedRoles = {
   '/home': [UserRole.authenticatedUser, UserRole.admin],
   '/settings': [UserRole.authenticatedUser, UserRole.admin],
+  '/ai_form_builder_chat': [UserRole.authenticatedUser, UserRole.admin],
   '/login': [UserRole.guest],
   '/register': [UserRole.guest],
   // Add all your routes here with their allowed roles
@@ -93,6 +95,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/settings',
         name: 'settings',
         builder: (context, state) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: '/ai_form_builder_chat',
+        name: 'ai_form_builder_chat',
+        builder: (context, state) => const AiFormBuilderChatView(),
       ),
       GoRoute(
         path: '/login',

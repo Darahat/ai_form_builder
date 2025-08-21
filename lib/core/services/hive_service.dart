@@ -4,7 +4,6 @@ import 'package:ai_form_builder/features/ai_chat/domain/ai_chat_model.dart';
 import 'package:ai_form_builder/features/ai_form_builder/domain/ai_form_builder_chat_model.dart';
 import 'package:ai_form_builder/features/app_settings/domain/settings_model.dart';
 import 'package:ai_form_builder/features/auth/domain/user_model.dart';
-import 'package:ai_form_builder/features/auth/domain/user_role.dart';
 import 'package:ai_form_builder/features/tasks/domain/task_model.dart';
 import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -49,10 +48,10 @@ class HiveService {
         Hive.registerAdapter(TaskModelAdapter());
       }
 
-      if (!Hive.isAdapterRegistered(6)) {
-        // Register UserRoleAdapter with typeId 4
-        Hive.registerAdapter(UserRoleAdapter());
-      }
+      // if (!Hive.isAdapterRegistered(6)) {
+      //   // Register UserRoleAdapter with typeId 4
+      //   Hive.registerAdapter(UserRoleAdapter());
+      // }
       if (!Hive.isAdapterRegistered(3)) {
         // This is for SettingDefinitionModelAdapter
         Hive.registerAdapter(SettingDefinitionModelAdapter());
@@ -65,12 +64,16 @@ class HiveService {
         // Assuming typeId 6 for UToUChatModelAdapter
         Hive.registerAdapter(UToUChatModelAdapter());
       }
+      if (!Hive.isAdapterRegistered(7)) {
+        // Assuming typeId 6 for UToUChatModelAdapter
+        Hive.registerAdapter(AiFormBuilderChatModelAdapter());
+      }
       await Hive.openBox<UserModel>(authBoxName);
       await Hive.openBox<TaskModel>(taskBoxName);
       await Hive.openBox<AiChatModel>(aiChatBoxName);
       await Hive.openBox<SettingDefinitionModel>(settingsBoxName);
       await Hive.openBox<UToUChatModel>(uTouChatBoxName);
-      await Hive.openBox<FormBuilderChatModel>(formBuilderChatBoxName);
+      await Hive.openBox<AiFormBuilderChatModel>(formBuilderChatBoxName);
       _initialized = true;
       AppLogger.info(
         '🚀 ~This is an info message from my HiveService init so that Hive service is called',
@@ -118,9 +121,9 @@ class HiveService {
   }
 
   ///settingsBox initialized
-  static Box<FormBuilderChatModel> get formBuilderChatBox {
+  static Box<AiFormBuilderChatModel> get formBuilderChatBox {
     _checkInitialized();
-    return Hive.box<FormBuilderChatModel>(formBuilderChatBoxName);
+    return Hive.box<AiFormBuilderChatModel>(formBuilderChatBoxName);
   }
 
   /// check are they initialized or not

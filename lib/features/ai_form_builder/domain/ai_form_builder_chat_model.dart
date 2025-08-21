@@ -4,7 +4,7 @@ part 'ai_form_builder_chat_model.g.dart';
 
 @HiveType(typeId: 7)
 /// its User model for authentication
-class FormBuilderChatModel {
+class AiFormBuilderChatModel {
   /// first field for the hive/table is id
   @HiveField(0)
   final String? id;
@@ -30,7 +30,7 @@ class FormBuilderChatModel {
   final String? replyText;
 
   /// its construct of UserModel class . its for call UserModel to other dart file.  this.name is not required
-  FormBuilderChatModel({
+  AiFormBuilderChatModel({
     this.id,
     this.chatTextBody,
     required this.sentTime,
@@ -42,7 +42,7 @@ class FormBuilderChatModel {
   ///creating a copy of an existing object with some updated fields and the actual object remain unchanged
   ///its used when need to update any field .
   ///used riverpod to state management.
-  FormBuilderChatModel copyWith({
+  AiFormBuilderChatModel copyWith({
     String? id,
     String? chatTextBody,
     String? sentTime,
@@ -50,7 +50,7 @@ class FormBuilderChatModel {
     bool? isReplied,
     String? replyText,
   }) {
-    return FormBuilderChatModel(
+    return AiFormBuilderChatModel(
       id: id ?? this.id,
       chatTextBody: chatTextBody ?? this.chatTextBody,
       sentTime: sentTime ?? this.sentTime,
@@ -61,12 +61,12 @@ class FormBuilderChatModel {
   }
 }
 
-///making an extension instead of calling getAiChat() everytime to load all aiChats
-extension FormBuilderChatListUtils on List<FormBuilderChatModel> {
+///making an extension instead of calling getAiFormBuilderChat() everytime to load all aiChats
+extension FormBuilderChatListUtils on List<AiFormBuilderChatModel> {
   /// Returns a aiChat by its ID and applies the update.
-  List<FormBuilderChatModel> updated(
+  List<AiFormBuilderChatModel> updated(
     String tid,
-    FormBuilderChatModel updatedChat,
+    AiFormBuilderChatModel updatedChat,
   ) {
     return [
       for (final chat in this)
