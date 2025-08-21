@@ -87,13 +87,13 @@ class HomeDrawer extends ConsumerWidget {
                       color: theme.colorScheme.onSurface,
                     ),
                     title: Text(
-                      AppLocalizations.of(context)!.settings,
+                      'Form Builder Chat',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface,
                       ),
                     ),
                     onTap: () {
-                      context.push('/settings');
+                      context.push('/ai_form_builder_chat');
                     },
                   ),
                   ListTile(
