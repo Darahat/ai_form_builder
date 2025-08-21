@@ -1,8 +1,6 @@
 // lib/features/home/presentation/layout/home_layout.dart
 
-import 'package:ai_form_builder/features/home/presentation/widgets/home_bottom_nav.dart';
 import 'package:ai_form_builder/features/home/presentation/widgets/home_drawer.dart';
-import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,8 +9,11 @@ class HomeLayout extends ConsumerWidget {
   /// using this we will pass tab as child
   final Widget child;
 
+  /// using this we will get the page title
+  final String title;
+
   /// Landing page/Home Page Constructor
-  const HomeLayout({super.key, required this.child});
+  const HomeLayout({super.key, required this.child, required this.title});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,10 +23,7 @@ class HomeLayout extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey, // Assign the key to the scaffold
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.home,
-          textAlign: TextAlign.center,
-        ),
+        title: Text(title, textAlign: TextAlign.center),
         centerTitle: true,
         leading: IconButton(
           onPressed:
@@ -41,7 +39,7 @@ class HomeLayout extends ConsumerWidget {
       //   children: [HomePage(), AiChatView(), UserListPage()],
       // ),
       body: child,
-      bottomNavigationBar: const HomeBottomNav(),
+      // bottomNavigationBar: const HomeBottomNav(),
     );
   }
 }

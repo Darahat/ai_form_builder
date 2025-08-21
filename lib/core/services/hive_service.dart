@@ -91,7 +91,7 @@ class HiveService {
       await Hive.openBox<UToUChatModel>(uTouChatBoxName);
       await Hive.openBox<AiFormBuilderChatModel>(formBuilderChatBoxName);
       await Hive.openBox<FormFieldModel>(formFieldBoxName);
-      await Hive.openBox<AiGeneratedFormModel>(formBuilderChatBoxName);
+      await Hive.openBox<AiGeneratedFormModel>(aiGeneratedFormBoxName);
       _initialized = true;
       AppLogger.info(
         '🚀 ~This is an info message from my HiveService init so that Hive service is called',

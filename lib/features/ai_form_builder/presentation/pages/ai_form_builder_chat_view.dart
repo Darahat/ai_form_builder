@@ -2,6 +2,7 @@ import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builde
 import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/ChatBubble.dart'; // Import the new widget
 
@@ -55,6 +56,10 @@ class _AiFormBuilderChatViewConsumerState
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.home),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => GoRouter.of(context).pop(),
+        ),
         centerTitle: true,
       ),
       body: Column(

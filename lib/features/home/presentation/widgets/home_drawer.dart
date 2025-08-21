@@ -102,6 +102,36 @@ class HomeDrawer extends ConsumerWidget {
                       color: theme.colorScheme.onSurface,
                     ),
                     title: Text(
+                      AppLocalizations.of(context)!.aiChat,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    onTap: () {
+                      context.push('/aiChat');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.settings,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                    title: Text(
+                      "Friends List",
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    onTap: () {
+                      context.push('/uToUUserListPage');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.settings,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                    title: Text(
                       AppLocalizations.of(context)!.settings,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface,

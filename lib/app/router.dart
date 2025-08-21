@@ -57,7 +57,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       /// Shell route for persistent HomeLayout with IndexedStack
       ShellRoute(
         builder: (context, state, child) {
-          return HomeLayout(child: child);
+          final String title =
+              (state.extra as Map<String, dynamic>?)?['title'] ??
+              state.name.toString();
+          return HomeLayout(title: title, child: child);
         },
         routes: [
           GoRoute(
@@ -165,129 +168,3 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
   );
 });
-
-  /// Define your routes using the custom AppRoute
-  // final routes = [
-  //   AppRoute(
-  //     path: '/splash',
-  //     name: 'splash',
-  //     // Only non-authenticated users (guests) can see the login page.
-  //     allowedRoles: [
-  //       UserRole.guest,
-  //       UserRole.authenticatedUser,
-  //       UserRole.admin,
-  //     ],
-  //     builder: (context, state) => const SplashScreenWidget(),
-  //   ),
-  //   AppRoute(
-  //     path: '/login',
-  //     name: 'login',
-  //     // Only non-authenticated users (guests) can see the login page.
-  //     allowedRoles: [UserRole.guest],
-  //     builder: (context, state) => const LoginPage(),
-  //   ),
-  //   AppRoute(
-  //     path: '/register',
-  //     name: 'register',
-  //     // Only non-authenticated users (guests) can see the login page.
-  //     allowedRoles: [UserRole.guest],
-  //     builder: (context, state) => const SignUpPage(),
-  //   ),
-  //   AppRoute(
-  //     path: '/phone-number',
-  //     name: 'phone-number',
-  //     // Only non-authenticated users (guests) can see the login page.
-  //     allowedRoles: [UserRole.guest],
-  //     builder: (context, state) => const PhoneNumberPage(),
-  //   ),
-  //   AppRoute(
-  //     path: '/otp',
-  //     name: 'otp',
-  //     // Only authenticated users  can see the Home page.
-  //     allowedRoles: [UserRole.guest],
-  //     builder: (context, state) => const OTPPage(),
-  //   ),
-  //   AppRoute(
-  //     path: '/forget_password',
-  //     name: 'forget_password',
-  //     // Only authenticated users  can see the Home page.
-  //     allowedRoles: [UserRole.guest],
-  //     builder: (context, state) => const ForgetPassword(),
-  //   ),
-  //   AppRoute(
-  //     path: '/home',
-  //     name: 'home',
-  //     allowedRoles: [UserRole.authenticatedUser, UserRole.admin],
-  //     builder: (context, state) => HomeLayout(child: const HomePage()),
-  //   ),
-  //   AppRoute(
-  //     path: '/aiChat',
-  //     name: 'aiChat',
-  //     allowedRoles: [UserRole.authenticatedUser, UserRole.admin],
-  //     builder: (context, state) => HomeLayout(child: const AiChatView()),
-  //   ),
-  //   AppRoute(
-  //     path: '/uToUChat',
-  //     name: 'uToUChat',
-  //     // Only authenticated users  can see the Home page.
-  //     allowedRoles: [UserRole.authenticatedUser, UserRole.admin],
-  //     builder: (context, state) => HomeLayout(child: const UserListPage()),
-  //   ),
-  //   AppRoute(
-  //     path: '/settingsPage',
-  //     name: 'settingsPage',
-  //     // Only authenticated users  can see the Home page.
-  //     allowedRoles: [UserRole.authenticatedUser, UserRole.admin],
-  //     builder: (context, state) => const SettingsPage(),
-  //   ),
-   
-  // ];
-//   return GoRouter(
-//     initialLocation: '/splash',
-//     routes: routes,
-//     refreshListenable: authListenable,
-//     redirect: (context, state) {
-//       // We watch the initialization provider to ensure the splash screen is shown for at least 3 seconds.
-//       final isInitialized = ref.watch(initializationFutureProvider).hasValue;
-
-//       // If the app is not initialized yet, stay on the splash screen.
-//       if (!isInitialized) {
-//         return state.matchedLocation == '/splash' ? null : '/splash';
-//       }
-
-//       /// Determine the user's role and authentication status
-//       final authState = ref.read(authControllerProvider);
-//       final (userRole, isAuthenticated) = switch (authState) {
-//         Authenticated(user: final user) => (user.role, true),
-//         _ => (UserRole.guest, false),
-//       };
-
-//       /// After initialization redirect from splash screen
-//       if (state.matchedLocation == '/splash') {
-//         return isAuthenticated ? '/home' : '/login';
-//       }
-
-//       /// Get the route definition for the current location
-//       /// We need to handle the case where the route might not be in our list
-//       final route = routes.firstWhere(
-//         (r) => r.path == state.matchedLocation,
-//         orElse:
-//             () => AppRoute(
-//               path: '/not-found',
-//               builder: (context, state) => const Scaffold(),
-//               allowedRoles: [],
-
-//               /// No Roles Allowed , will trigger a redirect
-//             ),
-//       );
-
-//       /// Check if the user's role is allowed for this route
-//       if (route.allowedRoles.contains(userRole)) {
-//         return null;
-//       }
-
-//       /// If access is denied, redirect them.
-//       return isAuthenticated ? '/home' : '/login';
-//     },
-//   );
-// });
