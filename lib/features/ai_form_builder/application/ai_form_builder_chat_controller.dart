@@ -70,7 +70,7 @@ class AiFormBuilderChatController
     try {
       /// Get AI Reply
       final mistralService = ref.read(mistralServiceProvider);
-      final aiReplyText = await mistralService.generateQuickReply(
+      final aiReplyText = await mistralService.generateFormBuilderQuestions(
         usersText,
         systemPrompt,
         userPromptPrefix,

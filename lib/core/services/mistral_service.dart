@@ -79,4 +79,38 @@ class MistralService {
       );
     }
   }
+
+  /// Generate quick reply like as chat for ai chat features
+  Future<String> generateFormBuilderQuestions(
+    String userMessage,
+    String systemPrompt,
+    String userPromptPrefix,
+    String systemQuickReplyPrompt,
+    String errorMistralRequest,
+  ) async {
+    final response = await http.post(
+      Uri.parse(_endpoint),
+      headers: {
+        'Authorization': 'Bearer $_apiKey',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "model": "mistralai/mistral-7b-instruct:free",
+        "messages": [
+          {"role": "system", "content": systemQuickReplyPrompt},
+          {"role": "user", "content": userMessage},
+        ],
+        "temperature": 0.8,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['choices'][0]['message']['content'].trim();
+    } else {
+      throw Exception(
+        'Failed to get response from Mistral: ${response.statusCode} ${response.body}',
+      );
+    }
+  }
 }
