@@ -102,7 +102,6 @@ class HiveService {
       throw ServerException(
         '🚀 ~Server error occurrede (hive.service.dart) $e',
       );
-      // rethrow;
     }
   }
 

@@ -70,5 +70,4 @@ final messagesProvider = StreamProvider.family<List<UToUChatModel>, String>((
   } else {
     return Stream.value([]);
   }
-  // final authState = ref.watch(authControllerProvider);
 });

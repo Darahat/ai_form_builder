@@ -55,7 +55,7 @@ class _UToUChatViewConsumerState extends ConsumerState<UToUChatView> {
   Widget build(BuildContext context) {
     final chatsAsync = ref.watch(messagesProvider(widget.receiverId));
     final currentUser = ref.watch(authControllerProvider);
-    // final chatRoomId = getChatRoomId(_auth.currentUser?.uid, widget.receiverId);
+    
 
     /// get Firestore message updates
     ref.listen(messagesProvider(widget.receiverId), (previous, next) {

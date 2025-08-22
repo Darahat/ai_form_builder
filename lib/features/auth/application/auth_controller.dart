@@ -152,7 +152,6 @@ class AuthController extends StateNotifier<AuthState> {
 
   /// Phone authentication Sending OTP
   Future<void> sendOTP(String phoneNumber) async {
-    // state = const AuthLoading();
     AppLogger.debug(
       '🚀 ~ Trying to send OTP from auth controller $phoneNumber',
     );

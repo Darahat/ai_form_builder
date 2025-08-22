@@ -30,15 +30,6 @@ class InitializationService {
       appleProvider: AppleProvider.appAttest,
     );
     await HiveService.init();
-
-    // const AndroidInitializationSettings androidSettings =
-    //     AndroidInitializationSettings('@mipmap/ic_launcher');
-    // const InitializationSettings initSettings = InitializationSettings(
-    //   android: androidSettings,
-    // );
-    // await flutterLocalNotificationsPlugin.initialize(initSettings);
-
-    // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 }
 
