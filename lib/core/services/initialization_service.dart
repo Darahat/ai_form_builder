@@ -10,10 +10,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// where all kind of Initialization takes places
 
 class InitializationService {
-  final Ref _ref;
+  /// Ref is used to any provider or service to connect with other provider/service
+  final Ref ref;
 
   /// Initialization Service Constructor
-  InitializationService(this._ref);
+  InitializationService(this.ref);
 
   /// Main Initialize function
   Future<void> initialize() async {

@@ -23,11 +23,12 @@ import 'package:go_router/go_router.dart';
 /// A helper class to bridge Riverpod's StateNotifier to a ChangeNotifier.
 /// This allows GoRouter's `refreshListenable` to react to changes in the
 /// authentication state.
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
-
+/// Listen Authstate and notify listeners to change auth state
 class AuthListenable extends ChangeNotifier {
+  /// An object used by providers to interact with other providers and the life-cycles of the application.
   final Ref ref;
 
+  /// AuthListenable constructor
   AuthListenable(this.ref) {
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       notifyListeners();
@@ -35,9 +36,13 @@ class AuthListenable extends ChangeNotifier {
   }
 }
 
+/// Restrict Spalsh screen keep 3 seconds to go to login page.
+/// before 3 seconds completed it wont go to login page
 final initializationFutureProvider = FutureProvider<void>((ref) async {
   await Future.delayed(const Duration(seconds: 3));
 });
+
+/// Set Which route will allowed for which rules(guest,admin,authenticated user)
 final Map<String, List<UserRole>> routeAllowedRoles = {
   '/home': [UserRole.authenticatedUser, UserRole.admin],
   '/settings': [UserRole.authenticatedUser, UserRole.admin],
@@ -46,9 +51,9 @@ final Map<String, List<UserRole>> routeAllowedRoles = {
   '/register': [UserRole.guest],
   // Add all your routes here with their allowed roles
 };
-final routerProvider = Provider<GoRouter>((ref) {
-  final authListenable = AuthListenable(ref);
 
+/// Router provider which is using GoRouter Package provider using ref
+final routerProvider = Provider<GoRouter>((ref) {
   // final homeController = ref.read(homeControllerProvider.notifier);
   return GoRouter(
     initialLocation: '/splash', // start with the first tab

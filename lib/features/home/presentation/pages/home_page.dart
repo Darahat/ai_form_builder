@@ -2,7 +2,9 @@ import 'package:ai_form_builder/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// Home page view class
 class HomePage extends StatelessWidget {
+  /// Home Page view constructor
   const HomePage({super.key});
 
   @override
@@ -48,7 +50,7 @@ class HomePage extends StatelessWidget {
             Text(
               'Streamline your workflow with AI-powered tools',
               style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.7),
+                color: colorScheme.onSurface.withValues(alpha: 0.7),
               ),
             ),
             const SizedBox(height: 32),
@@ -64,7 +66,7 @@ class HomePage extends StatelessWidget {
               color: AppColor.primary,
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromARGB(255, 37, 37, 37).withOpacity(0.8),
+                  const Color.fromARGB(255, 37, 37, 37).withValues(alpha: 0.8),
                   AppColor.primary,
                 ],
                 begin: Alignment.topLeft,
@@ -81,7 +83,10 @@ class HomePage extends StatelessWidget {
                   'Effortlessly create dynamic forms with AI-powered suggestions.',
               color: AppColor.accent,
               gradient: LinearGradient(
-                colors: [AppColor.accent.withOpacity(0.8), AppColor.accent],
+                colors: [
+                  AppColor.accent.withValues(alpha: .8),
+                  AppColor.accent,
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -96,7 +101,7 @@ class HomePage extends StatelessWidget {
                   'Connect and collaborate with your team members in real-time.',
               color: AppColor.info,
               gradient: LinearGradient(
-                colors: [AppColor.info.withOpacity(0.8), AppColor.info],
+                colors: [AppColor.info.withValues(alpha: 0.8), AppColor.info],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -110,7 +115,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: colorScheme.surfaceVariant.withOpacity(0.5),
+                color: colorScheme.surface.withValues(alpha: 0.5),
               ),
               child: Column(
                 children: [
@@ -132,7 +137,7 @@ class HomePage extends StatelessWidget {
                     'We\'re constantly working on new tools to boost your productivity',
                     textAlign: TextAlign.center,
                     style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.7),
+                      color: colorScheme.onSurface.withValues(alpha: 0.7),
                     ),
                   ),
                 ],
@@ -168,7 +173,7 @@ class HomePage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          shadowColor: color.withOpacity(0.3),
+          shadowColor: color.withValues(alpha: 0.3),
           child: InkWell(
             onTap: () {
               context.go(route);
@@ -187,10 +192,7 @@ class HomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.surface,
-                    Theme.of(context).colorScheme.surfaceVariant,
-                  ],
+                  colors: [Theme.of(context).colorScheme.surface],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -225,7 +227,7 @@ class HomePage extends StatelessWidget {
                             style: textTheme.bodyMedium?.copyWith(
                               color: Theme.of(
                                 context,
-                              ).colorScheme.onSurface.withOpacity(0.8),
+                              ).colorScheme.onSurface.withValues(alpha: 0.8),
                             ),
                           ),
                           const SizedBox(height: 8),

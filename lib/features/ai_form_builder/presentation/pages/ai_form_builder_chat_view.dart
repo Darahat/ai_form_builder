@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../widgets/ChatBubble.dart'; // Import the new widget
+import '../widgets/chat_bubble.dart'; // Import the new widget
 
 /// AI Form Builder Chat View
 class AiFormBuilderChatView extends ConsumerStatefulWidget {
+  /// AI Form Builder constructor
   const AiFormBuilderChatView({super.key});
 
   @override

@@ -18,6 +18,8 @@ class FirebaseMessagingService {
   /// Singleton instance for local notifications plugin.
   late final FlutterLocalNotificationsPlugin _localNotificationsPlugin;
 
+  /// FirebaseMessagingService constructor which passing goRouter .
+  /// When user will click on notification it will take him to exact chat destination page
   FirebaseMessagingService(this._goRouter);
 
   /// Initializes the messaging service, requests permissions, and sets up handlers.
@@ -159,7 +161,6 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   //     ),
   //   );
   // }
-  print("Handling a background message: ${message.messageId}");
 }
 
 /// Riverpod provider for FirebaseMessagingService.
