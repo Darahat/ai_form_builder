@@ -54,6 +54,10 @@ final uToUChatControllerProvider =
       return UToUChatController(repo, ref);
     });
 
+/// messagesProvider check is user authenticated
+/// take the utouchat repository data from firebase
+/// getting currentUserId from authstate
+/// and returning getMessage function with current user id/sender and otherUserId/
 final messagesProvider = StreamProvider.family<List<UToUChatModel>, String>((
   ref,
   otherUserId,

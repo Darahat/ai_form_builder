@@ -1,5 +1,5 @@
 import 'package:ai_form_builder/features/auth/provider/auth_providers.dart';
-import 'package:ai_form_builder/features/utou_chat/presentation/widgets/ChatBubble.dart'; // Import the new widget
+import 'package:ai_form_builder/features/utou_chat/presentation/widgets/chat_bubble.dart'; // Import the new widget
 import 'package:ai_form_builder/features/utou_chat/provider/utou_chat_providers.dart';
 import 'package:ai_form_builder/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class UToUChatView extends ConsumerStatefulWidget {
   /// it will take receiverId from user list
   final String receiverId;
+
+  /// It will get receiverName
   final String receiverName;
 
   /// Forget Password page class constructor

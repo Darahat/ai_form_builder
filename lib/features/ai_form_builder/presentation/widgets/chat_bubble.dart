@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/ai_chat_model.dart';
+import '../../domain/ai_form_builder_chat_model.dart';
+
+/// Chat Bubble widget
 
 class ChatBubble extends StatelessWidget {
-  final AiChatModel chat;
+  /// using AiFormBuilderChatModel to create data instance
+
+  final AiFormBuilderChatModel chat;
+
+  /// chat bubble design constructor
+
   const ChatBubble({super.key, required this.chat});
 
   @override

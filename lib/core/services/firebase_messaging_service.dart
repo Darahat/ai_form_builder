@@ -18,6 +18,8 @@ class FirebaseMessagingService {
   /// Singleton instance for local notifications plugin.
   late final FlutterLocalNotificationsPlugin _localNotificationsPlugin;
 
+  /// FirebaseMessagingService constructor which passing goRouter .
+  /// When user will click on notification it will take him to exact chat destination page
   FirebaseMessagingService(this._goRouter);
 
   /// Initializes the messaging service, requests permissions, and sets up handlers.
@@ -109,26 +111,26 @@ class FirebaseMessagingService {
   }
 
   /// Displays a local notification for foreground messages.
-  void _showLocalNotification(RemoteMessage message) {
-    final notification = message.notification;
-    if (notification != null) {
-      _localNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'high_importance_channel',
-            'High Importance Notifications',
-            channelDescription: 'Used for important notifications.',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon: '@mipmap/ic_launcher',
-          ),
-        ),
-      );
-    }
-  }
+  // void _showLocalNotification(RemoteMessage message) {
+  //   final notification = message.notification;
+  //   if (notification != null) {
+  //     _localNotificationsPlugin.show(
+  //       notification.hashCode,
+  //       notification.title,
+  //       notification.body,
+  //       const NotificationDetails(
+  //         android: AndroidNotificationDetails(
+  //           'high_importance_channel',
+  //           'High Importance Notifications',
+  //           channelDescription: 'Used for important notifications.',
+  //           importance: Importance.max,
+  //           priority: Priority.high,
+  //           icon: '@mipmap/ic_launcher',
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 }
 
 /// Background message handler. Must be a top-level function.
@@ -159,7 +161,6 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   //     ),
   //   );
   // }
-  print("Handling a background message: ${message.messageId}");
 }
 
 /// Riverpod provider for FirebaseMessagingService.

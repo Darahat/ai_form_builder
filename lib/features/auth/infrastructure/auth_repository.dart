@@ -20,8 +20,8 @@ class AuthRepository {
   final _auth = FirebaseAuth.instance;
   final _googleSignIn = GoogleSignIn();
   final Ref _ref; // Add Ref object
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  /// Check Auth State
   AuthRepository(this._ref); // Constructor to receive Ref
 
   // final _box = Hive.box<UserModel>('authBox');
@@ -267,7 +267,7 @@ class AuthRepository {
   Stream<List<UserModel>> getUsers() {
     return _firestore.collection('users').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
 
         return UserModel(
           uid: doc.id,
@@ -277,7 +277,7 @@ class AuthRepository {
 
           /// Assuming 'role' is also field in your Firestore document
           role: UserRole.values.firstWhere(
-            (e) => e.toString() == 'UserRole.' + (data['role'] ?? 'guest'),
+            (e) => e.toString() == 'UserRole.${data['role'] ?? 'guest'}',
             orElse: () => UserRole.guest,
           ),
         );
