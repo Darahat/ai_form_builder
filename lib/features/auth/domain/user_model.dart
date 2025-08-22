@@ -35,12 +35,10 @@ class UserModel {
     UserRole? role,
   }) : role = role ?? UserRole.guest;
 
-  /// its construct of UserModel class . its for call UserModel to other dart file.  this.name is not required
-  //  │        UserModel({required this.uid, required this.email, this.name, UserRole? role})
-  //  │          : role = role ?? UserRole.guest;
+  
 
   factory UserModel.fromFirestore(doc) {
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.data();
     return UserModel(
       uid: doc.id,
       email: data['email'] ?? '',

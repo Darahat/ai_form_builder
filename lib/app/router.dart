@@ -54,7 +54,7 @@ final Map<String, List<UserRole>> routeAllowedRoles = {
 
 /// Router provider which is using GoRouter Package provider using ref
 final routerProvider = Provider<GoRouter>((ref) {
-  // final homeController = ref.read(homeControllerProvider.notifier);
+  
   return GoRouter(
     initialLocation: '/splash', // start with the first tab
     // debugLogDiagnostics: true,

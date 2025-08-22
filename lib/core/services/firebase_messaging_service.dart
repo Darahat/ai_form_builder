@@ -44,9 +44,6 @@ class FirebaseMessagingService {
 
   /// Sets up handlers for foreground, background, and terminated states.
   void _setupMessageHandlers() {
-    // Foreground messages
-    // FirebaseMessaging.onMessage.listen(_showLocalNotification);
-
     // Tapped notification from background
     FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
 
@@ -109,58 +106,12 @@ class FirebaseMessagingService {
     const settings = InitializationSettings(android: androidSettings);
     await _localNotificationsPlugin.initialize(settings);
   }
-
-  /// Displays a local notification for foreground messages.
-  // void _showLocalNotification(RemoteMessage message) {
-  //   final notification = message.notification;
-  //   if (notification != null) {
-  //     _localNotificationsPlugin.show(
-  //       notification.hashCode,
-  //       notification.title,
-  //       notification.body,
-  //       const NotificationDetails(
-  //         android: AndroidNotificationDetails(
-  //           'high_importance_channel',
-  //           'High Importance Notifications',
-  //           channelDescription: 'Used for important notifications.',
-  //           importance: Importance.max,
-  //           priority: Priority.high,
-  //           icon: '@mipmap/ic_launcher',
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
 }
 
 /// Background message handler. Must be a top-level function.
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  // final localNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  // const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-  // const settings = InitializationSettings(android: androidSettings);
-  // await localNotificationsPlugin.initialize(settings);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //  final notification = message.notification;
-  // if (notification != null) {
-  //   localNotificationsPlugin.show(
-  //     notification.hashCode,
-  //     notification.title,
-  //     notification.body,
-  //     const NotificationDetails(
-  //       android: AndroidNotificationDetails(
-  //         'high_importance_channel',
-  //         'High Importance Notifications',
-  //         channelDescription: 'Used for important notifications.',
-  //         importance: Importance.max,
-  //         priority: Priority.high,
-  //         icon: '@mipmap/ic_launcher',
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 /// Riverpod provider for FirebaseMessagingService.
