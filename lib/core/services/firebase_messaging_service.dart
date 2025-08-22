@@ -111,26 +111,26 @@ class FirebaseMessagingService {
   }
 
   /// Displays a local notification for foreground messages.
-  void _showLocalNotification(RemoteMessage message) {
-    final notification = message.notification;
-    if (notification != null) {
-      _localNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'high_importance_channel',
-            'High Importance Notifications',
-            channelDescription: 'Used for important notifications.',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon: '@mipmap/ic_launcher',
-          ),
-        ),
-      );
-    }
-  }
+  // void _showLocalNotification(RemoteMessage message) {
+  //   final notification = message.notification;
+  //   if (notification != null) {
+  //     _localNotificationsPlugin.show(
+  //       notification.hashCode,
+  //       notification.title,
+  //       notification.body,
+  //       const NotificationDetails(
+  //         android: AndroidNotificationDetails(
+  //           'high_importance_channel',
+  //           'High Importance Notifications',
+  //           channelDescription: 'Used for important notifications.',
+  //           importance: Importance.max,
+  //           priority: Priority.high,
+  //           icon: '@mipmap/ic_launcher',
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 }
 
 /// Background message handler. Must be a top-level function.

@@ -47,7 +47,7 @@ class UserModel {
       name: data['displayName'] ?? 'No Name',
       photoURL: data['photoURL'],
       role: UserRole.values.firstWhere(
-        (e) => e.toString() == 'UserRole.' + (data['role'] ?? 'guest'),
+        (e) => e.toString() == 'UserRole.${data['role'] ?? 'guest'}',
         orElse: () => UserRole.guest,
       ),
     );

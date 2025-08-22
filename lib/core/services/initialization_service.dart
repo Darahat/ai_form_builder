@@ -3,7 +3,6 @@ import 'package:ai_form_builder/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Initialization Service class
@@ -32,11 +31,11 @@ class InitializationService {
     );
     await HiveService.init();
 
-    const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    const InitializationSettings initSettings = InitializationSettings(
-      android: androidSettings,
-    );
+    // const AndroidInitializationSettings androidSettings =
+    //     AndroidInitializationSettings('@mipmap/ic_launcher');
+    // const InitializationSettings initSettings = InitializationSettings(
+    //   android: androidSettings,
+    // );
     // await flutterLocalNotificationsPlugin.initialize(initSettings);
 
     // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);

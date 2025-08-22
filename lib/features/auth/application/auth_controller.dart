@@ -12,12 +12,14 @@ import 'auth_state.dart';
 /// and put user data to hive box and changing state value
 class AuthController extends StateNotifier<AuthState> {
   final AuthRepository _authRepository;
-  final Ref _ref;
+
+  /// Ref use to connect another provider
+  final Ref ref;
   String? _verificationId;
   String? _phoneNumber;
 
   /// AuthController Constructor for call outside
-  AuthController(this._authRepository, this._ref) : super(const AuthInitial());
+  AuthController(this._authRepository, this.ref) : super(const AuthInitial());
 
   /// Check User is Authenticated need to call in main to check
   void checkInitialAuthState() async {
@@ -160,13 +162,13 @@ class AuthController extends StateNotifier<AuthState> {
         phoneNumber,
         codeSent: (verificationId, resendToken) {
           AppLogger.debug(
-            '🚀 ~ Trying to send OTP 1 from auth controller from codesent start $verificationId , $resendToken',
+            '🚀 ~ Trying to send OTP 1 from auth controller from code sent start $verificationId , $resendToken',
           );
 
           _verificationId = verificationId;
           state = const OTPSent();
           AppLogger.debug(
-            '🚀 ~ what is the state after codesent $_verificationId , $state',
+            '🚀 ~ what is the state after code sent $_verificationId , $state',
           );
         },
       );
