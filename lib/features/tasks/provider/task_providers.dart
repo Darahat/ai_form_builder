@@ -1,5 +1,7 @@
+import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/task_controller.dart';
@@ -7,13 +9,18 @@ import '../domain/task_model.dart';
 import '../infrastructure/task_repository.dart';
 
 /// Task repository that interacts with Hive
-final taskRepositoryProvider = Provider<TaskRepository>(
-  (ref) => TaskRepository(),
-);
+final taskRepositoryProvider = Provider<TaskRepository>((ref) {
+  final hiveService = ref.watch(hiveServiceProvider);
+  // final logger = ref.watch(appLoggerProvider);
+  // final aiChatBox = hiveService.aiChatBoxInit;
+  return TaskRepository(ref, hiveService);
+});
 
 /// Voice input for adding tasks
 final voiceToTextProvider = Provider<VoiceToTextService>((ref) {
-  return VoiceToTextService(ref);
+  final logger = ref.watch(appLoggerProvider);
+
+  return VoiceToTextService(ref, logger);
 });
 
 /// Indicates whether voice is recording

@@ -29,7 +29,7 @@ class InitializationService {
       androidProvider: AndroidProvider.debug,
       appleProvider: AppleProvider.appAttest,
     );
-    await HiveService.init();
+    await ref.read(hiveServiceProvider).init();
   }
 }
 

@@ -1,13 +1,20 @@
 import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
 import '../domain/task_model.dart';
 
 /// A repository class for managing task-related operation using hive
 class TaskRepository {
-  /// The hive box containing [TaskModel] instances.
+  final Ref ref;
 
-  Box<TaskModel> get _box => HiveService.taskBox;
+  /// The hive box containing [TaskModel] instances.
+  // final HiveService _hiveService;
+  final HiveService hiveService;
+  Box<TaskModel> get _box => hiveService.taskBox;
+
+  /// Task Repository constructor
+  TaskRepository(this.ref, this.hiveService);
 
   /// Retrives all tasks from the local Hive storages.
   ///

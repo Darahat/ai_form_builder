@@ -1,5 +1,7 @@
+import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/ai_chat_controller.dart';
@@ -7,13 +9,18 @@ import '../domain/ai_chat_model.dart';
 import '../infrastructure/ai_chat_repository.dart';
 
 /// AiChat repository that interacts with Hive
-final aiChatRepositoryProvider = Provider<AiChatRepository>(
-  (ref) => AiChatRepository(),
-);
+final aiChatRepositoryProvider = Provider<AiChatRepository>((ref) {
+  final hiveService = ref.watch(hiveServiceProvider);
+  final logger = ref.watch(appLoggerProvider);
+  final aiChatBox = hiveService.aiChatBoxInit;
 
-/// Voice input for adding aiChat
+  return AiChatRepository(ref, hiveService, logger, aiChatBox);
+});
+
+/// Voice  input for adding aiChat
 final voiceToTextProvider = Provider<VoiceToTextService>((ref) {
-  return VoiceToTextService(ref);
+  final logger = ref.watch(appLoggerProvider);
+  return VoiceToTextService(ref, logger);
 });
 
 /// Indicates whether voice is recording

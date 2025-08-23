@@ -1,4 +1,3 @@
-import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,9 +8,17 @@ import 'package:path/path.dart';
 class UToUChatRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// The hive box containing [UToUChatModel] instances.
+  /// Connect with other provider
+  // final Ref ref; // Add Ref object
+  ///Get Logger functions
+  final AppLogger appLogger;
 
-  Box<UToUChatModel> get _box => HiveService.uTouChatBoxInit;
+  /// User to user modal box instance
+  final Box<UToUChatModel> uTouBox;
+
+  /// The hive box containing [UToUChatModel] instances.
+  UToUChatRepository(this.appLogger, this.uTouBox);
+  // Box<UToUChatModel> get _box => HiveService.uTouChatBoxInit;
 
   /// get Chat Room ID
   String getChatRoomId(String? userId1, String userId2) {
@@ -32,9 +39,9 @@ class UToUChatRepository {
         .doc(chat.id);
     try {
       await messageRef.set(chat.toJson());
-      await _box.put(chat.id, chat);
+      await uTouBox.put(chat.id, chat);
     } catch (e, s) {
-      AppLogger.debug(
+      appLogger.debug(
         'I am from uTou_chat_repository.dart. Error: $e and state is $s',
       );
     }
@@ -57,13 +64,13 @@ class UToUChatRepository {
             final messages =
                 snapshot.docs.map((doc) {
                   final message = UToUChatModel.fromJson(doc.data());
-                  _box.put(message.id, message);
+                  uTouBox.put(message.id, message);
                   return message;
                 }).toList();
             return messages;
           });
     } catch (e, s) {
-      AppLogger.debug(
+      appLogger.debug(
         'I am from uTou_chat_repository.dart. getMessages Error: $e and state is $s',
       );
       // Throw to satisfy the non-nullable return type
@@ -78,7 +85,7 @@ class UToUChatRepository {
     String currentUserId,
     String otherUserId,
   ) async {
-    final allMessages = _box.values.toList();
+    final allMessages = uTouBox.values.toList();
     return allMessages
         .where(
           (message) =>
@@ -92,7 +99,7 @@ class UToUChatRepository {
 
   /// Adds a new uToUChat with the given [text] as the title.
   Future<UToUChatModel?> addOfflineUtoUChat(UToUChatModel message) async {
-    await _box.put(message.id, message);
+    await uTouBox.put(message.id, message);
     return message;
   }
 
@@ -104,10 +111,10 @@ class UToUChatRepository {
     String receiverId,
     String senderId,
   ) async {
-    final uToUChat = _box.get(id);
+    final uToUChat = uTouBox.get(id);
     if (uToUChat != null) {
       final updated = uToUChat.copyWith(isRead: !(uToUChat.isRead ?? false));
-      await _box.put(id, updated);
+      await uTouBox.put(id, updated);
       await updateMessageReadStatus(id, receiverId, senderId);
     }
   }
@@ -129,31 +136,31 @@ class UToUChatRepository {
 
   /// Toggle/Update value of isReplied
   Future<void> toggleIsDeliveredChat(String id) async {
-    final uToUChat = _box.get(id);
+    final uToUChat = uTouBox.get(id);
     if (uToUChat != null) {
       final updated = uToUChat.copyWith(
         isDelivered: !(uToUChat.isDelivered ?? false),
       );
-      await _box.put(id, updated);
+      await uTouBox.put(id, updated);
     }
   }
 
   /// Removes the chat identified by [tid] from local storage
   Future<void> removeChat(String id) async {
-    await _box.delete(id);
+    await uTouBox.delete(id);
   }
 
   /// Updates the title of the uToUChat identified by [id] with [chatTextBody]
   Future<void> editUserChat(String id, String newChatTextBody) async {
-    final uToUChat = _box.get(id);
+    final uToUChat = uTouBox.get(id);
     if (uToUChat != null) {
       final updated = uToUChat.copyWith(chatTextBody: newChatTextBody);
-      await _box.put(id, updated);
+      await uTouBox.put(id, updated);
     }
   }
 
   /// Update an existing chat in the database
   Future<void> updateUToUChat(String id, UToUChatModel chat) async {
-    await _box.put(id, chat);
+    await uTouBox.put(id, chat);
   }
 }

@@ -20,9 +20,15 @@ class AuthRepository {
   final _auth = FirebaseAuth.instance;
   final _googleSignIn = GoogleSignIn();
   final Ref _ref; // Add Ref object
+  final AppLogger _appLogger;
+  final HiveService _hiveService;
   // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   /// Check Auth State
-  AuthRepository(this._ref); // Constructor to receive Ref
+  AuthRepository(
+    this._hiveService,
+    this._ref,
+    this._appLogger,
+  ); // Constructor to receive Ref
 
   // final _box = Hive.box<UserModel>('authBox');
 
@@ -114,7 +120,7 @@ class AuthRepository {
         );
       }
     } catch (e) {
-      AppLogger.error('🚀 ~ Error during Google Sign-in $e');
+      _appLogger.error('🚀 ~ Error during Google Sign-in $e');
       throw AuthenticationException('🚀 ~ Google Sign in failed $e');
     }
   }
@@ -152,7 +158,7 @@ class AuthRepository {
         );
       }
     } catch (e) {
-      AppLogger.error('🚀 ~ Error during Github Sign-in', e);
+      _appLogger.error('🚀 ~ Error during Github Sign-in', e);
       throw const AuthenticationException(
         '🚀 ~Failed to sign in with GitHub. Please try again.',
       );
@@ -164,7 +170,7 @@ class AuthRepository {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      AppLogger.error('🚀 ~ sendPasswordResetEmail Error', e);
+      _appLogger.error('🚀 ~ sendPasswordResetEmail Error', e);
       throw const AuthenticationException(
         '🚀 ~Failed to send Password Reset Email',
       );
@@ -175,7 +181,7 @@ class AuthRepository {
   Future<void> signOut() async {
     await _auth.signOut();
     await _googleSignIn.signOut();
-    await HiveService.clear();
+    await _hiveService.clear();
     _ref.invalidate(aiChatControllerProvider);
     _ref.invalidate(uToUChatControllerProvider);
     _ref.invalidate(messagesProvider);
@@ -189,24 +195,24 @@ class AuthRepository {
     required Function(String, int?) codeSent,
     Function(String)? codeAutoRetrievalTimeoutCallback,
   }) async {
-    AppLogger.debug('🚀send otp called with this number $phoneNumber');
+    _appLogger.debug('🚀send otp called with this number $phoneNumber');
 
     try {
-      AppLogger.debug('🚀send otp called with this number2 $phoneNumber');
+      _appLogger.debug('🚀send otp called with this number2 $phoneNumber');
 
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await _auth.signInWithCredential(credential);
-          AppLogger.debug('🚀 Verification completed $codeSent, $credential');
+          _appLogger.debug('🚀 Verification completed $codeSent, $credential');
         },
         verificationFailed: (FirebaseAuthException e) {
-          AppLogger.debug('🚀 ~Failed to send OTP $e');
+          _appLogger.debug('🚀 ~Failed to send OTP $e');
           throw AuthenticationException(e.message ?? '🚀 ~Failed to send OTP');
         },
         codeSent: codeSent,
         codeAutoRetrievalTimeout: (String verificationId) {
-          AppLogger.debug('🚀 ~Code getting timeout $verificationId');
+          _appLogger.debug('🚀 ~Code getting timeout $verificationId');
           codeAutoRetrievalTimeoutCallback?.call(verificationId);
         },
       );

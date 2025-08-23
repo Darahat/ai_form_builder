@@ -1,4 +1,5 @@
 import 'package:ai_form_builder/features/auth/domain/user_model.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -7,7 +8,7 @@ import 'package:flutter/foundation.dart';
 /// Extend this to represent specific authentication states such as
 /// [AuthInitial], [AuthLoading], [Authenticated], [Unauthenticated], and [AuthError].
 @immutable
-abstract class AuthState {
+abstract class AuthState extends Equatable {
   /// get user id from anywhere
   String? get uid =>
       this is Authenticated ? (this as Authenticated).user.uid : null;
@@ -15,6 +16,8 @@ abstract class AuthState {
   /// Const constructor for [AuthState].
 
   const AuthState();
+  @override
+  List<Object?> get props => [];
 }
 
 /// Represents the initial state before any authentication action occurs.
@@ -38,6 +41,8 @@ class Authenticated extends AuthState {
 
   /// Const constructor for [Authenticated] state with the given [user].
   const Authenticated(this.user);
+  @override
+  List<Object?> get props => [user];
 }
 
 /// Represents a state where the user is not authenticated.
@@ -56,6 +61,8 @@ class AuthError extends AuthState {
 
   /// Const constructor for [AuthError] with a specific error [message].
   const AuthError(this.message, this.method);
+  @override
+  List<Object?> get props => [message, method];
 }
 
 /// Represent a state where the password reset email has been sent

@@ -12,9 +12,10 @@ class VoiceToTextService {
 
   ///calling the provider
   final isListeningProvider = StateProvider<bool>((ref) => false);
+  final AppLogger _appLogger;
 
   ///made the constructor
-  VoiceToTextService(this.ref);
+  VoiceToTextService(this.ref, this._appLogger);
 
   /// Helper function to process recognized text
   String? processRecognizedText(String text) {
@@ -58,7 +59,7 @@ class VoiceToTextService {
       pauseFor: const Duration(seconds: 6),
       onSoundLevelChange: (level) {
         // use for visual waveform feedback, optional
-        AppLogger.error('🚀 ~ Check Sound level', level);
+        _appLogger.error('🚀 ~ Check Sound level', level);
       },
     );
 
