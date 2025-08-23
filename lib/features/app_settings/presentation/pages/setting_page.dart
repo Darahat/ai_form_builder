@@ -13,7 +13,7 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncSettings = ref.watch(settingsControllerProvider);
-
+    final logger = ref.watch(appLoggerProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
@@ -27,7 +27,7 @@ class SettingsPage extends ConsumerWidget {
         error: (err, stack) => Center(child: Text('Error: $err')),
         data: (settings) {
           final isDarkMode = settings.themeMode == ThemeMode.dark;
-          AppLogger.debug(settings.themeMode.name);
+          logger.debug(settings.themeMode.name);
 
           return ListView(
             padding: const EdgeInsets.all(16),

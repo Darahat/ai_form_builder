@@ -1,4 +1,6 @@
+import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/auth/application/auth_state.dart';
 import 'package:ai_form_builder/features/auth/domain/user_model.dart';
 import 'package:ai_form_builder/features/auth/infrastructure/auth_repository.dart';
@@ -9,14 +11,21 @@ import 'package:ai_form_builder/features/utou_chat/infrastructure/utou_chat_repo
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// UToUChat repository that interacts with Hive
-final uToUChatRepositoryProvider = Provider<UToUChatRepository>(
-  (ref) => UToUChatRepository(),
-);
+final uToUChatRepositoryProvider = Provider<UToUChatRepository>((ref) {
+  final hiveService = ref.watch(hiveServiceProvider);
+  final logger = ref.watch(appLoggerProvider);
+  final uTouChat = hiveService.uTouChatBoxInit;
+
+  return UToUChatRepository(logger, uTouChat);
+});
 
 /// Get authentication provider functions
-final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => AuthRepository(ref),
-);
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  // Add Ref object
+  final hiveService = ref.watch(hiveServiceProvider);
+  final logger = ref.watch(appLoggerProvider);
+  return AuthRepository(hiveService, ref, logger);
+});
 
 /// Get User Provider infos
 final usersProvider = StreamProvider<List<UserModel>>((ref) {
@@ -33,7 +42,8 @@ final usersProvider = StreamProvider<List<UserModel>>((ref) {
 
 /// Voice input for adding uToUChat
 final voiceToTextProvider = Provider<VoiceToTextService>((ref) {
-  return VoiceToTextService(ref);
+  final logger = ref.watch(appLoggerProvider);
+  return VoiceToTextService(ref, logger);
 });
 
 /// Indicates whether voice is recording
@@ -50,8 +60,12 @@ final uToUChatControllerProvider =
     StateNotifierProvider<UToUChatController, AsyncValue<List<UToUChatModel>>>((
       ref,
     ) {
+      final hiveService = ref.watch(hiveServiceProvider);
+
+      final logger = ref.watch(appLoggerProvider);
+      final uTouChat = hiveService.uTouChatBoxInit;
       final repo = ref.watch(uToUChatRepositoryProvider);
-      return UToUChatController(repo, ref);
+      return UToUChatController(repo, logger, uTouChat);
     });
 
 /// messagesProvider check is user authenticated

@@ -1,71 +1,60 @@
 import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
+/// Provider for the AppLogger instance.
+final appLoggerProvider = Provider<AppLogger>((ref) {
+  return AppLogger();
+});
+
 /// Represents the severity level of a log message.
-enum LogLevel {
-  /// Debug messages for development.
-  debug,
-
-  /// Informational messages.
-  info,
-
-  /// Warning messages indicating potential issues.
-  warning,
-
-  /// Error messages indicating failure or critical issues.
-  error,
-}
+enum LogLevel { debug, info, warning, error }
 
 /// A simple utility for logging messages during development.
-///
-/// Automatically includes an emoji based on log level.
-/// Only logs in `kDebugMode`.
 class AppLogger {
-  static late Logger _logger;
+  late final Logger _logger;
 
-  ///initialize the logger with appropriate configuration
-  static void init() {
+  /// Constructor initializes the logger with the appropriate configuration.
+  AppLogger() {
     _logger = Logger(
       printer:
           kDebugMode
               ? PrettyPrinter(dateTimeFormat: DateTimeFormat.dateAndTime)
-              : SimplePrinter(), // Productionl: simple, less verbose
+              : SimplePrinter(),
       level: kDebugMode ? Level.debug : Level.info,
     );
   }
 
-  /// Log debug message(only in debug mode)
-  static void debug(String message) {
+  /// Log debug message (only in debug mode).
+  void debug(String message) {
     if (kDebugMode) {
       _logger.d(message);
       developer.log(message, name: 'FlutterStarterKit');
     }
   }
 
-  /// Log info messages
-  static void info(String message) {
+  /// Log info messages.
+  void info(String message) {
     if (kDebugMode) {
       _logger.i(message);
       developer.log(message, name: 'FlutterStarterKit', level: 800);
     }
   }
 
-  /// Log warning messages
-  static void warning(String message) {
+  /// Log warning messages.
+  void warning(String message) {
     if (kDebugMode) {
       _logger.w(message);
       developer.log(message, name: 'FlutterStarterKit', level: 900);
     }
   }
 
-  /// lOG ERROR messages with option error object and stack trace
-  static void error(String message, [Object? error, StackTrace? stackTrace]) {
+  /// Log error messages with optional error object and stack trace.
+  void error(String message, [Object? error, StackTrace? stackTrace]) {
     if (kDebugMode) {
-      log(message, level: LogLevel.error);
       _logger.e(message, error: error, stackTrace: stackTrace);
-
       developer.log(
         message,
         name: 'FlutterStarterKit',

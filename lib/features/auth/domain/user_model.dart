@@ -35,8 +35,6 @@ class UserModel {
     UserRole? role,
   }) : role = role ?? UserRole.guest;
 
-  
-
   factory UserModel.fromFirestore(doc) {
     final data = doc.data();
     return UserModel(
