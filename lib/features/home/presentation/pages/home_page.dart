@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: colorScheme.surface.withValues(alpha: 0.5),
+                color: colorScheme.surface.withValues(alpha: 1),
               ),
               child: Column(
                 children: [
@@ -192,7 +192,10 @@ class HomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
-                  colors: [Theme.of(context).colorScheme.surface],
+                  colors: [
+                    Theme.of(context).colorScheme.surface,
+                    Theme.of(context).colorScheme.surface.withAlpha(200),
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
