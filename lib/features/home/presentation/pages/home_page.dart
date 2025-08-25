@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
             Text(
               'Streamline your workflow with AI-powered tools',
               style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.withAlpha(178),
               ),
             ),
             const SizedBox(height: 32),
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
               color: AppColor.primary,
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromARGB(255, 37, 37, 37).withValues(alpha: 0.8),
+                  const Color.fromARGB(255, 37, 37, 37).withAlpha(204),
                   AppColor.primary,
                 ],
                 begin: Alignment.topLeft,
@@ -84,7 +84,7 @@ class HomePage extends StatelessWidget {
               color: AppColor.accent,
               gradient: LinearGradient(
                 colors: [
-                  AppColor.accent.withValues(alpha: .8),
+                  AppColor.accent.withAlpha(204),
                   AppColor.accent,
                 ],
                 begin: Alignment.topLeft,
@@ -101,7 +101,7 @@ class HomePage extends StatelessWidget {
                   'Connect and collaborate with your team members in real-time.',
               color: AppColor.info,
               gradient: LinearGradient(
-                colors: [AppColor.info.withValues(alpha: 0.8), AppColor.info],
+                colors: [AppColor.info.withAlpha(204), AppColor.info],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: colorScheme.surface.withValues(alpha: 1),
+                color: colorScheme.surface.withAlpha(255),
               ),
               child: Column(
                 children: [
@@ -137,7 +137,7 @@ class HomePage extends StatelessWidget {
                     'We\'re constantly working on new tools to boost your productivity',
                     textAlign: TextAlign.center,
                     style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: colorScheme.onSurface.withAlpha(178),
                     ),
                   ),
                 ],
@@ -173,7 +173,7 @@ class HomePage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          shadowColor: color.withValues(alpha: 0.3),
+          shadowColor: color.withAlpha(76),
           child: InkWell(
             onTap: () {
               context.go(route);
@@ -230,7 +230,7 @@ class HomePage extends StatelessWidget {
                             style: textTheme.bodyMedium?.copyWith(
                               color: Theme.of(
                                 context,
-                              ).colorScheme.onSurface.withValues(alpha: 0.8),
+                              ).colorScheme.onSurface.withAlpha(204),
                             ),
                           ),
                           const SizedBox(height: 8),
