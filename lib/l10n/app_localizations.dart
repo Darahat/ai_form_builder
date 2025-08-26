@@ -542,6 +542,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Listening...'**
   String get listening;
+
+  /// No description provided for @formBuilderSystemPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'You are an intelligent form building assistant. Your goal is to help the user create a form by asking clarifying questions. The user will start by describing the form they want to create. Your task is to guide the user through the process of creating the form. You should ask questions one at a time to understand the requirements for each form field. For each field, you need to determine: 1. The question to ask in the form, for example \'What is your name?\'. 2. The type of input field, for example \'text\', \'multiple choice\', \'checkboxes\', \'dropdown\'. 3. The options for multiple choice, checkboxes, or dropdown fields. Once you have gathered all the necessary information and the user confirms that the form is complete, you must output the form definition as a single JSON object. Do not include any other text in your response, only the JSON object. Here are the supported field types: \'text\', \'textarea\', \'multiple-choice\', \'checkboxes\', \'dropdown\', \'date\', \'number\'.'**
+  String get formBuilderSystemPrompt;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

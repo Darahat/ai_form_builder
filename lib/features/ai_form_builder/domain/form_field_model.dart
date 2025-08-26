@@ -37,12 +37,12 @@ class AiGeneratedFormModel {
   /// Title is form id
   final int id;
 
-  @HiveField(2)
+  @HiveField(1)
   /// Title is text box title
   final String title;
 
   /// text box field
-  @HiveField(3)
+  @HiveField(2)
   final List<FormFieldModel> fields;
 
   /// Ai Generated Form Model
