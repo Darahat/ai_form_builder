@@ -74,38 +74,38 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            _buildFeatureCard(
-              context,
-              icon: Icons.auto_awesome,
-              title: 'AI Form Builder',
-              route: "/ai_form_builder_chat",
-              description:
-                  'Effortlessly create dynamic forms with AI-powered suggestions.',
-              color: AppColor.accent,
-              gradient: LinearGradient(
-                colors: [
-                  AppColor.accent.withAlpha(204),
-                  AppColor.accent,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildFeatureCard(
-              context,
-              icon: Icons.people_outline,
-              title: 'User to User Chat',
-              route: "/uToUUserListPage",
-              description:
-                  'Connect and collaborate with your team members in real-time.',
-              color: AppColor.info,
-              gradient: LinearGradient(
-                colors: [AppColor.info.withAlpha(204), AppColor.info],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
+            // _buildFeatureCard(
+            //   context,
+            //   icon: Icons.auto_awesome,
+            //   title: 'AI Form Builder',
+            //   route: "/ai_form_builder_chat",
+            //   description:
+            //       'Effortlessly create dynamic forms with AI-powered suggestions.',
+            //   color: AppColor.accent,
+            //   gradient: LinearGradient(
+            //     colors: [
+            //       AppColor.accent.withAlpha(204),
+            //       AppColor.accent,
+            //     ],
+            //     begin: Alignment.topLeft,
+            //     end: Alignment.bottomRight,
+            //   ),
+            // ),
+            // const SizedBox(height: 20),
+            // _buildFeatureCard(
+            //   context,
+            //   icon: Icons.people_outline,
+            //   title: 'User to User Chat',
+            //   route: "/uToUUserListPage",
+            //   description:
+            //       'Connect and collaborate with your team members in real-time.',
+            //   color: AppColor.info,
+            //   gradient: LinearGradient(
+            //     colors: [AppColor.info.withAlpha(204), AppColor.info],
+            //     begin: Alignment.topLeft,
+            //     end: Alignment.bottomRight,
+            //   ),
+            // ),
 
             const SizedBox(height: 32),
 
