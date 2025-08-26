@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,12 +54,9 @@ class AiFormBuilderChatController
   // }
 
   /// Add a new aiFormBuilderChat and reload list
-  Future<void> addAiFormBuilderChat(
+    Future<void> addAiFormBuilderChat(
     String usersText,
     String systemPrompt,
-    String userPromptPrefix,
-    String systemQuickReplyPrompt,
-    String errorMistralRequest,
   ) async {
     /// Get The current list of aiFormBuilderChats from the state's value
     final currentAiFormBuilderChats = state.value ?? [];
@@ -70,12 +68,19 @@ class AiFormBuilderChatController
     try {
       /// Get AI Reply
       final mistralService = ref.read(mistralServiceProvider);
+
+      // 1. Get the chat history from the state
+      final chatHistory = state.value?.map((chat) {
+        return [
+          {"role": "user", "content": chat.chatTextBody ?? ""},
+          {"role": "assistant", "content": chat.replyText ?? ""}
+        ];
+      }).expand((element) => element).toList() ?? [];
+
       final aiReplyText = await mistralService.generateFormBuilderQuestions(
         usersText,
+        chatHistory,
         systemPrompt,
-        userPromptPrefix,
-        systemQuickReplyPrompt,
-        errorMistralRequest,
       );
 
       /// Update the message with AI's reply
