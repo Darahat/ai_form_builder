@@ -58,6 +58,7 @@ dependencies:
   http: ^1.4.0 #LightWeight HTTP requests
   path: ^1.9.1
   flutter_dotenv: ^5.2.1
+  uuid: ^4.5.0
 
   #Voice Recognition
   speech_to_text: ^7.0.0 # Converts voice to text
