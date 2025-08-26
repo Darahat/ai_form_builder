@@ -1,6 +1,7 @@
 import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/utils/form_generator.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,6 +61,8 @@ class AiFormBuilderChatController
     String usersText,
     String systemPrompt,
   ) async {
+    final logger = ref.watch(appLoggerProvider);
+
     /// Get The current list of aiFormBuilderChats from the state's value
     final currentAiFormBuilderChats = state.value ?? [];
     final usersMessage = await _repo.addAiFormBuilderChat(usersText);
@@ -99,12 +102,16 @@ class AiFormBuilderChatController
           form != null
               ? "Your form has been created! You can access it here: https://your-app.com/form/${form.id}"
               : aiReplyText;
+      // logger.error(
+      //   'here is my reply text which may return the form link $replyText',
+      // );
 
       /// Update the message with AI's reply
       final updatedMessage = usersMessage.copyWith(
         replyText: replyText,
         isReplied: true,
         isSeen: true,
+        id: form?.id,
 
         /// mark as Seen by AI
       );
