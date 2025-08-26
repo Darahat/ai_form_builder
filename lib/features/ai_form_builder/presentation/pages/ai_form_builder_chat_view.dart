@@ -56,7 +56,7 @@ class _AiFormBuilderChatViewConsumerState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.home),
+        title: Text("Chat To Build Your Form"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => GoRouter.of(context).pop(),
@@ -99,12 +99,7 @@ class _AiFormBuilderChatViewConsumerState
     TextEditingController textController,
     BuildContext context,
   ) {
-    final systemPrompt = AppLocalizations.of(context)!.systemSummaryPrompt;
-    final userPromptPrefix = AppLocalizations.of(context)!.userSummaryPrompt;
-    final systemQuickReplyPrompt =
-        AppLocalizations.of(context)!.systemQuickReplyPrompt;
-    final errorMistralRequest =
-        AppLocalizations.of(context)!.errorMistralRequest;
+    final systemPrompt = AppLocalizations.of(context)!.formBuilderSystemPrompt;
     final typeMessage = AppLocalizations.of(context)!.typeMessage;
 
     return Padding(
@@ -125,9 +120,6 @@ class _AiFormBuilderChatViewConsumerState
                       .addAiFormBuilderChat(
                         text,
                         systemPrompt,
-                        userPromptPrefix,
-                        systemQuickReplyPrompt,
-                        errorMistralRequest,
                       );
                   textController.clear();
                 }
@@ -144,9 +136,6 @@ class _AiFormBuilderChatViewConsumerState
                     .addAiFormBuilderChat(
                       text,
                       systemPrompt,
-                      userPromptPrefix,
-                      systemQuickReplyPrompt,
-                      errorMistralRequest,
                     );
                 textController.clear();
               }

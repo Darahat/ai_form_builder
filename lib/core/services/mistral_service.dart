@@ -83,11 +83,14 @@ class MistralService {
   /// Generate quick reply like as chat for ai chat features
   Future<String> generateFormBuilderQuestions(
     String userMessage,
+    List<Map<String, String>> chatHistory,
     String systemPrompt,
-    String userPromptPrefix,
-    String systemQuickReplyPrompt,
-    String errorMistralRequest,
   ) async {
+    final messages = [
+      {"role": "system", "content": systemPrompt},
+      ...chatHistory,
+      {"role": "user", "content": userMessage},
+    ];
     final response = await http.post(
       Uri.parse(_endpoint),
       headers: {
@@ -96,11 +99,8 @@ class MistralService {
       },
       body: jsonEncode({
         "model": "mistralai/mistral-7b-instruct:free",
-        "messages": [
-          {"role": "system", "content": systemQuickReplyPrompt},
-          {"role": "user", "content": userMessage},
-        ],
-        "temperature": 0.8,
+        "messages": messages,
+        "temperature": 0.7,
       }),
     );
 
