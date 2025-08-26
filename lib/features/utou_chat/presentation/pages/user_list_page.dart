@@ -45,6 +45,7 @@ class UserListPage extends ConsumerWidget {
                 //  context.push('/uToUChat');
                 context.push(
                   '/uToUChat/${user.uid}?name=${Uri.encodeComponent(displayName)}',
+                  extra: {'title': displayName},
                 );
               },
             );

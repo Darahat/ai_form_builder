@@ -56,7 +56,7 @@ class _AiFormBuilderChatViewConsumerState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.home),
+        title: Text("Chat To Build Your Form"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => GoRouter.of(context).pop(),

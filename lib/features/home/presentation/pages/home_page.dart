@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
             _buildFeatureCard(
               context,
               icon: Icons.chat_bubble_outline,
-              title: 'Chat with AI',
+              title: 'AI Chat',
               route: "/aiChat",
               description:
                   'Engage in intelligent conversations and get instant assistance.',
@@ -77,16 +77,13 @@ class HomePage extends StatelessWidget {
             _buildFeatureCard(
               context,
               icon: Icons.auto_awesome,
-              title: 'AI Form Builder',
+              title: '',
               route: "/ai_form_builder_chat",
               description:
                   'Effortlessly create dynamic forms with AI-powered suggestions.',
               color: AppColor.accent,
               gradient: LinearGradient(
-                colors: [
-                  AppColor.accent.withAlpha(204),
-                  AppColor.accent,
-                ],
+                colors: [AppColor.accent.withAlpha(204), AppColor.accent],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -95,7 +92,7 @@ class HomePage extends StatelessWidget {
             _buildFeatureCard(
               context,
               icon: Icons.people_outline,
-              title: 'User to User Chat',
+              title: 'Friend List',
               route: "/uToUUserListPage",
               description:
                   'Connect and collaborate with your team members in real-time.',
@@ -176,7 +173,7 @@ class HomePage extends StatelessWidget {
           shadowColor: color.withAlpha(76),
           child: InkWell(
             onTap: () {
-              context.go(route);
+              context.push(route, extra: {'title': title});
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Navigating to $title'),

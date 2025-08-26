@@ -108,7 +108,7 @@ class HomeDrawer extends ConsumerWidget {
                       ),
                     ),
                     onTap: () {
-                      context.push('/aiChat');
+                      context.push('/aiChat', extra: {'title': 'AI Chat'});
                     },
                   ),
                   ListTile(
@@ -123,7 +123,10 @@ class HomeDrawer extends ConsumerWidget {
                       ),
                     ),
                     onTap: () {
-                      context.push('/uToUUserListPage');
+                      context.push(
+                        '/uToUUserListPage',
+                        extra: {'title': 'Friends List'},
+                      );
                     },
                   ),
                   ListTile(
@@ -155,7 +158,10 @@ class HomeDrawer extends ConsumerWidget {
                     onTap: () {
                       // ref.read(homeControllerProvider.notifier).changeTab(0);
                       // context.pop(); // Close the drawer
-                      context.go('/home'); // go back to home
+                      context.go(
+                        '/home',
+                        extra: {'title': 'Home'},
+                      ); // go back to home
                     },
                   ),
                   ListTile(

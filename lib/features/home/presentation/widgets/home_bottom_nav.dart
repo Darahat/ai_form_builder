@@ -19,13 +19,13 @@ class HomeBottomNav extends ConsumerWidget {
         // Navigate using GoRouter
         switch (index) {
           case 0:
-            context.go('/home');
+            context.go('/home', extra: {'title': 'Home'});
             break;
           case 1:
-            context.go('/uToUUserListPage');
+            context.go('/uToUUserListPage', extra: {'title': 'Friend List'});
             break;
           case 2:
-            context.go('/aiChat');
+            context.go('/aiChat', extra: {'title': 'Chat With AI'});
             break;
         }
       },

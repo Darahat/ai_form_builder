@@ -43,7 +43,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         ).showSnackBar(SnackBar(content: Text(next.message)));
       }
       if (next is Authenticated) {
-        context.go('/home');
+        context.go('/home', extra: {'title': 'Home'});
       }
     });
 
