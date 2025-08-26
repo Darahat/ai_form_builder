@@ -23,7 +23,7 @@ class HomeLayout extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey, // Assign the key to the scaffold
       appBar: AppBar(
-        title: Text(title, textAlign: TextAlign.center),
+        title: Text(title ?? 'Home', textAlign: TextAlign.center),
         centerTitle: true,
         leading: IconButton(
           onPressed:

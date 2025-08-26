@@ -64,7 +64,7 @@ class _OTPPageState extends ConsumerState<OTPPage> {
         scaffoldMessenger(context, next);
       }
       if (next is Authenticated) {
-        context.go('/home');
+        context.go('/home', extra: {'title': 'Home'});
       }
     });
 

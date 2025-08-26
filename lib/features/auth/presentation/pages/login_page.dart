@@ -44,7 +44,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
       if (next is Authenticated) {
         _currentAuthMethod = AuthMethod.none;
-        context.go('/home');
+        context.go('/home', extra: {'title': 'Home'});
       }
     });
 

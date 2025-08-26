@@ -54,7 +54,6 @@ final Map<String, List<UserRole>> routeAllowedRoles = {
 
 /// Router provider which is using GoRouter Package provider using ref
 final routerProvider = Provider<GoRouter>((ref) {
-  
   return GoRouter(
     initialLocation: '/splash', // start with the first tab
     // debugLogDiagnostics: true,
