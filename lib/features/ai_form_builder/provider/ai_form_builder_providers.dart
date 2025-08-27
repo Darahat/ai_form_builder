@@ -63,7 +63,7 @@ final aiSummaryProvider = FutureProvider<String>((ref) async {
       final aiFeed = aiFormBuilderChats
           .map(
             (t) =>
-                'just give answer very shortly.Like as human chat. the text is- ${t.chatTextBody}',
+                'just give answer very shortly.Like as human chat. the text is- ${t.message}',
           )
           .join('\n');
       final service = ref.read(mistralServiceProvider);

@@ -32,16 +32,43 @@ class FormFieldModel {
 
   factory FormFieldModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('question') || !json.containsKey('type')) {
-      throw ArgumentError('Invalid JSON: Missing Question or type or options');
+      throw ArgumentError('Invalid JSON: Missing "question" or "type"');
     }
+
+    final String type = json['type'];
+    List<String>? options;
+
+    if (type == 'multiple-choice') {
+      if (!json.containsKey('options')) {
+        throw ArgumentError(
+          'Invalid JSON: "multiple-choice" type requires "options"',
+        );
+      }
+      options = List<String>.from(json['options']);
+    } else {
+      // For other types like 'text', 'textarea', 'options' are not required
+      options =
+          json.containsKey('options')
+              ? List<String>.from(json['options'])
+              : null;
+      if (json.containsKey('options') && json['options'] != null) {
+        if (json['options'] is! List) {
+          throw ArgumentError(
+            'Invalid JSON: Options must be a list if present and not null',
+          );
+        }
+
+        options = List<String>.from(json['options']);
+      } else {
+        options = null;
+      }
+    }
+
     return FormFieldModel(
       id: const Uuid().v4(),
       question: json['question'],
-      type: json['type'],
-      options:
-          json.containsKey('options')
-              ? List<String>.from(json['options'])
-              : null,
+      type: type,
+      options: options,
     );
   }
 }

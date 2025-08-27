@@ -19,15 +19,13 @@ class AiFormBuilderChatRepository {
   }
 
   /// Adds a new aiFormBuilderChat with the given [text] as the title.
-  Future<AiFormBuilderChatModel?> addAiFormBuilderChat(String usersText) async {
+  Future<AiFormBuilderChatModel?> addAiFormBuilderChat(String text) async {
     final key = DateTime.now().millisecondsSinceEpoch.toString();
     final aiFormBuilderChat = AiFormBuilderChatModel(
       id: key,
-      chatTextBody: usersText,
-      sentTime: DateTime.now().toIso8601String(),
-      isSeen: false,
-      isReplied: false,
-      replyText: '',
+      message: text,
+      timestamp: DateTime.now(),
+      isUser: false,
     );
     await _box.put(key, aiFormBuilderChat);
     return aiFormBuilderChat;
@@ -36,26 +34,26 @@ class AiFormBuilderChatRepository {
   /// Toggles the completion status of a isSeen identified by [id]
   ///
   /// if the aiFormBuilderChat exists, it will be updated with the opposite 'isCompleted' value.
-  Future<void> toggleIsSeenChat(String id) async {
-    final aiFormBuilderChat = _box.get(id);
-    if (aiFormBuilderChat != null) {
-      final updated = aiFormBuilderChat.copyWith(
-        isSeen: !(aiFormBuilderChat.isSeen ?? false),
-      );
-      await _box.put(id, updated);
-    }
-  }
+  // Future<void> toggleIsSeenChat(String id) async {
+  //   final aiFormBuilderChat = _box.get(id);
+  //   if (aiFormBuilderChat != null) {
+  //     final updated = aiFormBuilderChat.copyWith(
+  //       isSeen: !(aiFormBuilderChat.isSeen ?? false),
+  //     );
+  //     await _box.put(id, updated);
+  //   }
+  // }
 
   /// Toggle/Update value of isReplied
-  Future<void> toggleIsRepliedChat(String id) async {
-    final aiFormBuilderChat = _box.get(id);
-    if (aiFormBuilderChat != null) {
-      final updated = aiFormBuilderChat.copyWith(
-        isReplied: !(aiFormBuilderChat.isReplied ?? false),
-      );
-      await _box.put(id, updated);
-    }
-  }
+  // Future<void> toggleIsRepliedChat(String id) async {
+  //   final aiFormBuilderChat = _box.get(id);
+  //   if (aiFormBuilderChat != null) {
+  //     final updated = aiFormBuilderChat.copyWith(
+  //       isReplied: !(aiFormBuilderChat.isReplied ?? false),
+  //     );
+  //     await _box.put(id, updated);
+  //   }
+  // }
 
   /// Removes the chat identified by [tid] from local storage
   Future<void> removeChat(String id) async {
@@ -66,7 +64,7 @@ class AiFormBuilderChatRepository {
   Future<void> editUserChat(String id, String newChatTextBody) async {
     final aiFormBuilderChat = _box.get(id);
     if (aiFormBuilderChat != null) {
-      final updated = aiFormBuilderChat.copyWith(chatTextBody: newChatTextBody);
+      final updated = aiFormBuilderChat.copyWith(message: newChatTextBody);
       await _box.put(id, updated);
     }
   }

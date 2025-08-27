@@ -133,6 +133,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: 'forget_password',
         builder: (context, state) => const ForgetPassword(),
       ),
+      GoRoute(
+        path: '/form/:id',
+        builder: (context, state) {
+          final formId = state.pathParameters['id']!;
+          return FormViewPage(formId: formId);
+        },
+      ),
 
       GoRoute(
         path: '/splash',
