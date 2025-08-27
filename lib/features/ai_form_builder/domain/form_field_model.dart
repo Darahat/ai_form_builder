@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 part 'form_field_model.g.dart';
 
@@ -28,6 +29,21 @@ class FormFieldModel {
     required this.type,
     this.options,
   });
+
+  factory FormFieldModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('question') || !json.containsKey('type')) {
+      throw ArgumentError('Invalid JSON: Missing Question or type or options');
+    }
+    return FormFieldModel(
+      id: const Uuid().v4(),
+      question: json['question'],
+      type: json['type'],
+      options:
+          json.containsKey('options')
+              ? List<String>.from(json['options'])
+              : null,
+    );
+  }
 }
 
 @HiveType(typeId: 9)
@@ -35,14 +51,14 @@ class FormFieldModel {
 class AiGeneratedFormModel {
   @HiveField(0)
   /// Title is form id
-  final int id;
+  final String id;
 
-  @HiveField(2)
+  @HiveField(1)
   /// Title is text box title
   final String title;
 
   /// text box field
-  @HiveField(3)
+  @HiveField(2)
   final List<FormFieldModel> fields;
 
   /// Ai Generated Form Model
@@ -51,4 +67,17 @@ class AiGeneratedFormModel {
     required this.title,
     required this.fields,
   });
+
+  factory AiGeneratedFormModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('title') || !json.containsKey('fields')) {
+      throw ArgumentError('Invalid JSON: Missing title or fields');
+    }
+    final fieldsList = json['fields'] as List;
+    final fields = fieldsList.map((f) => FormFieldModel.fromJson(f)).toList();
+    return AiGeneratedFormModel(
+      id: const Uuid().v4(),
+      title: json['title'],
+      fields: fields,
+    );
+  }
 }

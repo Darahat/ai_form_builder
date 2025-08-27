@@ -73,5 +73,6 @@
     "generatingSummary": "Generando resumen...",
     "unableToGenerateSummary": "No se ha podido generar el resumen. Por favor, inténtelo de nuevo.",
     "noTasksYet": "Aún no hay tareas",
-    "listening": "Escuchando..."
+    "listening": "Escuchando...",
+    "formBuilderSystemPrompt": "Eres un asistente inteligente para la creación de formularios. Guía al usuario paso a paso para crear un formulario. Para cada campo, determina la pregunta, el tipo de entrada (texto, área de texto, opción múltiple, casillas de verificación, lista desplegable, fecha, número) y las opciones si es necesario. Cuando el formulario esté completo, entrega únicamente un objeto JSON válido con dos claves: un título (cadena de texto) y un arreglo de campos. Cada campo debe incluir una pregunta, un tipo y opciones opcionales. No añadas ningún texto adicional, solo el objeto JSON."
 }

@@ -83,11 +83,14 @@ class MistralService {
   /// Generate quick reply like as chat for ai chat features
   Future<String> generateFormBuilderQuestions(
     String userMessage,
+    List<Map<String, String>> chatHistory,
     String systemPrompt,
-    String userPromptPrefix,
-    String systemQuickReplyPrompt,
-    String errorMistralRequest,
   ) async {
+    final messages = [
+      {"role": "system", "content": systemPrompt},
+      ...chatHistory,
+      {"role": "user", "content": userMessage},
+    ];
     final response = await http.post(
       Uri.parse(_endpoint),
       headers: {
@@ -96,18 +99,20 @@ class MistralService {
       },
       body: jsonEncode({
         "model": "mistralai/mistral-7b-instruct:free",
-        "messages": [
-          {"role": "system", "content": systemQuickReplyPrompt},
-          {"role": "user", "content": userMessage},
-        ],
-        "temperature": 0.8,
+        "messages": messages,
+        "temperature": 0.7,
       }),
     );
 
     if (response.statusCode == 200) {
+      /// this print statement to see the raw response body
+      print('Mistral API Response Body (Status 200): ${response.body}');
       final data = jsonDecode(response.body);
       return data['choices'][0]['message']['content'].trim();
     } else {
+      print(
+        'Mistral API Error Response (Status ${response.statusCode}): ${response.body}',
+      );
       throw Exception(
         'Failed to get response from Mistral: ${response.statusCode} ${response.body}',
       );

@@ -1,4 +1,7 @@
 import 'package:ai_form_builder/core/errors/exceptions.dart';
+import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/utils/form_generator.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,6 +15,7 @@ final formBuilderChatLoadingProvider = StateProvider<bool>((ref) => false);
 class AiFormBuilderChatController
     extends StateNotifier<AsyncValue<List<AiFormBuilderChatModel>>> {
   final AiFormBuilderChatRepository _repo;
+  HiveService hiveService;
 
   /// ref is a riverpod object which used by providers to interact with other providers and life cycle
   /// of the application
@@ -19,7 +23,7 @@ class AiFormBuilderChatController
   final Ref ref;
 
   /// AiFormBuilderChatController Constructor to call it from outside
-  AiFormBuilderChatController(this._repo, this.ref)
+  AiFormBuilderChatController(this._repo, this.ref, this.hiveService)
     : super(const AsyncValue.loading()) {
     loadAiFormBuilderChat();
   }
@@ -56,10 +60,9 @@ class AiFormBuilderChatController
   Future<void> addAiFormBuilderChat(
     String usersText,
     String systemPrompt,
-    String userPromptPrefix,
-    String systemQuickReplyPrompt,
-    String errorMistralRequest,
   ) async {
+    final logger = ref.watch(appLoggerProvider);
+
     /// Get The current list of aiFormBuilderChats from the state's value
     final currentAiFormBuilderChats = state.value ?? [];
     final usersMessage = await _repo.addAiFormBuilderChat(usersText);
@@ -70,19 +73,45 @@ class AiFormBuilderChatController
     try {
       /// Get AI Reply
       final mistralService = ref.read(mistralServiceProvider);
+
+      // 1. Get the chat history from the state
+      final chatHistory =
+          state.value
+              ?.map((chat) {
+                return [
+                  {"role": "user", "content": chat.chatTextBody ?? ""},
+                  {"role": "assistant", "content": chat.replyText ?? ""},
+                ];
+              })
+              .expand((element) => element)
+              .toList() ??
+          [];
+
       final aiReplyText = await mistralService.generateFormBuilderQuestions(
         usersText,
+        chatHistory,
         systemPrompt,
-        userPromptPrefix,
-        systemQuickReplyPrompt,
-        errorMistralRequest,
       );
+
+      final form = await FormGenerator.parseAndSaveForm(
+        ref,
+        hiveService,
+        aiReplyText,
+      );
+      final replyText =
+          form != null
+              ? "Your form has been created! You can access it here: https://your-app.com/form/${form.id}"
+              : aiReplyText;
+      // logger.error(
+      //   'here is my reply text which may return the form link $replyText',
+      // );
 
       /// Update the message with AI's reply
       final updatedMessage = usersMessage.copyWith(
-        replyText: aiReplyText,
+        replyText: replyText,
         isReplied: true,
         isSeen: true,
+        id: form?.id,
 
         /// mark as Seen by AI
       );

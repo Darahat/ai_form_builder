@@ -37,8 +37,10 @@ final aiFormBuilderChatControllerProvider = StateNotifierProvider<
   AiFormBuilderChatController,
   AsyncValue<List<AiFormBuilderChatModel>>
 >((ref) {
+  final hiveService = ref.watch(hiveServiceProvider);
+
   final repo = ref.watch(aiFormBuilderChatRepositoryProvider);
-  return AiFormBuilderChatController(repo, ref);
+  return AiFormBuilderChatController(repo, ref, hiveService);
 });
 
 /// taking only those aiFormBuilderChats which are incomplete

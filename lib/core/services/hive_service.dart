@@ -159,13 +159,13 @@ class HiveService {
   ///Initialized generated Form Fields/Qestions box initialized
   Box<FormFieldModel> get formFieldQuestionBox {
     _checkInitialized();
-    return Hive.box<FormFieldModel>(formBuilderChatBoxName);
+    return Hive.box<FormFieldModel>(formFieldBoxName);
   }
 
   /// Initialized generated forms detail(title,description) box initialized
   Box<AiGeneratedFormModel> get aiGeneratedFormInfoBox {
     _checkInitialized();
-    return Hive.box<AiGeneratedFormModel>(formBuilderChatBoxName);
+    return Hive.box<AiGeneratedFormModel>(aiGeneratedFormBoxName);
   }
 
   /// check are they initialized or not
