@@ -10,7 +10,7 @@ class HomeLayout extends ConsumerWidget {
   final Widget child;
 
   /// using this we will get the page title
-  final String title;
+  final String? title;
 
   /// Landing page/Home Page Constructor
   const HomeLayout({super.key, required this.child, required this.title});
