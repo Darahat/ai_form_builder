@@ -31,9 +31,7 @@ class FormFieldModel {
   });
 
   factory FormFieldModel.fromJson(Map<String, dynamic> json) {
-    if (!json.containsKey('question') ||
-        !json.containsKey('type') ||
-        !json.containsKey('options')) {
+    if (!json.containsKey('question') || !json.containsKey('options')) {
       throw ArgumentError('Invalid JSON: Missing Question or type or options');
     }
     return FormFieldModel(

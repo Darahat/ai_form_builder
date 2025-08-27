@@ -19,20 +19,28 @@ class FormGenerator {
     );
     try {
       final cleanedJson = extractJson(jsonString);
-      logger.info('Cleaned JSON: $cleanedJson');
       // If cleanedJson is empty, it means no valid JSON was found.
       // Check if cleanedJson is valid before decoding
+
       if (cleanedJson == null || cleanedJson.isEmpty) {
         debugPrint('No valid JSON found in AI response.');
+        logger.debug(
+          'Cleaned JSON******************************* $cleanedJson ',
+        );
         return null;
       }
-
+      logger.debug(
+        'Cleaned JSON*********out out out********************** $cleanedJson ',
+      );
       final decodedJson = jsonDecode(cleanedJson);
 
       if (decodedJson is Map<String, dynamic> &&
           decodedJson.containsKey('title') &&
           decodedJson.containsKey('fields')) {
         final form = AiGeneratedFormModel.fromJson(decodedJson);
+        logger.error(
+          'Cleaned JSON*********inside if condition********************** $decodedJson ',
+        );
         final box = hiveService.aiGeneratedFormInfoBox;
         await box.put(form.id, form);
         return form;
@@ -48,7 +56,8 @@ class FormGenerator {
 }
 
 /// Extract json from the AI reply
-String? extractJson(String input) { // Changed return type to String?
+String? extractJson(String input) {
+  // Changed return type to String?
   // Remove markdown code block delimiters if present
   String cleanedInput = input.trim();
   if (cleanedInput.startsWith('```json')) {
@@ -57,7 +66,10 @@ String? extractJson(String input) { // Changed return type to String?
     cleanedInput = cleanedInput.substring(3).trim(); // Remove '```'
   }
   if (cleanedInput.endsWith('```')) {
-    cleanedInput = cleanedInput.substring(0, cleanedInput.length - 3).trim(); // Remove '```'
+    cleanedInput =
+        cleanedInput
+            .substring(0, cleanedInput.length - 3)
+            .trim(); // Remove '```'
   }
 
   int start = cleanedInput.indexOf('{');
@@ -70,7 +82,8 @@ String? extractJson(String input) { // Changed return type to String?
   }
 
   // If valid start and end found, extract substring
-  if (start != -1 && end != -1 && end > start) { // Use cleanedInput here
+  if (start != -1 && end != -1 && end > start) {
+    // Use cleanedInput here
     return cleanedInput.substring(start, end + 1);
   }
 

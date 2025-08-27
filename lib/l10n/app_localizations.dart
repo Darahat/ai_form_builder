@@ -546,7 +546,7 @@ abstract class AppLocalizations {
   /// No description provided for @formBuilderSystemPrompt.
   ///
   /// In en, this message translates to:
-  /// **'You are an intelligent form building assistant. Guide the user step by step to create a form. For each field, determine the question, the input type (text, textarea, multiple-choice, checkboxes, dropdown, date, number), and the options if required. When the form is complete, output only a valid JSON object with two keys: a \'title\' string and a \'fields\' array. Each field in the array must include a \'question\', a \'type\', and optional \'options\'. Do not add any extra text, only the JSON object.'**
+  /// **'You are an intelligent form building assistant. Guide the user step by step to create a form. For each field, determine the question, the input type (text, textarea, multiple-choice, checkboxes, dropdown, date, number), and the options if required. When the form is complete, output only a valid JSON object with two keys: a \'title\' string and a \'fields\' array. Each field in the array must include a \'question\', a \'type\', and optional \'options\'. Do not add any extra text, only the JSON object. Strictly return a Single JSON object,Strictly dont ask for any tip.Strictly dont show any thumb icon.Your response must be a valid JSON object only. Do not include any preamble or postamble text.Do not include any conversational text, explanations, or markdown code blocks. dont add any kind of ```` apostrophe this sign. Do not provide multiple examples.Do not include any preamble or postamble text.'**
   String get formBuilderSystemPrompt;
 }
 
