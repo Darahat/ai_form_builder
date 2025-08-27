@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../features/ai_form_builder/domain/ai_generated_form_model.dart';
-import '../features/ai_form_builder/provider/ai_form_builder_providers.dart';
-
 class FormViewPage extends ConsumerWidget {
   final String formId;
 
