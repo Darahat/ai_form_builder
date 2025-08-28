@@ -89,3 +89,27 @@ final aiSummaryProvider = FutureProvider<String>((ref) async {
     loading: () => "Generating answer....",
   );
 });
+
+/// Notifier for managing the state of the form values
+class FormValuesNotifier extends StateNotifier<Map<String, dynamic>> {
+  /// FormValuesNotifier Constructor
+  FormValuesNotifier() : super({});
+
+  /// Update value function
+  void updateValue(String fieldId, dynamic value) {
+    state = {...state, fieldId: value};
+  }
+
+  /// Function for Clear
+  void clear() {
+    state = {};
+  }
+}
+
+/// Provider for the form values state
+final formValuesProvider =
+    StateNotifierProvider.autoDispose<FormValuesNotifier, Map<String, dynamic>>(
+      (ref) {
+        return FormValuesNotifier();
+      },
+    );
