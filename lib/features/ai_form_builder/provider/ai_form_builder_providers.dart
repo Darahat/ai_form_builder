@@ -15,6 +15,11 @@ final aiFormBuilderChatRepositoryProvider =
 
       return AiFormBuilderChatRepository(hiveService);
     });
+final aiGeneratedFormProvider =
+    FutureProvider.family<AiFormBuilderChatModel?, String>((ref, formId) async {
+      final repository = ref.watch(aiFormBuilderChatRepositoryProvider);
+      return repository.getAiFormById(formId);
+    });
 
 /// Voice input for adding aiFormBuilderChat
 final voiceToTextProvider = Provider<VoiceToTextService>((ref) {
