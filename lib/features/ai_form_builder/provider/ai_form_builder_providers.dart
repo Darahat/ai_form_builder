@@ -2,23 +2,34 @@ import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
+import 'package:ai_form_builder/features/ai_form_builder/domain/form_field_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/ai_form_builder_controller.dart';
 import '../domain/ai_form_builder_chat_model.dart';
-import '../infrastructure/ai_form_builder_repository.dart';
+import '../infrastructure/ai_form_builder_chat_repository.dart';
+import '../infrastructure/ai_generated_form_repository.dart';
 
-/// AiFormBuilderChat repository that interacts with Hive
+/// Provider for the chat repository
 final aiFormBuilderChatRepositoryProvider =
     Provider<AiFormBuilderChatRepository>((ref) {
       final hiveService = ref.watch(hiveServiceProvider);
-
       return AiFormBuilderChatRepository(hiveService);
     });
-final aiGeneratedFormProvider =
-    FutureProvider.family<AiFormBuilderChatModel?, String>((ref, formId) async {
-      final repository = ref.watch(aiFormBuilderChatRepositoryProvider);
-      return repository.getAiFormById(formId);
+
+/// Provider for the generated form repository
+final aiGeneratedFormRepositoryProvider = Provider<AiGeneratedFormRepository>((
+  ref,
+) {
+  final hiveService = ref.watch(hiveServiceProvider);
+  return AiGeneratedFormRepository(hiveService);
+});
+
+/// function for call getAiGeneratedFormById so that passing form id its being possible to get the form information
+final aiGeneratedFormModelProvider =
+    FutureProvider.family<AiGeneratedFormModel?, String>((ref, formId) async {
+      final repository = ref.watch(aiGeneratedFormRepositoryProvider);
+      return repository.getAiGeneratedFormById(formId);
     });
 
 /// Voice input for adding aiFormBuilderChat

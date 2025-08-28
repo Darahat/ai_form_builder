@@ -2,15 +2,12 @@ import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:hive/hive.dart';
 
 import '../domain/ai_form_builder_chat_model.dart';
-import '../domain/form_field_model.dart';
 
 /// A repository class for managing aiFormBuilderChat-related operation using hive
 class AiFormBuilderChatRepository {
   /// The hive box containing [AiFormBuilderChatModel] instances.
   final HiveService _hiveService;
   Box<AiFormBuilderChatModel> get _box => _hiveService.formBuilderChatBox;
-  Box<AiGeneratedFormModel> get _getFormbox =>
-      _hiveService.aiGeneratedFormInfoBox;
   AiFormBuilderChatRepository(this._hiveService);
 
   /// Retrives all aiFormBuilderChat from the local Hive storages.
@@ -77,9 +74,5 @@ class AiFormBuilderChatRepository {
     AiFormBuilderChatModel chat,
   ) async {
     await _box.put(id, chat);
-  }
-
-  AiFormBuilderChatModel? getAiFormById(String id) {
-    return _box.get(id);
   }
 }

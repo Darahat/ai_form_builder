@@ -9,7 +9,7 @@ class FormViewPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formAsync = ref.watch(aiGeneratedFormProvider(formId));
+    final formAsync = ref.watch(aiGeneratedFormModelProvider(formId));
 
     return Scaffold(
       appBar: AppBar(title: Text('Form')),
@@ -24,7 +24,7 @@ class FormViewPage extends ConsumerWidget {
                   return ListView(
                     padding: const EdgeInsets.all(16),
                     children:
-                        form.formFields.map((field) {
+                        form.fields.map((field) {
                           // Build UI based on field.type
                           return ListTile(
                             title: Text(field.question),

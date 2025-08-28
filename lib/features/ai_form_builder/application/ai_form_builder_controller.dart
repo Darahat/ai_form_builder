@@ -6,8 +6,7 @@ import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builde
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/ai_form_builder_chat_model.dart';
-import '../infrastructure/ai_form_builder_repository.dart';
-
+import '../infrastructure/ai_form_builder_chat_repository.dart';
 // At the top of the file, after imports
 // Placeholder for local development
 
