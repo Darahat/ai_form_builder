@@ -2,6 +2,7 @@
 // import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_chat/presentation/pages/ai_chat_view.dart';
 import 'package:ai_form_builder/features/ai_form_builder/presentation/pages/ai_form_builder_chat_view.dart';
+import 'package:ai_form_builder/features/ai_form_builder/presentation/pages/ai_form_builder_form_view_page.dart';
 import 'package:ai_form_builder/features/app_settings/presentation/pages/setting_page.dart';
 import 'package:ai_form_builder/features/auth/application/auth_state.dart';
 import 'package:ai_form_builder/features/auth/domain/user_role.dart';
@@ -132,6 +133,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/forget_password',
         name: 'forget_password',
         builder: (context, state) => const ForgetPassword(),
+      ),
+      GoRoute(
+        path: '/form/:id',
+        builder: (context, state) {
+          final formId = state.pathParameters['id']!;
+          return FormViewPage(formId: formId);
+        },
       ),
 
       GoRoute(

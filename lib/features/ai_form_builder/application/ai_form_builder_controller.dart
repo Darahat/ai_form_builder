@@ -6,7 +6,9 @@ import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builde
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/ai_form_builder_chat_model.dart';
-import '../infrastructure/ai_form_builder_repository.dart';
+import '../infrastructure/ai_form_builder_chat_repository.dart';
+// At the top of the file, after imports
+// Placeholder for local development
 
 /// Used to indicate loading status in the UI
 final formBuilderChatLoadingProvider = StateProvider<bool>((ref) => false);
@@ -65,11 +67,20 @@ class AiFormBuilderChatController
 
     /// Get The current list of aiFormBuilderChats from the state's value
     final currentAiFormBuilderChats = state.value ?? [];
-    final usersMessage = await _repo.addAiFormBuilderChat(usersText);
-    if (usersMessage == null) return;
+
+    // Create the user's message
+    final usersMessage = AiFormBuilderChatModel(
+      id:
+          DateTime.now().millisecondsSinceEpoch
+              .toString(), // Unique ID for user message
+      message: usersText,
+      isUser: true,
+      timestamp: DateTime.now(),
+    );
 
     if (!mounted) return;
     state = AsyncValue.data([...currentAiFormBuilderChats, usersMessage]);
+
     try {
       /// Get AI Reply
       final mistralService = ref.read(mistralServiceProvider);
@@ -79,8 +90,11 @@ class AiFormBuilderChatController
           state.value
               ?.map((chat) {
                 return [
-                  {"role": "user", "content": chat.chatTextBody ?? ""},
-                  {"role": "assistant", "content": chat.replyText ?? ""},
+                  {"role": "user", "content": chat.message}, // Use chat.message
+                  {
+                    "role": "assistant",
+                    "content": chat.message,
+                  }, // Use chat.message
                 ];
               })
               .expand((element) => element)
@@ -98,27 +112,33 @@ class AiFormBuilderChatController
         hiveService,
         aiReplyText,
       );
-      final replyText =
+
+      /// Create Firebase Dynamic Link if form was saved
+      String? formUrl = '';
+      if (form != null) {
+        formUrl = "https://darahat.dev/form/${form.id}";
+      }
+
+      final aiMessageContent =
           form != null
-              ? "Your form has been created! You can access it here: https://your-app.com/form/${form.id}"
+              ? "Your form has been created! You can share it using this link: ${formUrl ?? 'Error generating link'}"
               : aiReplyText;
-      // logger.error(
-      //   'here is my reply text which may return the form link $replyText',
-      // );
 
-      /// Update the message with AI's reply
-      final updatedMessage = usersMessage.copyWith(
-        replyText: replyText,
-        isReplied: true,
-        isSeen: true,
-        id: form?.id,
-
-        /// mark as Seen by AI
+      // Create a new AiFormBuilderChatModel for the AI's reply
+      final aiMessage = AiFormBuilderChatModel(
+        id:
+            form?.id ??
+            DateTime.now().millisecondsSinceEpoch
+                .toString(), // Use form ID or new unique ID
+        message: aiMessageContent,
+        isUser: false,
+        timestamp: DateTime.now(),
       );
-      await _repo.updateAiFormBuilderChat(usersMessage.id!, updatedMessage);
+
+      // Add the AI's message to the state
       if (!mounted) return;
       state = AsyncValue.data(
-        state.value!.updated(usersMessage.id!, updatedMessage),
+        [...state.value!, aiMessage], // Add the new AI message
       );
     } catch (e, s) {
       throw ServerException(
@@ -128,43 +148,38 @@ class AiFormBuilderChatController
   }
 
   /// Toggle a aiFormBuilderChat and reload list
-  Future<void> toggleIsSeenChat(String id) async {
-    final currentChats = state.value ?? [];
-    if (currentChats.isEmpty) return;
-    await _repo.toggleIsSeenChat(id);
+  // Future<void> toggleIsSeenChat(String id) async {
+  //   final currentChats = state.value ?? [];
+  //   if (currentChats.isEmpty) return;
+  //   await _repo.toggleIsSeenChat(id);
 
-    // final chatToUpdate = currentChats.firstWhere((t) => t.id == id);
+  //   final updatedList =
+  //       currentChats.map((chat) {
+  //         if (chat.id == id) {
+  //           return chat.copyWith(isSeen: !(chat.isSeen ?? false));
+  //         }
+  //         return chat;
+  //       }).toList();
 
-    /// changing aiFormBuilderChat according to which tid is toggled check and updated using copy with
-    /// which generates copy of that exact object which is toggled
-    ///
-    final updatedList =
-        currentChats.map((chat) {
-          if (chat.id == id) {
-            return chat.copyWith(isSeen: !(chat.isSeen ?? false));
-          }
-          return chat;
-        }).toList();
-
-    /// Update the state with the new list
-    if (!mounted) return;
-    state = AsyncValue.data(updatedList);
-  }
+  //   /// Update the state with the new list
+  //   if (!mounted) return;
+  //   state = AsyncValue.data(updatedList);
+  // }
 
   /// Update chat status value of is it replied
-  Future<void> toggleIsRepliedChat(String id) async {
-    final currentChats = state.value ?? [];
-    if (currentChats.isEmpty) return;
+  // Future<void> toggleIsRepliedChat(String id) async {
+  //   final currentChats = state.value ?? [];
+  //   if (currentChats.isEmpty) return;
 
-    await _repo.toggleIsRepliedChat(id);
-    final chatToUpdate = currentChats.firstWhere((chat) => chat.id == id);
-    final updatedList = currentChats.updated(
-      id,
-      chatToUpdate.copyWith(isReplied: !(chatToUpdate.isReplied ?? false)),
-    );
-    if (!mounted) return;
-    state = AsyncValue.data(updatedList);
-  }
+  //   await _repo.toggleIsRepliedChat(id);
+  //   final chatToUpdate = currentChats.firstWhere((chat) => chat.id == id);
+  //   final updatedList = currentChats.updated(
+  //     id,
+  //     chatToUpdate.copyWith(isReplied: !(chatToUpdate.isReplied ?? false)),
+  //   );
+  //   if (!mounted) return;
+  //   state = AsyncValue.data(updatedList);
+  // }
 
   /// Remove a aiFormBuilderChat and reload list
   Future<void> removeAiFormBuilderChat(String id) async {
@@ -190,7 +205,7 @@ class AiFormBuilderChatController
     /// which generates copy of that exact object which is toggled
     final updatedList = currentAiFormBuilderChats.updated(
       id,
-      aiFormBuilderChatToUpdate.copyWith(chatTextBody: newText),
+      aiFormBuilderChatToUpdate.copyWith(message: newText), // Use message
     );
 
     /// Update the state with the new list
