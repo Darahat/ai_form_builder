@@ -1,7 +1,7 @@
 import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/utils/form_generator.dart';
-import 'package:ai_form_builder/core/utils/logger.dart';
+// import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +17,8 @@ final formBuilderChatLoadingProvider = StateProvider<bool>((ref) => false);
 class AiFormBuilderChatController
     extends StateNotifier<AsyncValue<List<AiFormBuilderChatModel>>> {
   final AiFormBuilderChatRepository _repo;
+
+  /// instance for hiveService
   HiveService hiveService;
 
   /// ref is a riverpod object which used by providers to interact with other providers and life cycle
@@ -63,7 +65,7 @@ class AiFormBuilderChatController
     String usersText,
     String systemPrompt,
   ) async {
-    final logger = ref.watch(appLoggerProvider);
+    // final logger = ref.watch(appLoggerProvider);
 
     /// Get The current list of aiFormBuilderChats from the state's value
     final currentAiFormBuilderChats = state.value ?? [];
@@ -121,7 +123,7 @@ class AiFormBuilderChatController
 
       final aiMessageContent =
           form != null
-              ? "Your form has been created! You can share it using this link: ${formUrl ?? 'Error generating link'}"
+              ? "Your form has been created! You can share it using this link: $formUrl"
               : aiReplyText;
 
       // Create a new AiFormBuilderChatModel for the AI's reply

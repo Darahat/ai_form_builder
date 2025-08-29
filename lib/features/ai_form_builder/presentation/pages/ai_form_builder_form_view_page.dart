@@ -1,10 +1,16 @@
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/domain/form_field_model.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// AI generated Form view page
 class FormViewPage extends ConsumerWidget {
+  /// AI generated Form ID
+
   final String formId;
+
+  /// AI generated Form view page constructor
 
   const FormViewPage({super.key, required this.formId});
 
@@ -12,6 +18,7 @@ class FormViewPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formAsync = ref.watch(aiGeneratedFormModelProvider(formId));
     final formValues = ref.watch(formValuesProvider);
+    final logger = ref.watch(appLoggerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +44,7 @@ class FormViewPage extends ConsumerWidget {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        print('Form Values: $formValues');
+                        logger.info('Form Values: $formValues');
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Form Submitted (Check console)'),

@@ -30,6 +30,7 @@ class FormFieldModel {
     this.options,
   });
 
+  /// Convert ai  return (the question and type part) from json to FormFieldModel data structure
   factory FormFieldModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('question') || !json.containsKey('type')) {
       throw ArgumentError('Invalid JSON: Missing "question" or "type"');
@@ -94,6 +95,8 @@ class AiGeneratedFormModel {
     required this.title,
     required this.fields,
   });
+
+  /// Convert ai return (the Fields and title part) from json to FormFieldModel data structure
 
   factory AiGeneratedFormModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('title') || !json.containsKey('fields')) {

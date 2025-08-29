@@ -10,7 +10,19 @@ final appLoggerProvider = Provider<AppLogger>((ref) {
 });
 
 /// Represents the severity level of a log message.
-enum LogLevel { debug, info, warning, error }
+enum LogLevel {
+  ///For Debug
+  debug,
+
+  /// for info
+  info,
+
+  /// For warning
+  warning,
+
+  /// For Error message show
+  error,
+}
 
 /// A simple utility for logging messages during development.
 class AppLogger {

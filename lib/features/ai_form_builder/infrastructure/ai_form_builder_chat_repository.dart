@@ -8,9 +8,11 @@ class AiFormBuilderChatRepository {
   /// The hive box containing [AiFormBuilderChatModel] instances.
   final HiveService _hiveService;
   Box<AiFormBuilderChatModel> get _box => _hiveService.formBuilderChatBox;
+
+  ///AiFormBuilderChatRepository constructor
   AiFormBuilderChatRepository(this._hiveService);
 
-  /// Retrives all aiFormBuilderChat from the local Hive storages.
+  /// get all aiFormBuilderChat from the local Hive storages.
   ///
   /// Returns a [List] of [AiFormBuilderChatModel] instances
   Future<List<AiFormBuilderChatModel>> getAiFormBuilderChat() async {
