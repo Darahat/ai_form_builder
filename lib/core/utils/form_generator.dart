@@ -38,7 +38,7 @@ class FormGenerator {
           decodedJson.containsKey('title') &&
           decodedJson.containsKey('fields')) {
         final form = AiGeneratedFormModel.fromJson(decodedJson);
-        logger.error(
+        logger.info(
           'Cleaned JSON*********inside if condition********************** $decodedJson ',
         );
         final box = hiveService.aiGeneratedFormInfoBox;

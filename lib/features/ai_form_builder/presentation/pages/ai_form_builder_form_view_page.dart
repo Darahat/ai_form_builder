@@ -122,6 +122,21 @@ class FormViewPage extends ConsumerWidget {
               }).toList() ??
               [],
         );
+      case 'dropdown':
+        return DropdownButtonFormField<String>(
+          decoration: const InputDecoration(border: OutlineInputBorder()),
+          value: formValues[field.id],
+          hint: const Text('Select an option'),
+          onChanged:
+              (value) => {
+                if (value != null) {notifier.updateValue(field.id, value)},
+              },
+          items:
+              field.options?.map((option) {
+                return DropdownMenuItem(value: option, child: Text(option));
+              }).toList() ??
+              [],
+        );
       default:
         return Text('Unsupported field type: ${field.type}');
     }
