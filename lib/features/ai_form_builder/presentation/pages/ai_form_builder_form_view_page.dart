@@ -11,6 +11,7 @@ class FormViewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formAsync = ref.watch(aiGeneratedFormModelProvider(formId));
+    final formValues = ref.watch(formValuesProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,10 +30,26 @@ class FormViewPage extends ConsumerWidget {
           return Form(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: form.fields.length,
+              itemCount: form.fields.length + 1,
               itemBuilder: (context, index) {
+                if (index == form.fields.length) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('Form Values: $formValues');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Form Submitted (Check console)'),
+                          ),
+                        );
+                      },
+                      child: const Text('Submit'),
+                    ),
+                  );
+                }
                 final field = form.fields[index];
-                return _buildFormField(field);
+                return _buildFormField(field, ref);
               },
             ),
           );
@@ -43,7 +60,7 @@ class FormViewPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildFormField(FormFieldModel field) {
+  Widget _buildFormField(FormFieldModel field, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -54,13 +71,15 @@ class FormViewPage extends ConsumerWidget {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
-          _buildInputWidget(field),
+          _buildInputWidget(field, ref),
         ],
       ),
     );
   }
 
-  Widget _buildInputWidget(FormFieldModel field) {
+  Widget _buildInputWidget(FormFieldModel field, WidgetRef ref) {
+    final formValues = ref.watch(formValuesProvider);
+    final notifier = ref.watch(formValuesProvider.notifier);
     switch (field.type) {
       case 'text':
         return TextFormField(
@@ -68,6 +87,7 @@ class FormViewPage extends ConsumerWidget {
             border: OutlineInputBorder(),
             hintText: 'Enter Text',
           ),
+          onChanged: (value) => notifier.updateValue(field.id, value),
         );
       case 'number':
         return TextFormField(
@@ -76,6 +96,7 @@ class FormViewPage extends ConsumerWidget {
             hintText: 'Enter a number',
           ),
           keyboardType: TextInputType.number,
+          onChanged: (value) => notifier.updateValue(field.id, value),
         );
       case 'textarea':
         return TextFormField(
@@ -84,21 +105,35 @@ class FormViewPage extends ConsumerWidget {
             hintText: 'Enter long Text',
           ),
           maxLines: 4,
+          onChanged: (value) => notifier.updateValue(field.id, value),
         );
       case 'multiple-choice':
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
               field.options?.map((option) {
-                return RadioListTile(
+                return RadioListTile<String>(
                   title: Text(option),
                   value: option,
-                  groupValue:
-                      null, // This needs state management to work properly
-                  onChanged: (value) {
-                    // This needs state management to work properly
-                  },
+                  groupValue: formValues[field.id],
+                  // This needs state management to work properly
+                  onChanged: (value) => notifier.updateValue(field.id, value),
                 );
+              }).toList() ??
+              [],
+        );
+      case 'dropdown':
+        return DropdownButtonFormField<String>(
+          decoration: const InputDecoration(border: OutlineInputBorder()),
+          value: formValues[field.id],
+          hint: const Text('Select an option'),
+          onChanged:
+              (value) => {
+                if (value != null) {notifier.updateValue(field.id, value)},
+              },
+          items:
+              field.options?.map((option) {
+                return DropdownMenuItem(value: option, child: Text(option));
               }).toList() ??
               [],
         );
