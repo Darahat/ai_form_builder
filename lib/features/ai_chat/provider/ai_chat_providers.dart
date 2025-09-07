@@ -1,4 +1,4 @@
-import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/services/database_service.dart';
 import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
@@ -8,13 +8,16 @@ import '../application/ai_chat_controller.dart';
 import '../domain/ai_chat_model.dart';
 import '../infrastructure/ai_chat_repository.dart';
 
-/// AiChat repository that interacts with Hive
-final aiChatRepositoryProvider = Provider<AiChatRepository>((ref) {
-  final hiveService = ref.watch(hiveServiceProvider);
-  final logger = ref.watch(appLoggerProvider);
-  final aiChatBox = hiveService.aiChatBoxInit;
+final databaseServiceProvider = Provider<DatabaseService>((ref) {
+  return DatabaseService.instance;
+});
 
-  return AiChatRepository(ref, hiveService, logger, aiChatBox);
+/// AiChat repository that interacts with the database
+final aiChatRepositoryProvider = Provider<AiChatRepository>((ref) {
+  final databaseService = ref.watch(databaseServiceProvider);
+  final logger = ref.watch(appLoggerProvider);
+
+  return AiChatRepository(ref, databaseService, logger);
 });
 
 /// Voice  input for adding aiChat
@@ -32,11 +35,9 @@ final isExpandedSummaryProvider = StateProvider<bool>((ref) => false);
 /// to check The Floating button is expanded or not
 final isExpandedFabProvider = StateProvider<bool>((ref) => false);
 
-/// Controller for aiChat logic and Hive access
+/// Controller for aiChat logic and database access
 final aiChatControllerProvider =
-    StateNotifierProvider<AiChatController, AsyncValue<List<AiChatModel>>>((
-      ref,
-    ) {
+    StateNotifierProvider<AiChatController, AsyncValue<List<AiChatModel>>>((ref) {
       final repo = ref.watch(aiChatRepositoryProvider);
       return AiChatController(repo, ref);
     });

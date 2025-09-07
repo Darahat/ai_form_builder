@@ -1,37 +1,13 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
-
-part 'settings_model.g.dart';
-
-@HiveType(typeId: 3)
-/// Represents the metadata and definition of a setting
 class SettingDefinitionModel {
-  /// setting definition id
-  @HiveField(0)
   final int id;
-
-  /// setting definition name
-  @HiveField(1)
   final String name;
-
-  /// setting description name
-  @HiveField(2)
   final String description;
-
-  /// Stored as String], parsed based on dataType
-  @HiveField(3)
   final String defaultValue;
-
-  /// setting datatype
-  @HiveField(4)
   final String dataType;
-
-  /// is setting userSpecific or not
-  @HiveField(5)
   final bool isUserSpecific;
 
-  /// SettingDefinition constructor
   SettingDefinitionModel({
     required this.id,
     required this.name,
@@ -41,7 +17,6 @@ class SettingDefinitionModel {
     required this.isUserSpecific,
   });
 
-  /// Factory constructor to create from a database row map
   factory SettingDefinitionModel.fromMap(Map<String, dynamic> map) {
     return SettingDefinitionModel(
       id: map['id'] as int,
@@ -49,8 +24,19 @@ class SettingDefinitionModel {
       description: map['description'],
       defaultValue: map['defaultValue'],
       dataType: map['dataType'],
-      isUserSpecific: map['isUserSpecific'],
+      isUserSpecific: map['isUserSpecific'] == 1,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'defaultValue': defaultValue,
+      'dataType': dataType,
+      'isUserSpecific': isUserSpecific ? 1 : 0,
+    };
   }
 }
 

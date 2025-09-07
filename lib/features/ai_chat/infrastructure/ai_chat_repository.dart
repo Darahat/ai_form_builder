@@ -1,37 +1,24 @@
-import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/services/database_service.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
 
 import '../domain/ai_chat_model.dart';
 
-/// A repository class for managing aiChat-related operation using hive
 class AiChatRepository {
-  /// The hive box containing [AiChatModel] instances.
-  final Box<AiChatModel> aiChatBox;
+  final DatabaseService _databaseService;
+  final AppLogger _appLogger;
+  final Ref _ref;
 
-  /// Logger instance
-  final AppLogger appLogger;
+  AiChatRepository(this._ref, this._databaseService, this._appLogger);
 
-  /// hive service instance
-  final HiveService hiveService;
-
-  /// provider to provider connection
-  final Ref ref;
-
-  ///AiChatRepository constructor
-  ///this.aiChatBox,
-  AiChatRepository(this.ref, this.hiveService, this.appLogger, this.aiChatBox);
-
-  /// Retrives all aiChat from the local Hive storages.
-  ///
-  /// Returns a [List] of [AiChatModel] instances
   Future<List<AiChatModel>> getAiChat() async {
-    return aiChatBox.values.toList();
+    final db = await _databaseService.database;
+    final maps = await db.query('ai_chats');
+    return maps.map((map) => AiChatModel.fromMap(map)).toList();
   }
 
-  /// Adds a new aiChat with the given [text] as the title.
   Future<AiChatModel?> addAiChat(String usersText) async {
+    final db = await _databaseService.database;
     final key = DateTime.now().millisecondsSinceEpoch.toString();
     final aiChat = AiChatModel(
       id: key,
@@ -41,46 +28,47 @@ class AiChatRepository {
       isReplied: false,
       replyText: '',
     );
-    await aiChatBox.put(key, aiChat);
+    await db.insert('ai_chats', aiChat.toMap());
     return aiChat;
   }
 
-  /// Toggles the completion status of a isSeen identified by [id]
-  ///
-  /// if the aiChat exists, it will be updated with the opposite 'isCompleted' value.
   Future<void> toggleIsSeenChat(String id) async {
-    final aiChat = aiChatBox.get(id);
-    if (aiChat != null) {
-      final updated = aiChat.copyWith(isSeen: !(aiChat.isSeen ?? false));
-      await aiChatBox.put(id, updated);
+    final db = await _databaseService.database;
+    final maps = await db.query('ai_chats', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      final currentChat = AiChatModel.fromMap(maps.first);
+      final updated = currentChat.copyWith(isSeen: !(currentChat.isSeen ?? false));
+      await db.update('ai_chats', updated.toMap(), where: 'id = ?', whereArgs: [id]);
     }
   }
 
-  /// Toggle/Update value of isReplied
   Future<void> toggleIsRepliedChat(String id) async {
-    final aiChat = aiChatBox.get(id);
-    if (aiChat != null) {
-      final updated = aiChat.copyWith(isReplied: !(aiChat.isReplied ?? false));
-      await aiChatBox.put(id, updated);
+    final db = await _databaseService.database;
+    final maps = await db.query('ai_chats', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      final currentChat = AiChatModel.fromMap(maps.first);
+      final updated = currentChat.copyWith(isReplied: !(currentChat.isReplied ?? false));
+      await db.update('ai_chats', updated.toMap(), where: 'id = ?', whereArgs: [id]);
     }
   }
 
-  /// Removes the chat identified by [tid] from local storage
   Future<void> removeChat(String id) async {
-    await aiChatBox.delete(id);
+    final db = await _databaseService.database;
+    await db.delete('ai_chats', where: 'id = ?', whereArgs: [id]);
   }
 
-  /// Updates the title of the aiChat identified by [id] with [chatTextBody]
   Future<void> editUserChat(String id, String newChatTextBody) async {
-    final aiChat = aiChatBox.get(id);
-    if (aiChat != null) {
-      final updated = aiChat.copyWith(chatTextBody: newChatTextBody);
-      await aiChatBox.put(id, updated);
+    final db = await _databaseService.database;
+    final maps = await db.query('ai_chats', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      final currentChat = AiChatModel.fromMap(maps.first);
+      final updated = currentChat.copyWith(chatTextBody: newChatTextBody);
+      await db.update('ai_chats', updated.toMap(), where: 'id = ?', whereArgs: [id]);
     }
   }
 
-  /// Update an existing chat in the database
   Future<void> updateAiChat(String id, AiChatModel chat) async {
-    await aiChatBox.put(id, chat);
+    final db = await _databaseService.database;
+    await db.update('ai_chats', chat.toMap(), where: 'id = ?', whereArgs: [id]);
   }
 }

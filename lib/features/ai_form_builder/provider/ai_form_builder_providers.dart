@@ -1,4 +1,4 @@
-import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/services/database_service.dart';
 import 'package:ai_form_builder/core/services/mistral_service.dart';
 import 'package:ai_form_builder/core/services/voice_to_text_service.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
@@ -10,19 +10,23 @@ import '../domain/ai_form_builder_chat_model.dart';
 import '../infrastructure/ai_form_builder_chat_repository.dart';
 import '../infrastructure/ai_generated_form_repository.dart';
 
+final databaseServiceProvider = Provider<DatabaseService>((ref) {
+  return DatabaseService.instance;
+});
+
 /// Provider for the chat repository
 final aiFormBuilderChatRepositoryProvider =
     Provider<AiFormBuilderChatRepository>((ref) {
-      final hiveService = ref.watch(hiveServiceProvider);
-      return AiFormBuilderChatRepository(hiveService);
+      final databaseService = ref.watch(databaseServiceProvider);
+      return AiFormBuilderChatRepository(databaseService);
     });
 
 /// Provider for the generated form repository
-final aiGeneratedFormRepositoryProvider = Provider<AiGeneratedFormRepository>((
+final aiGeneratedFormRepositoryProvider = Provider<AiGeneratedFormRepository>(( 
   ref,
 ) {
-  final hiveService = ref.watch(hiveServiceProvider);
-  return AiGeneratedFormRepository(hiveService);
+  final databaseService = ref.watch(databaseServiceProvider);
+  return AiGeneratedFormRepository(databaseService);
 });
 
 /// function for call getAiGeneratedFormById so that passing form id its being possible to get the form information
@@ -49,14 +53,12 @@ final isExpandedSummaryProvider = StateProvider<bool>((ref) => false);
 final isExpandedFabProvider = StateProvider<bool>((ref) => false);
 
 /// Controller for aiFormBuilderChat logic and Hive access
-final aiFormBuilderChatControllerProvider = StateNotifierProvider<
+final aiFormBuilderChatControllerProvider = StateNotifierProvider< 
   AiFormBuilderChatController,
-  AsyncValue<List<AiFormBuilderChatModel>>
+  AsyncValue<List<AiFormBuilderChatModel>> 
 >((ref) {
-  final hiveService = ref.watch(hiveServiceProvider);
-
   final repo = ref.watch(aiFormBuilderChatRepositoryProvider);
-  return AiFormBuilderChatController(repo, ref, hiveService);
+  return AiFormBuilderChatController(repo, ref, ref.watch(databaseServiceProvider));
 });
 
 /// taking only those aiFormBuilderChats which are incomplete
@@ -107,7 +109,7 @@ class FormValuesNotifier extends StateNotifier<Map<String, dynamic>> {
 }
 
 /// Provider for the form values state
-final formValuesProvider =
+final formValuesProvider = 
     StateNotifierProvider.autoDispose<FormValuesNotifier, Map<String, dynamic>>(
       (ref) {
         return FormValuesNotifier();

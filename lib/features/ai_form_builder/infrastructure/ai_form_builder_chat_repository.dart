@@ -1,24 +1,20 @@
-import 'package:ai_form_builder/core/services/hive_service.dart';
-import 'package:hive/hive.dart';
+import 'package:ai_form_builder/core/services/database_service.dart';
 
 import '../domain/ai_form_builder_chat_model.dart';
 
-/// A repository class for managing aiFormBuilderChat-related operation using hive
 class AiFormBuilderChatRepository {
-  /// The hive box containing [AiFormBuilderChatModel] instances.
-  final HiveService _hiveService;
-  Box<AiFormBuilderChatModel> get _box => _hiveService.formBuilderChatBox;
-  AiFormBuilderChatRepository(this._hiveService);
+  final DatabaseService _databaseService;
 
-  /// Retrives all aiFormBuilderChat from the local Hive storages.
-  ///
-  /// Returns a [List] of [AiFormBuilderChatModel] instances
+  AiFormBuilderChatRepository(this._databaseService);
+
   Future<List<AiFormBuilderChatModel>> getAiFormBuilderChat() async {
-    return _box.values.toList();
+    final db = await _databaseService.database;
+    final maps = await db.query('ai_form_builder_chats');
+    return maps.map((map) => AiFormBuilderChatModel.fromMap(map)).toList();
   }
 
-  /// Adds a new aiFormBuilderChat with the given [text] as the title.
   Future<AiFormBuilderChatModel?> addAiFormBuilderChat(String text) async {
+    final db = await _databaseService.database;
     final key = DateTime.now().millisecondsSinceEpoch.toString();
     final aiFormBuilderChat = AiFormBuilderChatModel(
       id: key,
@@ -26,53 +22,30 @@ class AiFormBuilderChatRepository {
       timestamp: DateTime.now(),
       isUser: false,
     );
-    await _box.put(key, aiFormBuilderChat);
+    await db.insert('ai_form_builder_chats', aiFormBuilderChat.toMap());
     return aiFormBuilderChat;
   }
 
-  /// Toggles the completion status of a isSeen identified by [id]
-  ///
-  /// if the aiFormBuilderChat exists, it will be updated with the opposite 'isCompleted' value.
-  // Future<void> toggleIsSeenChat(String id) async {
-  //   final aiFormBuilderChat = _box.get(id);
-  //   if (aiFormBuilderChat != null) {
-  //     final updated = aiFormBuilderChat.copyWith(
-  //       isSeen: !(aiFormBuilderChat.isSeen ?? false),
-  //     );
-  //     await _box.put(id, updated);
-  //   }
-  // }
-
-  /// Toggle/Update value of isReplied
-  // Future<void> toggleIsRepliedChat(String id) async {
-  //   final aiFormBuilderChat = _box.get(id);
-  //   if (aiFormBuilderChat != null) {
-  //     final updated = aiFormBuilderChat.copyWith(
-  //       isReplied: !(aiFormBuilderChat.isReplied ?? false),
-  //     );
-  //     await _box.put(id, updated);
-  //   }
-  // }
-
-  /// Removes the chat identified by [tid] from local storage
   Future<void> removeChat(String id) async {
-    await _box.delete(id);
+    final db = await _databaseService.database;
+    await db.delete('ai_form_builder_chats', where: 'id = ?', whereArgs: [id]);
   }
 
-  /// Updates the title of the aiFormBuilderChat identified by [id] with [chatTextBody]
   Future<void> editUserChat(String id, String newChatTextBody) async {
-    final aiFormBuilderChat = _box.get(id);
-    if (aiFormBuilderChat != null) {
-      final updated = aiFormBuilderChat.copyWith(message: newChatTextBody);
-      await _box.put(id, updated);
+    final db = await _databaseService.database;
+    final maps = await db.query('ai_form_builder_chats', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      final currentChat = AiFormBuilderChatModel.fromMap(maps.first);
+      final updated = currentChat.copyWith(message: newChatTextBody);
+      await db.update('ai_form_builder_chats', updated.toMap(), where: 'id = ?', whereArgs: [id]);
     }
   }
 
-  /// Update an existing chat in the database
   Future<void> updateAiFormBuilderChat(
     String id,
     AiFormBuilderChatModel chat,
   ) async {
-    await _box.put(id, chat);
+    final db = await _databaseService.database;
+    await db.update('ai_form_builder_chats', chat.toMap(), where: 'id = ?', whereArgs: [id]);
   }
 }
