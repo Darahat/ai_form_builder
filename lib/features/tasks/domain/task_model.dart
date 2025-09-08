@@ -1,27 +1,9 @@
-import 'package:hive/hive.dart';
-
-part 'task_model.g.dart';
-
-@HiveType(typeId: 1)
-/// its User model for authentication
 class TaskModel {
-  /// first field for the hive/table is uid
-  @HiveField(0)
   final String? tid;
-
-  /// second non required field
-  @HiveField(1)
   final String? title;
-
-  /// third required field for login
-  @HiveField(2)
   final bool isCompleted;
-
-  /// third required field for login
-  @HiveField(3)
   final String? taskCreationTime;
 
-  /// its construct of UserModel class . its for call UserModel to other dart file.  this.name is not required
   TaskModel({
     this.tid,
     this.title,
@@ -29,9 +11,24 @@ class TaskModel {
     this.taskCreationTime,
   });
 
-  ///creating a copy of an existing object with some updated fields and the actual object remain unchanged
-  ///its used when need to update any field .
-  ///used riverpod to state management.
+  factory TaskModel.fromMap(Map<String, dynamic> map) {
+    return TaskModel(
+      tid: map['tid'],
+      title: map['title'],
+      isCompleted: map['isCompleted'] == 1,
+      taskCreationTime: map['taskCreationTime'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'tid': tid,
+      'title': title,
+      'isCompleted': isCompleted ? 1 : 0,
+      'taskCreationTime': taskCreationTime,
+    };
+  }
+
   TaskModel copyWith({
     String? tid,
     String? title,

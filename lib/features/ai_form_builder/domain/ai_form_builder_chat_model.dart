@@ -1,27 +1,10 @@
-import 'package:hive/hive.dart';
 
-part 'ai_form_builder_chat_model.g.dart';
-
-@HiveType(typeId: 7)
-/// Model for AI Form Builder chat messages
 class AiFormBuilderChatModel {
-  /// Unique identifier for the chat message
-  @HiveField(0)
   final String? id;
-
-  /// The content of the chat message
-  @HiveField(1)
   final String message;
-
-  /// Whether the message was sent by the user (true) or AI (false)
-  @HiveField(2)
   final bool isUser;
-
-  /// Timestamp when the message was sent
-  @HiveField(3)
   final DateTime timestamp;
 
-  /// Constructor for AiFormBuilderChatModel
   AiFormBuilderChatModel({
     this.id,
     required this.message,
@@ -29,7 +12,24 @@ class AiFormBuilderChatModel {
     required this.timestamp,
   });
 
-  /// Creates a copy of an existing object with some updated fields
+  factory AiFormBuilderChatModel.fromMap(Map<String, dynamic> map) {
+    return AiFormBuilderChatModel(
+      id: map['id'],
+      message: map['message'],
+      isUser: map['isUser'] == 1,
+      timestamp: DateTime.parse(map['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'message': message,
+      'isUser': isUser ? 1 : 0,
+      'timestamp': timestamp.toIso8601String(),
+    };
+  }
+
   AiFormBuilderChatModel copyWith({
     String? id,
     String? message,

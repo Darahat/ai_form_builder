@@ -1,35 +1,11 @@
-import 'package:hive/hive.dart';
-
-part 'ai_chat_model.g.dart';
-
-@HiveType(typeId: 4)
-/// its User model for authentication
 class AiChatModel {
-  /// first field for the hive/table is id
-  @HiveField(0)
   final String? id;
-
-  /// Chat Body
-  @HiveField(1)
   final String? chatTextBody;
-
-  /// when the message sent
-  @HiveField(2)
   final String sentTime;
-
-  /// is user/Ai checked
-  @HiveField(3)
   final bool? isSeen;
-
-  /// is user/ai replied
-  @HiveField(4)
   final bool? isReplied;
-
-  /// is user/ai replied
-  @HiveField(5)
   final String? replyText;
 
-  /// its construct of UserModel class . its for call UserModel to other dart file.  this.name is not required
   AiChatModel({
     this.id,
     this.chatTextBody,
@@ -39,9 +15,28 @@ class AiChatModel {
     this.replyText,
   });
 
-  ///creating a copy of an existing object with some updated fields and the actual object remain unchanged
-  ///its used when need to update any field .
-  ///used riverpod to state management.
+  factory AiChatModel.fromMap(Map<String, dynamic> map) {
+    return AiChatModel(
+      id: map['id'],
+      chatTextBody: map['chatTextBody'],
+      sentTime: map['sentTime'],
+      isSeen: map['isSeen'] == 1,
+      isReplied: map['isReplied'] == 1,
+      replyText: map['replyText'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'chatTextBody': chatTextBody,
+      'sentTime': sentTime,
+      'isSeen': isSeen == true ? 1 : 0,
+      'isReplied': isReplied == true ? 1 : 0,
+      'replyText': replyText,
+    };
+  }
+
   AiChatModel copyWith({
     String? id,
     String? chatTextBody,
