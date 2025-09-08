@@ -59,11 +59,6 @@ final aiFormBuilderChatControllerProvider = StateNotifierProvider<
   return AiFormBuilderChatController(repo, ref, hiveService);
 });
 
-/// taking only those aiFormBuilderChats which are incomplete
-// final incompleteTasksProvider = Provider<AsyncValue<List<AiFormBuilderChatModel>>>((ref) {
-//   return ref.watch(aiFormBuilderChatControllerProvider);
-// });
-
 /// Mistral AI summary service
 final mistralServiceProvider = Provider((ref) => MistralService());
 

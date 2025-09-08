@@ -50,16 +50,6 @@ class AiFormBuilderChatController
     }
   }
 
-  /// Load all aiFormBuilderChats from repository
-  // Future<void> getAiFormBuilderChats() async {
-  //   ref.read(aiFormBuilderChatLoadingProvider.notifier).state = true;
-
-  //   final aiFormBuilderChats = await _repo.aiFormBuilderChats();
-  //   state = aiFormBuilderChats.where((aiFormBuilderChat) => aiFormBuilderChat.isCompleted == false).toList();
-
-  //   ref.read(aiFormBuilderChatLoadingProvider.notifier).state = false;
-  // }
-
   /// Add a new aiFormBuilderChat and reload list
   Future<void> addAiFormBuilderChat(
     String usersText,
@@ -148,40 +138,6 @@ class AiFormBuilderChatController
       );
     }
   }
-
-  /// Toggle a aiFormBuilderChat and reload list
-  // Future<void> toggleIsSeenChat(String id) async {
-  //   final currentChats = state.value ?? [];
-  //   if (currentChats.isEmpty) return;
-  //   await _repo.toggleIsSeenChat(id);
-
-  //   final updatedList =
-  //       currentChats.map((chat) {
-  //         if (chat.id == id) {
-  //           return chat.copyWith(isSeen: !(chat.isSeen ?? false));
-  //         }
-  //         return chat;
-  //       }).toList();
-
-  //   /// Update the state with the new list
-  //   if (!mounted) return;
-  //   state = AsyncValue.data(updatedList);
-  // }
-
-  /// Update chat status value of is it replied
-  // Future<void> toggleIsRepliedChat(String id) async {
-  //   final currentChats = state.value ?? [];
-  //   if (currentChats.isEmpty) return;
-
-  //   await _repo.toggleIsRepliedChat(id);
-  //   final chatToUpdate = currentChats.firstWhere((chat) => chat.id == id);
-  //   final updatedList = currentChats.updated(
-  //     id,
-  //     chatToUpdate.copyWith(isReplied: !(chatToUpdate.isReplied ?? false)),
-  //   );
-  //   if (!mounted) return;
-  //   state = AsyncValue.data(updatedList);
-  // }
 
   /// Remove a aiFormBuilderChat and reload list
   Future<void> removeAiFormBuilderChat(String id) async {
