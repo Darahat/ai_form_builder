@@ -1,11 +1,21 @@
 import 'dart:convert';
+import 'package:hive/hive.dart';
 
+part 'settings_model.g.dart';
+
+@HiveType(typeId: 3)
 class SettingDefinitionModel {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String name;
+  @HiveField(2)
   final String description;
+  @HiveField(3)
   final String defaultValue;
+  @HiveField(4)
   final String dataType;
+  @HiveField(5)
   final bool isUserSpecific;
 
   SettingDefinitionModel({

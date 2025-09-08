@@ -1,9 +1,9 @@
-import 'package:ai_form_builder/core/services/database_service.dart';
+import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:hive/hive.dart';
 
 import '../domain/ai_form_builder_chat_model.dart';
 
 class AiFormBuilderChatRepository {
-
   /// The hive box containing [AiFormBuilderChatModel] instances.
   final HiveService _hiveService;
   Box<AiFormBuilderChatModel> get _box => _hiveService.formBuilderChatBox;
@@ -16,13 +16,10 @@ class AiFormBuilderChatRepository {
   /// Returns a [List] of [AiFormBuilderChatModel] instances
 
   Future<List<AiFormBuilderChatModel>> getAiFormBuilderChat() async {
-    final db = await _databaseService.database;
-    final maps = await db.query('ai_form_builder_chats');
-    return maps.map((map) => AiFormBuilderChatModel.fromMap(map)).toList();
+    return _box.values.toList();
   }
 
   Future<AiFormBuilderChatModel?> addAiFormBuilderChat(String text) async {
-    final db = await _databaseService.database;
     final key = DateTime.now().millisecondsSinceEpoch.toString();
     final aiFormBuilderChat = AiFormBuilderChatModel(
       id: key,
@@ -30,22 +27,19 @@ class AiFormBuilderChatRepository {
       timestamp: DateTime.now(),
       isUser: false,
     );
-    await db.insert('ai_form_builder_chats', aiFormBuilderChat.toMap());
+    await _box.put(key, aiFormBuilderChat);
     return aiFormBuilderChat;
   }
 
   Future<void> removeChat(String id) async {
-    final db = await _databaseService.database;
-    await db.delete('ai_form_builder_chats', where: 'id = ?', whereArgs: [id]);
+    await _box.delete(id);
   }
 
   Future<void> editUserChat(String id, String newChatTextBody) async {
-    final db = await _databaseService.database;
-    final maps = await db.query('ai_form_builder_chats', where: 'id = ?', whereArgs: [id]);
-    if (maps.isNotEmpty) {
-      final currentChat = AiFormBuilderChatModel.fromMap(maps.first);
+    final currentChat = _box.get(id);
+    if (currentChat != null) {
       final updated = currentChat.copyWith(message: newChatTextBody);
-      await db.update('ai_form_builder_chats', updated.toMap(), where: 'id = ?', whereArgs: [id]);
+      await _box.put(id, updated);
     }
   }
 
@@ -53,7 +47,6 @@ class AiFormBuilderChatRepository {
     String id,
     AiFormBuilderChatModel chat,
   ) async {
-    final db = await _databaseService.database;
-    await db.update('ai_form_builder_chats', chat.toMap(), where: 'id = ?', whereArgs: [id]);
+    await _box.put(id, chat);
   }
 }

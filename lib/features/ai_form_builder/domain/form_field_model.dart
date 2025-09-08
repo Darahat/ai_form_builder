@@ -1,11 +1,17 @@
-import 'dart:convert';
-
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
+part 'form_field_model.g.dart';
+
+@HiveType(typeId: 8)
 class FormFieldModel {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String question;
+  @HiveField(2)
   final String type;
+  @HiveField(3)
   final List<String>? options;
 
   FormFieldModel({
@@ -60,8 +66,11 @@ class FormFieldModel {
 }
 
 class AiGeneratedFormModel {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String title;
+  @HiveField(2)
   final List<FormFieldModel> fields;
 
   AiGeneratedFormModel({

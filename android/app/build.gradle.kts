@@ -25,7 +25,7 @@ android {
     defaultConfig {
         applicationId = "com.example.aiformbuilder"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
 
         // ✅ Import flutter values from gradle.properties
         versionCode = project.findProperty("flutter.versionCode")?.toString()?.toInt() ?: 1

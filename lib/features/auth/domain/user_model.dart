@@ -1,10 +1,19 @@
 import 'package:ai_form_builder/features/auth/domain/user_role.dart';
+import 'package:hive/hive.dart';
 
+part 'user_model.g.dart';
+
+@HiveType(typeId: 2)
 class UserModel {
+  @HiveField(0)
   final String uid;
+  @HiveField(1)
   final String? name;
+  @HiveField(2)
   final String email;
+  @HiveField(3)
   final UserRole? role;
+  @HiveField(4)
   final String? photoURL;
 
   UserModel({

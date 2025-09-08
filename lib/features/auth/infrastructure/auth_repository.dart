@@ -18,7 +18,6 @@ import '../domain/user_model.dart';
 class AuthRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  final _googleSignIn = GoogleSignIn();
   final Ref _ref; // Add Ref object
   final AppLogger _appLogger;
   final HiveService _hiveService;
@@ -28,7 +27,10 @@ class AuthRepository {
     this._hiveService,
     this._ref,
     this._appLogger,
-  ); // Constructor to receive Ref
+  ) {
+    // Constructor to receive Ref
+    GoogleSignIn.instance.initialize();
+  }
 
   // final _box = Hive.box<UserModel>('authBox');
 
@@ -87,14 +89,14 @@ class AuthRepository {
   /// This is Signin model function for google signin which will call from controller
   Future<UserModel?> signInWithGoogle() async {
     try {
-      final googleUser = await _googleSignIn.signIn();
+      final googleUser = await GoogleSignIn.instance.authenticate();
       if (googleUser == null) {
         /// User canceled the sign-in
         throw AuthenticationException('🚀 ~ User Canceled the Sign-in');
       }
       final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        accessToken: googleAuth.idToken,
         idToken: googleAuth.idToken,
       );
       final cred = await _auth.signInWithCredential(credential);
@@ -180,7 +182,7 @@ class AuthRepository {
   /// model function for logout which will call from controller
   Future<void> signOut() async {
     await _auth.signOut();
-    await _googleSignIn.signOut();
+    await GoogleSignIn.instance.signOut();
     await _hiveService.clear();
     _ref.invalidate(aiChatControllerProvider);
     _ref.invalidate(uToUChatControllerProvider);

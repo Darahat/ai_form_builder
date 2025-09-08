@@ -1,9 +1,20 @@
+import 'package:hive/hive.dart';
+
+part 'ai_chat_model.g.dart';
+
+@HiveType(typeId: 4)
 class AiChatModel {
+  @HiveField(0)
   final String? id;
+  @HiveField(1)
   final String? chatTextBody;
+  @HiveField(2)
   final String sentTime;
+  @HiveField(3)
   final bool? isSeen;
+  @HiveField(4)
   final bool? isReplied;
+  @HiveField(5)
   final String? replyText;
 
   AiChatModel({
@@ -63,9 +74,11 @@ extension AiChatListUtils on List<AiChatModel> {
     return [
       for (final chat in this)
         if (chat.id == tid)
+
           /// When we find the aiChat, create a new one with the updated title
           updatedChat
         else
+
           /// Otherwise, keep the existing aiChat
           chat,
     ];
