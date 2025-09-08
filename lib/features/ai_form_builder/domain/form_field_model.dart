@@ -15,23 +15,6 @@ class FormFieldModel {
     this.options,
   });
 
-  factory FormFieldModel.fromMap(Map<String, dynamic> map) {
-    return FormFieldModel(
-      id: map['id'],
-      question: map['question'],
-      type: map['type'],
-      options: map['options'] != null ? List<String>.from(jsonDecode(map['options'])) : null,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'question': question,
-      'type': type,
-      'options': options != null ? jsonEncode(options) : null,
-    };
-  }
 
   factory FormFieldModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('question') || !json.containsKey('type')) {
@@ -87,20 +70,9 @@ class AiGeneratedFormModel {
     required this.fields,
   });
 
-  factory AiGeneratedFormModel.fromMap(Map<String, dynamic> map, List<FormFieldModel> fields) {
-    return AiGeneratedFormModel(
-      id: map['id'],
-      title: map['title'],
-      fields: fields,
-    );
-  }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-    };
-  }
+  /// Convert ai return (the Fields and title part) from json to FormFieldModel data structure
+
 
   factory AiGeneratedFormModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('title') || !json.containsKey('fields')) {

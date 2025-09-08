@@ -106,13 +106,13 @@ class MistralService {
 
     if (response.statusCode == 200) {
       /// this print statement to see the raw response body
-      print('Mistral API Response Body (Status 200): ${response.body}');
+      // print('Mistral API Response Body (Status 200): ${response.body}');
       final data = jsonDecode(response.body);
       return data['choices'][0]['message']['content'].trim();
     } else {
-      print(
-        'Mistral API Error Response (Status ${response.statusCode}): ${response.body}',
-      );
+      // print(
+      //   'Mistral API Error Response (Status ${response.statusCode}): ${response.body}',
+      // );
       throw Exception(
         'Failed to get response from Mistral: ${response.statusCode} ${response.body}',
       );

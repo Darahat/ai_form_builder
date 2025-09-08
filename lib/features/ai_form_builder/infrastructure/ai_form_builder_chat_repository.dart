@@ -3,9 +3,17 @@ import 'package:ai_form_builder/core/services/database_service.dart';
 import '../domain/ai_form_builder_chat_model.dart';
 
 class AiFormBuilderChatRepository {
-  final DatabaseService _databaseService;
 
-  AiFormBuilderChatRepository(this._databaseService);
+  /// The hive box containing [AiFormBuilderChatModel] instances.
+  final HiveService _hiveService;
+  Box<AiFormBuilderChatModel> get _box => _hiveService.formBuilderChatBox;
+
+  ///AiFormBuilderChatRepository constructor
+  AiFormBuilderChatRepository(this._hiveService);
+
+  /// get all aiFormBuilderChat from the local Hive storages.
+  ///
+  /// Returns a [List] of [AiFormBuilderChatModel] instances
 
   Future<List<AiFormBuilderChatModel>> getAiFormBuilderChat() async {
     final db = await _databaseService.database;

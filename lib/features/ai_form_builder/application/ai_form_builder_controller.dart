@@ -1,7 +1,7 @@
 import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/utils/form_generator.dart';
-import 'package:ai_form_builder/core/utils/logger.dart';
+// import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +17,8 @@ final formBuilderChatLoadingProvider = StateProvider<bool>((ref) => false);
 class AiFormBuilderChatController
     extends StateNotifier<AsyncValue<List<AiFormBuilderChatModel>>> {
   final AiFormBuilderChatRepository _repo;
+
+  /// instance for hiveService
   HiveService hiveService;
 
   /// ref is a riverpod object which used by providers to interact with other providers and life cycle
@@ -48,22 +50,12 @@ class AiFormBuilderChatController
     }
   }
 
-  /// Load all aiFormBuilderChats from repository
-  // Future<void> getAiFormBuilderChats() async {
-  //   ref.read(aiFormBuilderChatLoadingProvider.notifier).state = true;
-
-  //   final aiFormBuilderChats = await _repo.aiFormBuilderChats();
-  //   state = aiFormBuilderChats.where((aiFormBuilderChat) => aiFormBuilderChat.isCompleted == false).toList();
-
-  //   ref.read(aiFormBuilderChatLoadingProvider.notifier).state = false;
-  // }
-
   /// Add a new aiFormBuilderChat and reload list
   Future<void> addAiFormBuilderChat(
     String usersText,
     String systemPrompt,
   ) async {
-    final logger = ref.watch(appLoggerProvider);
+    // final logger = ref.watch(appLoggerProvider);
 
     /// Get The current list of aiFormBuilderChats from the state's value
     final currentAiFormBuilderChats = state.value ?? [];
@@ -121,7 +113,7 @@ class AiFormBuilderChatController
 
       final aiMessageContent =
           form != null
-              ? "Your form has been created! You can share it using this link: ${formUrl ?? 'Error generating link'}"
+              ? "Your form has been created! You can share it using this link: $formUrl"
               : aiReplyText;
 
       // Create a new AiFormBuilderChatModel for the AI's reply
@@ -146,40 +138,6 @@ class AiFormBuilderChatController
       );
     }
   }
-
-  /// Toggle a aiFormBuilderChat and reload list
-  // Future<void> toggleIsSeenChat(String id) async {
-  //   final currentChats = state.value ?? [];
-  //   if (currentChats.isEmpty) return;
-  //   await _repo.toggleIsSeenChat(id);
-
-  //   final updatedList =
-  //       currentChats.map((chat) {
-  //         if (chat.id == id) {
-  //           return chat.copyWith(isSeen: !(chat.isSeen ?? false));
-  //         }
-  //         return chat;
-  //       }).toList();
-
-  //   /// Update the state with the new list
-  //   if (!mounted) return;
-  //   state = AsyncValue.data(updatedList);
-  // }
-
-  /// Update chat status value of is it replied
-  // Future<void> toggleIsRepliedChat(String id) async {
-  //   final currentChats = state.value ?? [];
-  //   if (currentChats.isEmpty) return;
-
-  //   await _repo.toggleIsRepliedChat(id);
-  //   final chatToUpdate = currentChats.firstWhere((chat) => chat.id == id);
-  //   final updatedList = currentChats.updated(
-  //     id,
-  //     chatToUpdate.copyWith(isReplied: !(chatToUpdate.isReplied ?? false)),
-  //   );
-  //   if (!mounted) return;
-  //   state = AsyncValue.data(updatedList);
-  // }
 
   /// Remove a aiFormBuilderChat and reload list
   Future<void> removeAiFormBuilderChat(String id) async {
