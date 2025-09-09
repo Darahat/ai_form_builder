@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/domain/form_field_model.dart';
+import 'package:ai_form_builder/features/ai_form_builder/infrastructure/ai_generated_form_repository.dart';
 import 'package:flutter/material.dart';
 
 /// Form Generator function
@@ -11,6 +12,7 @@ class FormGenerator {
   static Future<AiGeneratedFormModel?> parseAndSaveForm(
     ref,
     HiveService hiveService,
+    AiGeneratedFormRepository aiGeneratedFormRepository,
     String jsonString,
   ) async {
     final logger = ref.watch(appLoggerProvider);
@@ -41,8 +43,9 @@ class FormGenerator {
         logger.info(
           'Cleaned JSON*********inside if condition********************** $decodedJson ',
         );
-        final box = hiveService.aiGeneratedFormInfoBox;
-        await box.put(form.id, form);
+        // final box = hiveService.aiGeneratedFormInfoBox;
+        // await box.put(form.id, form);
+        await aiGeneratedFormRepository.saveAiGeneratedForm(form);
         return form;
       }
     } on FormatException catch (e) {
@@ -66,10 +69,9 @@ String? extractJson(String input) {
     cleanedInput = cleanedInput.substring(3).trim(); // Remove '```'
   }
   if (cleanedInput.endsWith('```')) {
-    cleanedInput =
-        cleanedInput
-            .substring(0, cleanedInput.length - 3)
-            .trim(); // Remove '```'
+    cleanedInput = cleanedInput
+        .substring(0, cleanedInput.length - 3)
+        .trim(); // Remove '```'
   }
 
   int start = cleanedInput.indexOf('{');

@@ -5,6 +5,7 @@ import 'package:ai_form_builder/features/ai_form_builder/domain/ai_form_builder_
 import 'package:ai_form_builder/features/ai_form_builder/domain/form_field_model.dart';
 import 'package:ai_form_builder/features/app_settings/domain/settings_model.dart';
 import 'package:ai_form_builder/features/auth/domain/user_model.dart';
+import 'package:ai_form_builder/features/auth/domain/user_role.dart';
 import 'package:ai_form_builder/features/tasks/domain/task_model.dart';
 import 'package:ai_form_builder/features/utou_chat/domain/utou_chat_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,10 +70,9 @@ class HiveService {
         Hive.registerAdapter(TaskModelAdapter());
       }
 
-      // if (!Hive.isAdapterRegistered(6)) {
-      //   // Register UserRoleAdapter with typeId 4
-      //   Hive.registerAdapter(UserRoleAdapter());
-      // }
+      if (!Hive.isAdapterRegistered(6)) {
+        Hive.registerAdapter(UserRoleAdapter());
+      }
       if (!Hive.isAdapterRegistered(3)) {
         // This is for SettingDefinitionModelAdapter
         Hive.registerAdapter(SettingDefinitionModelAdapter());

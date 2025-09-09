@@ -30,25 +30,26 @@ class FormFieldModel {
     List<String>? options;
 
     if (type == 'multiple-choice') {
-      if (!json.containsKey('options')) {
+      if (!json.containsKey('options') || json['options'] == null) {
         throw ArgumentError(
-          'Invalid JSON: "multiple-choice" type requires "options"',
+          'Invalid JSON: "multiple-choice" type requires non-null "options"',
+        );
+      }
+      if (json['options'] is! List) {
+        throw ArgumentError(
+          'Invalid JSON: "options" for "multiple-choice" type must be a list',
         );
       }
       options = List<String>.from(json['options']);
     } else {
       // For other types like 'text', 'textarea', 'options' are not required
-      options = json.containsKey('options')
-          ? List<String>.from(json['options'])
-          : null;
       if (json.containsKey('options') && json['options'] != null) {
         if (json['options'] is! List) {
-          throw ArgumentError(
-            'Invalid JSON: Options must be a list if present and not null',
-          );
+          // If 'options' is present but not a list, treat as null
+          options = null;
+        } else {
+          options = List<String>.from(json['options']);
         }
-
-        options = List<String>.from(json['options']);
       } else {
         options = null;
       }

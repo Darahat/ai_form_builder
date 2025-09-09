@@ -13,6 +13,11 @@ class AiGeneratedFormRepository {
   ///    AiGeneratedFormRepository constructor
   AiGeneratedFormRepository(this._hiveService);
 
+  ///Save form to hive db
+  Future<void> saveAiGeneratedForm(AiGeneratedFormModel form) async {
+    await _getFormBox.put(form.id, form);
+  }
+
   /// Get AIGenerated Form by ID from hive database
 
   AiGeneratedFormModel? getAiGeneratedFormById(String id) {
