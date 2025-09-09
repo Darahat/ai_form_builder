@@ -30,10 +30,7 @@ class UserModel {
       email: map['email'],
       name: map['name'],
       photoURL: map['photoURL'],
-      role: UserRole.values.firstWhere(
-        (e) => e.toString() == 'UserRole.${map['role'] ?? 'guest'}',
-        orElse: () => UserRole.guest,
-      ),
+      role: _parseUserRole(map['role'] as String?),
     );
   }
 
@@ -54,10 +51,19 @@ class UserModel {
       email: data['email'] ?? '',
       name: data['displayName'] ?? 'No Name',
       photoURL: data['photoURL'],
-      role: UserRole.values.firstWhere(
-        (e) => e.toString() == 'UserRole.${data['role'] ?? 'guest'}',
-        orElse: () => UserRole.guest,
-      ),
+      role: _parseUserRole(data['role'] as String?),
     );
+  }
+
+  static UserRole _parseUserRole(String? roleString) {
+    switch (roleString) {
+      case 'authenticatedUser':
+        return UserRole.authenticatedUser;
+      case 'admin':
+        return UserRole.admin;
+      case 'guest':
+      default:
+        return UserRole.guest;
+    }
   }
 }

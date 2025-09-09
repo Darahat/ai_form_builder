@@ -21,7 +21,6 @@ class FormFieldModel {
     this.options,
   });
 
-
   factory FormFieldModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('question') || !json.containsKey('type')) {
       throw ArgumentError('Invalid JSON: Missing "question" or "type"');
@@ -39,10 +38,9 @@ class FormFieldModel {
       options = List<String>.from(json['options']);
     } else {
       // For other types like 'text', 'textarea', 'options' are not required
-      options =
-          json.containsKey('options')
-              ? List<String>.from(json['options'])
-              : null;
+      options = json.containsKey('options')
+          ? List<String>.from(json['options'])
+          : null;
       if (json.containsKey('options') && json['options'] != null) {
         if (json['options'] is! List) {
           throw ArgumentError(
@@ -65,6 +63,7 @@ class FormFieldModel {
   }
 }
 
+@HiveType(typeId: 9)
 class AiGeneratedFormModel {
   @HiveField(0)
   final String id;
@@ -79,9 +78,7 @@ class AiGeneratedFormModel {
     required this.fields,
   });
 
-
   /// Convert ai return (the Fields and title part) from json to FormFieldModel data structure
-
 
   factory AiGeneratedFormModel.fromJson(Map<String, dynamic> json) {
     if (!json.containsKey('title') || !json.containsKey('fields')) {

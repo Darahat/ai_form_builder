@@ -284,13 +284,22 @@ class AuthRepository {
           photoURL: data['photoURL'],
 
           /// Assuming 'role' is also field in your Firestore document
-          role: UserRole.values.firstWhere(
-            (e) => e.toString() == 'UserRole.${data['role'] ?? 'guest'}',
-            orElse: () => UserRole.guest,
-          ),
+          role: _parseUserRole(data['role'] as String?),
         );
       }).toList();
     });
+  }
+
+  UserRole _parseUserRole(String? roleString) {
+    switch (roleString) {
+      case 'authenticatedUser':
+        return UserRole.authenticatedUser;
+      case 'admin':
+        return UserRole.admin;
+      case 'guest':
+      default:
+        return UserRole.guest;
+    }
   }
 
   Future<void> _saveUserData(

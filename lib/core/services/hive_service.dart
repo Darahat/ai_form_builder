@@ -93,10 +93,10 @@ class HiveService {
         // Assuming typeId 6 for UToUChatModelAdapter
         Hive.registerAdapter(FormFieldModelAdapter());
       }
-      // if (!Hive.isAdapterRegistered(9)) {
-      //   // Assuming typeId 6 for UToUChatModelAdapter
-      //   Hive.registerAdapter(AiGeneratedFormModelAdapter());
-      // }
+      if (!Hive.isAdapterRegistered(9)) {
+        // Assuming typeId 6 for UToUChatModelAdapter
+        Hive.registerAdapter(AiGeneratedFormModelAdapter());
+      }
       await Hive.openBox<UserModel>(authBoxName);
       await Hive.openBox<TaskModel>(taskBoxName);
       await Hive.openBox<AiChatModel>(aiChatBoxName);
