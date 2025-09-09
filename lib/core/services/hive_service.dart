@@ -103,7 +103,7 @@ class HiveService {
       await Hive.openBox<SettingDefinitionModel>(settingsBoxName);
       await Hive.openBox<UToUChatModel>(uTouChatBoxName);
       await Hive.openBox<AiFormBuilderChatModel>(formBuilderChatBoxName);
-      await Hive.box<AiFormBuilderChatModel>(formBuilderChatBoxName).clear();
+      // await Hive.box<AiFormBuilderChatModel>(formBuilderChatBoxName);
       await Hive.openBox<FormFieldModel>(formFieldBoxName);
       await Hive.openBox<AiGeneratedFormModel>(aiGeneratedFormBoxName);
       _initialized = true;

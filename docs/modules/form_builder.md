@@ -1,4 +1,4 @@
-adb shell am start -a android.intent.action.VIEW -d "https://darahat.dev/form/651cc05f-457b-4050-8860-1cfc72446e20" com.example.aiformbuilder
+adb shell am start -a android.intent.action.VIEW -d "https://darahat.dev/form/e861d390-654c-4e01-8837-09fa94fdb807" com.example.aiformbuilder
 
 1.  Go to the App Signing page in your Google Play Console.
 2.  Copy the SHA-256 certificate fingerprint for your production key.
