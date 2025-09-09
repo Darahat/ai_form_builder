@@ -19,16 +19,19 @@ class AiFormBuilderChatRepository {
     return _box.values.toList();
   }
 
-  Future<AiFormBuilderChatModel?> addAiFormBuilderChat(String text) async {
-    final key = DateTime.now().millisecondsSinceEpoch.toString();
-    final aiFormBuilderChat = AiFormBuilderChatModel(
-      id: key,
-      message: text,
-      timestamp: DateTime.now(),
-      isUser: false,
-    );
-    await _box.put(key, aiFormBuilderChat);
-    return aiFormBuilderChat;
+  // Future<AiFormBuilderChatModel?> addAiFormBuilderChat(String text) async {
+  //   final key = DateTime.now().millisecondsSinceEpoch.toString();
+  //   final aiFormBuilderChat = AiFormBuilderChatModel(
+  //     id: key,
+  //     message: text,
+  //     timestamp: DateTime.now(),
+  //     isUser: false,
+  //   );
+  //   await _box.put(key, aiFormBuilderChat);
+  //   return aiFormBuilderChat;
+  // }
+  Future<void> addAiFormBuilderChat(AiFormBuilderChatModel chat) async {
+    await _box.put(chat.id, chat);
   }
 
   Future<void> removeChat(String id) async {
