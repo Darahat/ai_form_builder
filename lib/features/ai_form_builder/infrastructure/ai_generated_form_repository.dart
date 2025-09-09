@@ -1,4 +1,5 @@
 import 'package:ai_form_builder/core/services/hive_service.dart';
+import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/domain/ai_form_submission_model.dart';
 import 'package:ai_form_builder/features/ai_form_builder/domain/form_field_model.dart';
 import 'package:hive/hive.dart';
@@ -21,6 +22,7 @@ class AiGeneratedFormRepository {
   /// Get AIGenerated Form by ID from hive database
 
   AiGeneratedFormModel? getAiGeneratedFormById(String id) {
+    AppLogger.log(id);
     return _getFormBox.get(id);
   }
 }

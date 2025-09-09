@@ -74,7 +74,7 @@ class AiFormBuilderChatController
     );
 
     // Save user's message to repository
-    await _repo.addAiFormBuilderChat(usersMessage.message);
+    await _repo.addAiFormBuilderChat(usersMessage);
 
     if (!mounted) return;
     state = AsyncValue.data([...currentAiFormBuilderChats, usersMessage]);
@@ -133,7 +133,7 @@ class AiFormBuilderChatController
       );
 
       // Save AI's message to repository
-      await _repo.addAiFormBuilderChat(aiMessage.message);
+      await _repo.addAiFormBuilderChat(aiMessage);
 
       // Add the AI's message to the state
       if (!mounted) return;
