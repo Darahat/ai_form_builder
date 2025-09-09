@@ -1,10 +1,19 @@
 import 'package:ai_form_builder/features/auth/domain/user_role.dart';
+import 'package:hive/hive.dart';
 
+part 'user_model.g.dart';
+
+@HiveType(typeId: 2)
 class UserModel {
+  @HiveField(0)
   final String uid;
+  @HiveField(1)
   final String? name;
+  @HiveField(2)
   final String email;
+  @HiveField(3)
   final UserRole? role;
+  @HiveField(4)
   final String? photoURL;
 
   UserModel({
@@ -21,10 +30,7 @@ class UserModel {
       email: map['email'],
       name: map['name'],
       photoURL: map['photoURL'],
-      role: UserRole.values.firstWhere(
-        (e) => e.toString() == 'UserRole.${map['role'] ?? 'guest'}',
-        orElse: () => UserRole.guest,
-      ),
+      role: _parseUserRole(map['role'] as String?),
     );
   }
 
@@ -45,10 +51,19 @@ class UserModel {
       email: data['email'] ?? '',
       name: data['displayName'] ?? 'No Name',
       photoURL: data['photoURL'],
-      role: UserRole.values.firstWhere(
-        (e) => e.toString() == 'UserRole.${data['role'] ?? 'guest'}',
-        orElse: () => UserRole.guest,
-      ),
+      role: _parseUserRole(data['role'] as String?),
     );
+  }
+
+  static UserRole _parseUserRole(String? roleString) {
+    switch (roleString) {
+      case 'authenticatedUser':
+        return UserRole.authenticatedUser;
+      case 'admin':
+        return UserRole.admin;
+      case 'guest':
+      default:
+        return UserRole.guest;
+    }
   }
 }

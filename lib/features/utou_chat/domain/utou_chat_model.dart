@@ -1,12 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
 
+part 'utou_chat_model.g.dart';
+
+@HiveType(typeId: 5)
 class UToUChatModel {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String? chatTextBody;
+  @HiveField(2)
   final DateTime sentTime;
+  @HiveField(3)
   final bool? isDelivered;
+  @HiveField(4)
   final bool? isRead;
+  @HiveField(5)
   final String? senderId;
+  @HiveField(6)
   final String? receiverId;
 
   UToUChatModel({
@@ -95,9 +106,11 @@ extension UToUChatListUtils on List<UToUChatModel> {
     return [
       for (final chat in this)
         if (chat.id == id)
+
           /// When we find the aiChat, create a new one with the updated title
           updatedChat
         else
+
           /// Otherwise, keep the existing aiChat
           chat,
     ];

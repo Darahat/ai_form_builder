@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.flutter_starter_kit"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -25,7 +25,7 @@ android {
     defaultConfig {
         applicationId = "com.example.aiformbuilder"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
 
         // ✅ Import flutter values from gradle.properties
         versionCode = project.findProperty("flutter.versionCode")?.toString()?.toInt() ?: 1

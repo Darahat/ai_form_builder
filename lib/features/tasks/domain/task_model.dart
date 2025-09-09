@@ -1,7 +1,16 @@
+import 'package:hive/hive.dart';
+
+part 'task_model.g.dart';
+
+@HiveType(typeId: 1)
 class TaskModel {
+  @HiveField(0)
   final String? tid;
+  @HiveField(1)
   final String? title;
+  @HiveField(2)
   final bool isCompleted;
+  @HiveField(3)
   final String? taskCreationTime;
 
   TaskModel({
@@ -51,9 +60,11 @@ extension TaskListUtils on List<TaskModel> {
     return [
       for (final task in this)
         if (task.tid == tid)
+
           /// When we find the task, create a new one with the updated title
           updatedTask
         else
+
           /// Otherwise, keep the existing task
           task,
     ];

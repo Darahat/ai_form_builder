@@ -1,174 +1,104 @@
 name: ai_form_builder
 description: "An AI-Powered Form Builder"
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 
-  #State management
-  flutter_riverpod: ^2.6.1
-  equatable: ^2.0.7
-  shared_preferences: ^2.5.3
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
-  google_fonts: ^6.2.1
-  #Navigation
-  go_router: ^15.1.2
+  # State management
+  flutter_riverpod: ^2.5.1
+  equatable: ^2.0.5
+  shared_preferences: ^2.2.2
 
-  #Local Database
-  sqflite: ^2.3.3+1
+  # UI
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0
+  go_router: ^16.2.1
+  country_picker: ^2.0.25
+  pinput: ^5.0.2
 
-  #Network
-  dio: ^5.8.0+1
-  retrofit: ^4.4.2
-  json_annotation: ^4.9.0
-  connectivity_plus: ^4.0.2
+  # Local Database
+  sqflite: ^2.3.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.2
 
-  #Ai Integration
-  http: ^1.4.0 #LightWeight HTTP requests
-  path: ^1.9.1
-  flutter_dotenv: ^5.2.1
-  uuid: ^4.5.0
+  # Network
+  dio: ^5.4.1
+  retrofit: ^4.1.0
+  json_annotation: ^4.8.1
+  connectivity_plus: ^6.1.5
 
-  #Voice Recognition
-  speech_to_text: ^7.0.0 # Converts voice to text
-  permission_handler: ^12.0.0+1 #Runtime Permissions
-  # Audio Recording
-  record: ^6.0.0 #Audio Recorder
-  path_provider: ^2.1.5 #Access device paths
-  provider: ^6.1.5
+  # AI Integration
+  http: ^1.2.0
+  flutter_dotenv: ^6.0.0
+  uuid: ^4.3.3
 
-  #Dependency Injection
-  get_it: ^8.0.3
-  injectable: ^2.5.0
+  # Voice Recognition
+  speech_to_text: ^7.3.0
+  permission_handler: ^12.0.1
+  record: ^6.1.1
 
-  #Utilities
+  # Dependency Injection
+  get_it: ^8.2.0
+  injectable: ^2.3.2
+
+  # Utilities
   intl: ^0.20.2
-  logger: ^2.5.0
-  mocktail: ^1.0.4
-  riverpod_test: ^0.1.9
+  logger: ^2.2.0
+  freezed_annotation: ^2.4.1
 
-  #firebase
-  firebase_core: ^3.14.0
-
-  cloud_firestore: ^5.6.11
+  # Firebase
+  firebase_core: ^3.15.2
+  cloud_firestore: ^5.6.12
   firebase_dynamic_links: ^6.1.10
-  #firebase auth packages
-  firebase_auth: ^5.6.2
-  google_sign_in: ^6.3.0
-  firebase_app_check: ^0.3.2+9
+  firebase_auth: ^5.7.0
+  google_sign_in: ^7.1.1
+  firebase_app_check: ^0.3.2+10
   flutter_web_auth_2: ^4.1.0
-  recaptcha_enterprise_flutter: ^18.7.1
+  recaptcha_enterprise_flutter: ^18.6.0
+  firebase_messaging: ^15.2.10
+  flutter_local_notifications: ^19.4.1
 
-  #Input Field modification
-  country_picker: ^2.0.27
-  pinput: ^5.0.1
-
-  #messeging and notification
-  firebase_messaging: ^15.2.9
-  flutter_local_notifications: ^19.3.1
+  # Others
+  audioplayers: ^6.0.0
   flutter_localization: ^0.3.3
-  freezed_annotation: ^2.4.4
-  audioplayers: ^6.5.0
-  firebase_dynamic_links_platform_interface: ^0.2.7+10
-
-#---------------------------
-#Development Dependencies
-#---------------------------
+  provider: ^6.1.2
+  mocktail: ^1.0.3
+  riverpod_test: ^0.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  # Code Generation
+  build_runner: ^2.3.3
+  injectable_generator: ^2.4.1
+  
+  hive_generator: ^2.0.1
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
+  analyzer: ^6.4.1
+  source_gen: ^1.4.0
 
-  #Code Generation
-  analyzer: ^7.7.1
-  build_runner: ^2.4.15
-  injectable_generator: ^2.6.2
-  retrofit_generator: ^9.2.0
-
-  #data models
-  freezed: ^2.5.7
-  json_serializable: ^6.9.0
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
   generate: true
-
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/sounds/notification.mp3
     - assets/icon/icon.png
     - assets/icon/google_logo.png
     - assets/icon/github_logo.png
     - .env
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
 
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/to/asset-from-package
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-It  alic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
-  # ✅ Proper localization config under "flutter_gen"
 flutter_gen:
   l10n:
     arb-dir: lib/l10n

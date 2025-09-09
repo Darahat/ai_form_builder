@@ -1,6 +1,7 @@
 import 'package:ai_form_builder/core/errors/exceptions.dart';
 import 'package:ai_form_builder/core/services/hive_service.dart';
 import 'package:ai_form_builder/core/utils/form_generator.dart';
+import 'package:ai_form_builder/features/ai_form_builder/infrastructure/ai_generated_form_repository.dart';
 // import 'package:ai_form_builder/core/utils/logger.dart';
 import 'package:ai_form_builder/features/ai_form_builder/provider/ai_form_builder_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,7 @@ class AiFormBuilderChatController
 
   /// instance for hiveService
   HiveService hiveService;
+  AiGeneratedFormRepository aiGeneratedFormRepository;
 
   /// ref is a riverpod object which used by providers to interact with other providers and life cycle
   /// of the application
@@ -27,8 +29,9 @@ class AiFormBuilderChatController
   final Ref ref;
 
   /// AiFormBuilderChatController Constructor to call it from outside
-  AiFormBuilderChatController(this._repo, this.ref, this.hiveService)
-    : super(const AsyncValue.loading()) {
+  AiFormBuilderChatController(
+      this._repo, this.ref, this.aiGeneratedFormRepository, this.hiveService)
+      : super(const AsyncValue.loading()) {
     loadAiFormBuilderChat();
   }
 
@@ -62,13 +65,16 @@ class AiFormBuilderChatController
 
     // Create the user's message
     final usersMessage = AiFormBuilderChatModel(
-      id:
-          DateTime.now().millisecondsSinceEpoch
-              .toString(), // Unique ID for user message
+      id: DateTime.now()
+          .millisecondsSinceEpoch
+          .toString(), // Unique ID for user message
       message: usersText,
       isUser: true,
       timestamp: DateTime.now(),
     );
+
+    // Save user's message to repository
+    await _repo.addAiFormBuilderChat(usersMessage.message);
 
     if (!mounted) return;
     state = AsyncValue.data([...currentAiFormBuilderChats, usersMessage]);
@@ -78,8 +84,7 @@ class AiFormBuilderChatController
       final mistralService = ref.read(mistralServiceProvider);
 
       // 1. Get the chat history from the state
-      final chatHistory =
-          state.value
+      final chatHistory = state.value
               ?.map((chat) {
                 return [
                   {"role": "user", "content": chat.message}, // Use chat.message
@@ -102,6 +107,7 @@ class AiFormBuilderChatController
       final form = await FormGenerator.parseAndSaveForm(
         ref,
         hiveService,
+        aiGeneratedFormRepository,
         aiReplyText,
       );
 
@@ -111,21 +117,23 @@ class AiFormBuilderChatController
         formUrl = "https://darahat.dev/form/${form.id}";
       }
 
-      final aiMessageContent =
-          form != null
-              ? "Your form has been created! You can share it using this link: $formUrl"
-              : aiReplyText;
+      final aiMessageContent = form != null
+          ? "Your form has been created! You can share it using this link: $formUrl"
+          : aiReplyText;
 
       // Create a new AiFormBuilderChatModel for the AI's reply
       final aiMessage = AiFormBuilderChatModel(
-        id:
-            form?.id ??
-            DateTime.now().millisecondsSinceEpoch
+        id: form?.id ??
+            DateTime.now()
+                .millisecondsSinceEpoch
                 .toString(), // Use form ID or new unique ID
         message: aiMessageContent,
         isUser: false,
         timestamp: DateTime.now(),
       );
+
+      // Save AI's message to repository
+      await _repo.addAiFormBuilderChat(aiMessage.message);
 
       // Add the AI's message to the state
       if (!mounted) return;
