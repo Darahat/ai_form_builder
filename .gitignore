@@ -30,6 +30,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 build/
+pubspec.lock
 
 # Symbolication and obfuscation
 app.*.symbols
@@ -53,6 +54,8 @@ app.*.map.json
 lib/core/config/api_keys.dart
 
 # Platform folders (ignore only if not targeting them)
+/android/
+/ios/
 linux/
 macos/
 windows/
