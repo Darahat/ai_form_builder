@@ -58,7 +58,27 @@ macos/
 windows/
 web/
 
+
 # Code coverage
 /coverage/
-/android/
-/ios/
+
+# Standard Flutter ignores for Android and iOS
+
+# Android
+/android/local.properties
+/android/.gradle/
+/android/app/build/
+
+# iOS
+/ios/build/
+/ios/Pods/
+/ios/.symlinks/
+/ios/Runner/Assets.xcassets/
+/ios/Runner.xcworkspace/xcshareddata/
+/ios/Runner.xcworkspace/xcuserdata/
+/ios/Flutter/App.framework
+/ios/Flutter/engine
+/ios/Flutter/flutter_assets
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/Debug.xcconfig
+/ios/Flutter/Release.xcconfig
